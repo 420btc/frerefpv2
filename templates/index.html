@@ -25,8 +25,11 @@
                 <img src="{{ url_for('static', filename='img/preload/gif5.gif') }}?t=1744167900" alt="Freire FPV - Paradise Island">
             </div>
         </div>
-        <video id="hero-background-video" class="hero-background-video" muted loop autoplay playsinline preload="metadata">
-            <source src="{{ url_for('static', filename='video/Persiguien.mp4') }}?t=1744166400" type="video/mp4">
+        <video id="hero-background-video" class="hero-background-video" muted loop autoplay playsinline preload="none" 
+              poster="{{ url_for('static', filename='img/servicios/naturaleza.jpg') }}" 
+              data-optimize="true" data-autoplay="true" data-lazyload="true">
+            <source src="{{ url_for('static', filename='video/Persiguien.mp4') }}?t=1744166400" type="video/mp4" 
+                    data-mobile-src="{{ url_for('static', filename='video/Persiguien_mobile.mp4') }}?t=1744166400">
         </video>
     </div>
     <div class="hero-content">
@@ -84,8 +87,11 @@
                                 <div class="loading-spinner">
                                     <i class="fas fa-spinner fa-spin"></i>
                                 </div>
-                                <video id="drone-video-1" class="drone-video" muted loop preload="auto">
-                                    <source src="{{ url_for('static', filename='video/drone_video.mp4') }}?t=1744164900" type="video/mp4">
+                                <video id="drone-video-1" class="drone-video" muted loop 
+                                      poster="{{ url_for('static', filename='img/servicios/deportes.jpg') }}"
+                                      data-optimize="true" data-autoplay="false" data-lazyload="true" data-unload-when-hidden="true">
+                                    <source src="{{ url_for('static', filename='video/drone_video.mp4') }}?t=1744164900" type="video/mp4"
+                                            data-mobile-src="{{ url_for('static', filename='video/drone_video_mobile.mp4') }}?t=1744164900">
                                     Tu navegador no soporta el elemento de video.
                                 </video>
                                 <div class="video-controls">
@@ -103,8 +109,11 @@
                                 <div class="loading-spinner">
                                     <i class="fas fa-spinner fa-spin"></i>
                                 </div>
-                                <video id="drone-video-2" class="drone-video" muted loop preload="auto">
-                                    <source src="{{ url_for('static', filename='video/villa_sunset.mp4') }}?t=1744164900" type="video/mp4">
+                                <video id="drone-video-2" class="drone-video" muted loop 
+                                      poster="{{ url_for('static', filename='img/villa_nueva.png') }}"
+                                      data-optimize="true" data-autoplay="false" data-lazyload="true" data-unload-when-hidden="true">
+                                    <source src="{{ url_for('static', filename='video/villa_sunset.mp4') }}?t=1744164900" type="video/mp4"
+                                            data-mobile-src="{{ url_for('static', filename='video/villa_sunset_mobile.mp4') }}?t=1744164900">
                                     Tu navegador no soporta el elemento de video.
                                 </video>
                                 <div class="video-controls">

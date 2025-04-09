@@ -191,8 +191,11 @@
     <div class="transition-overlay" id="transition-overlay"></div>
 
     <!-- Video de fondo con efecto -->
-    <video class="video-background" autoplay muted loop playsinline>
-        <source src="{{ url_for('static', filename='video/drone-intro.mp4') }}" type="video/mp4">
+    <video class="video-background" autoplay muted loop playsinline preload="none" 
+           poster="{{ url_for('static', filename='img/servicios/deportes.jpg') }}"
+           data-optimize="true" data-autoplay="true">
+        <source src="{{ url_for('static', filename='video/drone-intro.mp4') }}" type="video/mp4"
+                data-mobile-src="{{ url_for('static', filename='video/drone-intro_mobile.mp4') }}">
     </video>
     <div class="video-filter"></div>
 
@@ -238,6 +241,9 @@
         <div class="loading-bar"></div>
     </div>
 
+    <!-- Optimizador de videos -->
+    <script src="{{ url_for('static', filename='js/video-optimizer.js') }}"></script>
+    
     <script>
         // Redirigir a la página principal después de 4 segundos
         setTimeout(function() {
