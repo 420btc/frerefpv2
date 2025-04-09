@@ -37,16 +37,24 @@
     <div class="hero-content">
         <div class="logo-icon">
             <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle id="circle1" class="logo-circle" cx="30" cy="30" r="25" fill="url(#gradient1)" style="cursor: pointer"/>
-                <circle id="circle2" class="logo-circle" cx="90" cy="30" r="25" fill="url(#gradient2)" style="cursor: pointer"/>
-                <circle id="circle3" class="logo-circle" cx="30" cy="90" r="25" fill="url(#gradient3)" style="cursor: pointer"/>
-                <circle id="circle4" class="logo-circle" cx="90" cy="90" r="25" fill="url(#gradient4)" style="cursor: pointer"/>
-                <path d="M20 30 L40 30" stroke="#333" stroke-width="2"/>
-                <path d="M30 20 L30 40" stroke="#333" stroke-width="2"/>
-                <path d="M80 30 L100 30" stroke="#333" stroke-width="2"/>
-                <path d="M20 90 L40 90" stroke="#333" stroke-width="2"/>
-                <path d="M80 90 L100 90" stroke="#333" stroke-width="2"/>
-                <path d="M90 80 L90 100" stroke="#333" stroke-width="2"/>
+                <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
+                <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
+                <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
+                <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
+                <g id="symbol1" class="propeller-symbol">
+                    <path d="M20 30 L40 30" stroke="#333" stroke-width="2"/>
+                    <path d="M30 20 L30 40" stroke="#333" stroke-width="2"/>
+                </g>
+                <g id="symbol2" class="propeller-symbol">
+                    <path d="M80 30 L100 30" stroke="#333" stroke-width="2"/>
+                </g>
+                <g id="symbol3" class="propeller-symbol">
+                    <path d="M20 90 L40 90" stroke="#333" stroke-width="2"/>
+                </g>
+                <g id="symbol4" class="propeller-symbol">
+                    <path d="M80 90 L100 90" stroke="#333" stroke-width="2"/>
+                    <path d="M90 80 L90 100" stroke="#333" stroke-width="2"/>
+                </g>
                 <defs>
                     <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                         <stop offset="0%" stop-color="#FF4D4D"/>
@@ -246,50 +254,26 @@
         margin-bottom: 0;
     }
     
-    /* Estilos para la animación de los círculos del logo */
-    .logo-circle {
-        transition: transform 0.2s ease;
+    /* Estilos para la animación de los símbolos del logo como hélices de dron */
+    .propeller-symbol {
         transform-origin: center;
+        cursor: pointer;
     }
     
-    .logo-circle:hover {
-        transform: scale(1.05);
+    .propeller-spinning {
+        animation: spin-propeller 2s linear infinite;
     }
     
-    .circle-spinning {
-        animation: spin-roulette 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    .propeller-spinning-slow {
+        animation: spin-propeller 4s linear infinite;
     }
     
-    @keyframes spin-roulette {
+    @keyframes spin-propeller {
         0% {
             transform: rotate(0deg);
         }
-        20% {
-            transform: rotate(720deg);
-        }
-        30% {
-            transform: rotate(1080deg);
-        }
-        40% {
-            transform: rotate(1800deg);
-        }
-        50% {
-            transform: rotate(2160deg);
-        }
-        60% {
-            transform: rotate(2520deg);
-        }
-        70% {
-            transform: rotate(2880deg);
-        }
-        80% {
-            transform: rotate(3060deg);
-        }
-        90% {
-            transform: rotate(3240deg);
-        }
         100% {
-            transform: rotate(3600deg);
+            transform: rotate(360deg);
         }
     }
 </style>
@@ -299,43 +283,70 @@
 <!-- Optimizador específico para el carrusel de videos -->
 <script src="{{ url_for('static', filename='js/carousel-optimizer.js') }}"></script>
 
-<!-- Script para la animación de los círculos del logo -->
+<!-- Script para la animación de los símbolos + y - como hélices de dron -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Seleccionamos todos los círculos del logo
-    const circles = document.querySelectorAll('.logo-circle');
+    // Seleccionamos todos los símbolos del logo
+    const propellers = document.querySelectorAll('.propeller-symbol');
     
-    // Función para hacer girar un círculo
-    function spinCircle(circle) {
-        // Verificamos que no esté girando ya
-        if (!circle.classList.contains('circle-spinning')) {
-            // Agregamos la clase para la animación
-            circle.classList.add('circle-spinning');
+    // Función para iniciar la rotación de un símbolo
+    function spinPropeller(propeller, isInteractive = false) {
+        // Verificamos que no esté girando ya o detenemos animación existente
+        if (propeller.classList.contains('propeller-spinning') || 
+            propeller.classList.contains('propeller-spinning-slow')) {
+            if (isInteractive) {
+                // Si es interactivo, detenemos la animación
+                propeller.classList.remove('propeller-spinning');
+                propeller.classList.remove('propeller-spinning-slow');
+            } else {
+                // Si no es interactivo, no hacemos nada (ya está girando)
+                return;
+            }
+        } else {
+            // Iniciamos la animación
+            if (Math.random() > 0.5) {
+                propeller.classList.add('propeller-spinning');
+            } else {
+                propeller.classList.add('propeller-spinning-slow');
+            }
             
-            // Después de que termine la animación, quitamos la clase
-            setTimeout(() => {
-                circle.classList.remove('circle-spinning');
-            }, 3000); // 3 segundos, duración de la animación
+            // Si es interactivo, después de un tiempo aleatorio, detenemos la animación
+            if (isInteractive) {
+                const duration = 3000 + Math.random() * 5000; // Entre 3 y 8 segundos
+                setTimeout(() => {
+                    propeller.classList.remove('propeller-spinning');
+                    propeller.classList.remove('propeller-spinning-slow');
+                }, duration);
+            }
         }
     }
     
-    // Añadimos los listeners para cada círculo
-    circles.forEach(circle => {
+    // Añadimos los listeners para cada símbolo
+    propellers.forEach(propeller => {
+        // Hacer que algunos símbolos comiencen a girar automáticamente
+        if (Math.random() > 0.5) {
+            spinPropeller(propeller);
+        }
+        
         // Listener para clic
-        circle.addEventListener('click', function() {
-            spinCircle(this);
+        propeller.addEventListener('click', function(e) {
+            e.preventDefault(); // Evitar navegación si está dentro de un enlace
+            e.stopPropagation(); // Evitar que el evento se propague
+            spinPropeller(this, true);
         });
         
         // Listener para mouse enter (hover)
-        circle.addEventListener('mouseenter', function() {
+        propeller.addEventListener('mouseenter', function() {
             // Añadimos un pequeño retraso para que no se active inmediatamente al pasar el ratón
             this.hoverTimeout = setTimeout(() => {
-                spinCircle(this);
-            }, 200); // 200ms de retraso
+                if (Math.random() > 0.3) { // 70% de probabilidad de que gire al pasar el ratón
+                    spinPropeller(this, true);
+                }
+            }, 100); // 100ms de retraso
         });
         
         // Listener para mouse leave (fin del hover)
-        circle.addEventListener('mouseleave', function() {
+        propeller.addEventListener('mouseleave', function() {
             // Cancelamos el timeout si el usuario retira el ratón antes del retraso
             if (this.hoverTimeout) {
                 clearTimeout(this.hoverTimeout);
@@ -343,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    console.log('Animación de ruleta para círculos del logo inicializada');
+    console.log('Animación de hélices para los símbolos del logo inicializada');
 });
 </script>
 {% endblock %}
