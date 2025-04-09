@@ -654,6 +654,26 @@ body {
 @media (max-width: 768px) {
     .carousel-container {
         height: 300px; /* Altura ajustada para móviles */
+        width: 100%; /* Ancho completo */
+        max-width: 100%; /* Asegurar ancho completo */
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .video-carousel {
+        width: 100vw; /* Ancho total del viewport */
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+    
+    .video-carousel .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
@@ -663,14 +683,14 @@ body {
     }
     
     .carousel-nav-btn {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         font-size: 1.2rem;
     }
     
     .video-control {
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
     }
 }
 
