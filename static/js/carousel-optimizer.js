@@ -1,341 +1,184 @@
 /**
  * Optimizador de Carrusel para FreireFPV
  * 
- * Este script optimiza específicamente los videos del carrusel en la página principal:
- * - Carga videos a baja resolución/calidad inmediatamente
- * - Controla los videos para detener la reproducción cuando no están visibles
- * - Implementa técnicas específicas para mejorar rendimiento en móviles
+ * Script simplificado para gestionar el carrusel de videos con carga inmediata
  */
 
-class CarouselOptimizer {
-    constructor() {
-        this.isMobile = this.checkIfMobile();
-        this.activeSlideIndex = 0;
-        this.carouselVideos = [];
-        this.carouselContainer = null;
-    }
-
-    /**
-     * Detecta si el usuario está en un dispositivo móvil
-     */
-    checkIfMobile() {
-        const userAgent = navigator.userAgent.toLowerCase();
-        return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    }
-
-    /**
-     * Inicializa el optimizador
-     */
-    init() {
-        // Esperar a que el DOM esté listo
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setup());
-        } else {
-            this.setup();
-        }
-    }
-
-    /**
-     * Configura el optimizador
-     */
-    setup() {
-        this.carouselContainer = document.querySelector('.carousel-container');
-        if (!this.carouselContainer) return;
-        
-        console.log("CarouselOptimizer: Inicializando para carrusel de videos");
-        
-        // Obtener todos los videos del carrusel
-        const slides = this.carouselContainer.querySelectorAll('.carousel-slide');
-        slides.forEach(slide => {
-            const video = slide.querySelector('video');
-            if (video) {
-                this.carouselVideos.push(video);
-                
-                // Optimizar video
-                this.optimizeVideo(video);
-            }
-        });
-        
-        // Configurar manejadores de eventos para los botones de navegación
-        const prevBtn = document.querySelector('.carousel-nav-btn.prev');
-        const nextBtn = document.querySelector('.carousel-nav-btn.next');
-        const indicators = document.querySelectorAll('.indicator');
-        
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                this.pauseAllVideos();
-                
-                // Calcular el índice anterior
-                let prevIndex = this.activeSlideIndex - 1;
-                if (prevIndex < 0) prevIndex = this.carouselVideos.length - 1;
-                
-                // Cambiar las clases para activar la diapositiva anterior
-                this.navigateToSlide(prevIndex);
-            });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                this.pauseAllVideos();
-                
-                // Calcular el siguiente índice
-                let nextIndex = this.activeSlideIndex + 1;
-                if (nextIndex >= this.carouselVideos.length) nextIndex = 0;
-                
-                // Cambiar las clases para activar la siguiente diapositiva
-                this.navigateToSlide(nextIndex);
-            });
-        }
-        
-        // Configurar eventos para los indicadores
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                this.pauseAllVideos();
-                this.navigateToSlide(index);
-            });
-        });
-        
-        // Detectar cambios en el carrusel mediante observación de clases
-        const slideObserver = new MutationObserver((mutations) => {
-            mutations.forEach(mutation => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (mutation.target.classList.contains('active')) {
-                        const index = parseInt(mutation.target.dataset.index);
-                        if (!isNaN(index)) {
-                            this.activeSlideIndex = index;
-                            this.handleSlideChange();
-                        }
-                    }
-                }
-            });
-        });
-        
-        slides.forEach(slide => {
-            slideObserver.observe(slide, { attributes: true });
-        });
-        
-        // Manejar el slide inicial
-        this.handleSlideChange();
-        
-        console.log(`CarouselOptimizer: ${this.carouselVideos.length} videos optimizados`);
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Carrusel: Inicializando gestión simplificada");
     
-    /**
-     * Optimiza un video específico del carrusel
-     */
-    optimizeVideo(video) {
-        // Aplicar optimizaciones específicas para móviles
-        if (this.isMobile) {
-            // Reducir la calidad de reproducción en móviles
-            video.setAttribute('playsinline', '');
-            video.style.transform = 'scale(1.01)'; // Pequeño hack para mejorar rendimiento
-            
-            // Forzar hardware acceleration
-            video.style.transform = 'translateZ(0)';
-            video.style.backfaceVisibility = 'hidden';
-            
-            // Crear una versión de menor calidad del video
+    // Elementos del carrusel
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (!carouselContainer) return;
+    
+    const slides = carouselContainer.querySelectorAll('.carousel-slide');
+    const videos = carouselContainer.querySelectorAll('video');
+    const prevButton = document.querySelector('.carousel-nav-btn.prev');
+    const nextButton = document.querySelector('.carousel-nav-btn.next');
+    const indicators = document.querySelectorAll('.indicator');
+    let currentSlide = 0;
+    
+    // Asegurarse de que todos los videos estén precargados
+    videos.forEach((video, index) => {
+        // Forzar precarga
+        video.preload = "auto";
+        
+        // Optimizaciones para móviles (dispositivos iOS en particular)
+        video.setAttribute('playsinline', '');
+        video.style.transform = 'translateZ(0)'; // Hardware acceleration
+        
+        // Usar versión móvil si está disponible
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
             const source = video.querySelector('source');
-            if (source && source.src) {
-                const originalSrc = source.src;
-                
-                // Crear un canvas para reducir la calidad del video
-                if (!video.dynamicQuality && source.dataset.mobileSrc) {
-                    video.dynamicQuality = true;
-                    source.src = source.dataset.mobileSrc || originalSrc;
-                    video.load();
-                }
+            if (source && source.dataset.mobileSrc) {
+                source.src = source.dataset.mobileSrc;
+                video.load();
             }
         }
         
-        // Agregar eventos para manejar la reproducción
-        video.addEventListener('loadeddata', () => {
-            // Cuando el video está listo, ocultar spinner si existe
-            const spinner = video.parentElement.querySelector('.loading-spinner');
-            if (spinner) {
-                spinner.style.display = 'none';
-            }
-        });
-        
-        // Mejorar rendimiento
-        video.preload = "auto"; // Cargar inmediatamente para el carrusel
-        
-        // Si hay un botón de play/pause, configurarlo
+        // Configurar controles de video
         const playPauseBtn = video.parentElement.querySelector('.play-pause');
+        const restartBtn = video.parentElement.querySelector('.video-restart');
+        
         if (playPauseBtn) {
-            playPauseBtn.addEventListener('click', (e) => {
+            playPauseBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (video.paused) {
                     video.play();
-                    playPauseBtn.querySelector('i').className = 'fas fa-pause';
+                    this.querySelector('i').className = 'fas fa-pause';
                 } else {
                     video.pause();
-                    playPauseBtn.querySelector('i').className = 'fas fa-play';
+                    this.querySelector('i').className = 'fas fa-play';
                 }
             });
         }
         
-        // Si hay un botón de reinicio, configurarlo
-        const restartBtn = video.parentElement.querySelector('.video-restart');
         if (restartBtn) {
-            restartBtn.addEventListener('click', (e) => {
+            restartBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 video.currentTime = 0;
-                if (video.paused) {
-                    video.play();
-                    const icon = playPauseBtn.querySelector('i');
-                    if (icon) icon.className = 'fas fa-pause';
-                }
+                video.play();
+                const icon = playPauseBtn.querySelector('i');
+                if (icon) icon.className = 'fas fa-pause';
             });
         }
+        
+        // Si es el primer video, reproducirlo automáticamente
+        if (index === 0) {
+            // Ocultar spinner después de cargar
+            video.addEventListener('loadeddata', function() {
+                const spinner = video.parentElement.querySelector('.loading-spinner');
+                if (spinner) spinner.style.display = 'none';
+                
+                // Reproducir video
+                console.log("Carrusel: Video inicial cargado, reproduciendo");
+                video.play().catch(e => console.warn(`Error al reproducir: ${e.message}`));
+            });
+        }
+    });
+    
+    // Función para pausar todos los videos
+    function pauseAllVideos() {
+        videos.forEach(video => {
+            if (!video.paused) {
+                video.pause();
+                const btn = video.parentElement.querySelector('.play-pause');
+                if (btn) {
+                    const icon = btn.querySelector('i');
+                    if (icon) icon.className = 'fas fa-play';
+                }
+            }
+        });
     }
     
-    /**
-     * Se ejecuta cuando cambia el slide activo en el carrusel
-     */
-    handleSlideChange() {
-        const activeSlide = this.carouselContainer.querySelector('.carousel-slide.active');
-        if (!activeSlide) return;
+    // Función para cambiar de slide
+    function showSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
         
-        const index = parseInt(activeSlide.dataset.index);
-        if (isNaN(index)) return;
+        // Si estamos en el mismo slide, no hacer nada
+        if (index === currentSlide) return;
         
-        this.activeSlideIndex = index;
+        console.log(`Carrusel: Cambiando al slide ${index}`);
         
-        // Pausar todos los videos excepto el activo
-        this.carouselVideos.forEach((video, i) => {
-            const videoContainer = video.closest('.carousel-slide');
-            if (!videoContainer) return;
+        // Pausar todos los videos
+        pauseAllVideos();
+        
+        // Marcar el slide actual como previo (para animación)
+        slides[currentSlide].classList.add('prev');
+        
+        // Quitar clase active de todos los slides e indicadores
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        // Activar el nuevo slide e indicador
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        // Reproducir el video del nuevo slide
+        const currentVideo = videos[index];
+        
+        // Ocultar spinner mientras carga
+        const spinner = currentVideo.parentElement.querySelector('.loading-spinner');
+        if (spinner) spinner.style.display = 'flex';
+        
+        // Actualizar ícono de reproducción
+        const playPauseBtn = currentVideo.parentElement.querySelector('.play-pause');
+        
+        // Reproducir después de un pequeño retraso para la transición
+        setTimeout(() => {
+            // Quitar clase prev de todos para preparar próxima transición
+            slides.forEach(slide => slide.classList.remove('prev'));
             
-            const videoIndex = parseInt(videoContainer.dataset.index);
-            if (isNaN(videoIndex)) return;
-            
-            if (videoIndex === this.activeSlideIndex) {
-                // Este es el video activo
-                if (video.readyState >= 2) { // HAVE_CURRENT_DATA o mejor
-                    console.log(`CarouselOptimizer: Reproduciendo video ${i} (slide ${videoIndex})`);
-                    
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            console.warn(`CarouselOptimizer: Error al reproducir video: ${error.message}`);
-                        });
-                    }
-                    
-                    // Actualizar el ícono del botón
-                    const playPauseBtn = video.parentElement.querySelector('.play-pause');
+            // Reproducir video
+            currentVideo.play()
+                .then(() => {
                     if (playPauseBtn) {
                         const icon = playPauseBtn.querySelector('i');
                         if (icon) icon.className = 'fas fa-pause';
                     }
-                } else {
-                    // El video aún no está listo, agregar evento para reproducir cuando esté listo
-                    console.log(`CarouselOptimizer: Video ${i} aún no está listo, esperando...`);
-                    const loadHandler = () => {
-                        console.log(`CarouselOptimizer: Video ${i} ahora está listo, reproduciendo`);
-                        video.play().catch(e => console.warn(`Error al reproducir: ${e.message}`));
-                        video.removeEventListener('canplay', loadHandler);
-                    };
-                    video.addEventListener('canplay', loadHandler);
-                    
-                    // Mostrar spinner si existe
-                    const spinner = video.parentElement.querySelector('.loading-spinner');
-                    if (spinner) {
-                        spinner.style.display = 'flex';
+                    if (spinner) spinner.style.display = 'none';
+                })
+                .catch(e => {
+                    console.warn(`Error al reproducir video ${index}: ${e.message}`);
+                    if (playPauseBtn) {
+                        const icon = playPauseBtn.querySelector('i');
+                        if (icon) icon.className = 'fas fa-play';
                     }
-                    
-                    // Forzar carga
-                    video.load();
-                }
-            } else {
-                // Pausar videos inactivos
-                video.pause();
-                
-                // Actualizar el ícono del botón
-                const playPauseBtn = video.parentElement.querySelector('.play-pause');
-                if (playPauseBtn) {
-                    const icon = playPauseBtn.querySelector('i');
-                    if (icon) icon.className = 'fas fa-play';
-                }
-            }
-        });
-    }
-    
-    /**
-     * Navega a una diapositiva específica
-     */
-    navigateToSlide(index) {
-        // Validamos el índice
-        if (index < 0) index = this.carouselVideos.length - 1;
-        if (index >= this.carouselVideos.length) index = 0;
-        
-        // Si estamos en la misma diapositiva, no hacer nada
-        if (index === this.activeSlideIndex) return;
-        
-        const slides = this.carouselContainer.querySelectorAll('.carousel-slide');
-        const indicators = document.querySelectorAll('.indicator');
-        
-        // Añadir clase 'prev' a la diapositiva actual antes de moverla
-        if (this.activeSlideIndex !== index && slides[this.activeSlideIndex]) {
-            slides[this.activeSlideIndex].classList.add('prev');
-        }
-        
-        // Eliminar clase 'active' de todas las diapositivas e indicadores
-        slides.forEach(slide => {
-            slide.classList.remove('active');
-        });
-        
-        indicators.forEach(ind => {
-            ind.classList.remove('active');
-        });
-        
-        // Activar la diapositiva e indicador correspondiente
-        if (slides[index]) {
-            slides[index].classList.add('active');
-        }
-        
-        if (indicators[index]) {
-            indicators[index].classList.add('active');
-        }
-        
-        // Eliminar la clase 'prev' de todas las diapositivas después de un momento
-        setTimeout(() => {
-            slides.forEach(slide => {
-                slide.classList.remove('prev');
-            });
+                });
         }, 100);
         
-        // Actualizar el índice actual
-        this.activeSlideIndex = index;
-        
-        // Manejar el cambio de video
-        this.handleSlideChange();
-        
-        console.log(`CarouselOptimizer: Navegado a slide ${index}`);
+        // Actualizar índice actual
+        currentSlide = index;
     }
     
-    /**
-     * Pausa todos los videos del carrusel
-     */
-    pauseAllVideos() {
-        this.carouselVideos.forEach(video => {
-            if (!video.paused) {
-                video.pause();
-                
-                // Actualizar el ícono del botón
-                const playPauseBtn = video.parentElement.querySelector('.play-pause');
-                if (playPauseBtn) {
-                    const icon = playPauseBtn.querySelector('i');
-                    if (icon) icon.className = 'fas fa-play';
-                }
-            }
+    // Configurar botones de navegación
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
         });
     }
-}
-
-// Inicializar el optimizador
-document.addEventListener('DOMContentLoaded', () => {
-    const carouselOptimizer = new CarouselOptimizer();
-    carouselOptimizer.init();
-    console.log("CarouselOptimizer: Inicializado");
+    
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+    }
+    
+    // Configurar indicadores
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+    
+    // Forzar carga de todos los videos inmediatamente
+    videos.forEach(video => {
+        if (video.readyState < 3) { // HAVE_FUTURE_DATA
+            video.load();
+        }
+    });
+    
+    console.log(`Carrusel: ${videos.length} videos preparados`);
 });
