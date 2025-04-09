@@ -392,8 +392,15 @@ Freire FPV
     const contactForm = document.getElementById('contact-form');
     
     if (contactForm) {
+        // Ref al botón de enviar
+        const contactSubmitBtn = document.getElementById('contacto-submit-btn');
+        
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Aplicar la animación de "enviando" al botón
+            contactSubmitBtn.classList.add('sending');
+            contactSubmitBtn.innerHTML = '<span>Enviando...</span>';
             
             // Get form data
             const nombre = document.getElementById('nombre-contacto').value;
@@ -461,6 +468,11 @@ Freire FPV
                 .then(function(response) {
                     console.log('Email al cliente enviado correctamente:', response.status, response.text);
                     
+                    // Cambiar animación del botón a "enviado"
+                    contactSubmitBtn.classList.remove('sending');
+                    contactSubmitBtn.classList.add('sent');
+                    contactSubmitBtn.innerHTML = '<span>¡Enviado!</span>';
+                    
                     // Show success message
                     successMessage.style.display = 'flex';
                     
@@ -477,12 +489,23 @@ Freire FPV
                         document.body.removeChild(flyingDrone);
                     }, 5000);
                     
+                    // Restaurar el botón después de 3 segundos
+                    setTimeout(() => {
+                        contactSubmitBtn.classList.remove('sent');
+                        contactSubmitBtn.innerHTML = '<span>Enviar Mensaje</span>';
+                    }, 3000);
+                    
                     // Show alert message
                     alert("¡Mensaje enviado! Te contactaré pronto desde carlosfreire777@gmail.com");
                 })
                 .catch(function(error) {
                     console.log('FAILED...', error);
                     console.log('Error detallado:', JSON.stringify(error));
+                    
+                    // Restaurar el botón en caso de error
+                    contactSubmitBtn.classList.remove('sending');
+                    contactSubmitBtn.innerHTML = '<span>Enviar Mensaje</span>';
+                    
                     alert("Error al enviar, intenta de nuevo");
                 });
         });
