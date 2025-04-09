@@ -298,6 +298,35 @@
         </div>
     </div>
 </section>
+
+<section class="cta-section cta-secondary">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Tienes alguna pregunta que no encuentres aquí?</h2>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .cta-section.cta-secondary {
+        background: #f8f9fa;
+        margin-top: 2rem;
+        padding: 1.25rem 0;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .cta-section.cta-secondary .cta-content {
+        text-align: center;
+    }
+    
+    .cta-section.cta-secondary h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+</style>
 {% endblock %}
 
 {% block scripts %}
