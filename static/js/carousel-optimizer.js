@@ -4,52 +4,42 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Inicializando carrusel básico...');
+    // Elementos del carousel
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (!carouselContainer) return;
+
+    const carouselSlides = carouselContainer.querySelectorAll('.carousel-slide');
+    const carouselVideos = carouselContainer.querySelectorAll('.drone-video');
+    const prevBtn = carouselContainer.querySelector('.carousel-nav-btn.prev');
+    const nextBtn = carouselContainer.querySelector('.carousel-nav-btn.next');
+    const indicators = carouselContainer.querySelectorAll('.indicator');
     
-    // Seleccionar elementos
-    const slides = document.querySelectorAll('.carousel-slide');
-    const videos = document.querySelectorAll('.drone-video');
-    const prevBtn = document.querySelector('.carousel-nav-btn.prev');
-    const nextBtn = document.querySelector('.carousel-nav-btn.next');
-    const indicators = document.querySelectorAll('.indicator');
-    const spinners = document.querySelectorAll('.loading-spinner');
+    let currentSlideIndex = 0;
+    let isAnimating = false;
     
-    // Variables
-    let currentSlide = 0;
-    
-    // Inicialización: forzar carga y reproducción inmediata
-    videos.forEach((video, index) => {
-        // Eliminar cualquier límite en la carga de video
-        video.preload = 'auto';
-        
-        // Para compatibilidad con dispositivos móviles
+    // Inicializar videos
+    carouselVideos.forEach((video, index) => {
+        // Configuraciones para carga inmediata
+        video.preload = "auto"; 
         video.setAttribute('playsinline', '');
         
-        // Forzar carga inmediata
+        // Cargar videos inmediatamente
         video.load();
         
-        // Si es el primer video, reproducir automáticamente
-        if (index === 0) {
-            try {
-                video.play();
-                // Ocultar spinner cuando el video esté listo
-                video.addEventListener('loadeddata', function() {
-                    if (spinners[index]) spinners[index].style.display = 'none';
-                });
-            } catch (e) {
-                console.error('Error al reproducir video inicial:', e);
-            }
-        }
-        
-        // Configurar controles de reproducción
+        // Botones de control de video
         const playPauseBtn = video.parentElement.querySelector('.play-pause');
         const restartBtn = video.parentElement.querySelector('.video-restart');
+        const spinner = video.parentElement.querySelector('.loading-spinner');
         
+        // Configurar control de reproducción/pausa
         if (playPauseBtn) {
             playPauseBtn.addEventListener('click', function() {
                 if (video.paused) {
-                    video.play();
-                    this.querySelector('i').className = 'fas fa-pause';
+                    video.play()
+                        .then(() => {
+                            this.querySelector('i').className = 'fas fa-pause';
+                        })
+                        .catch(e => console.error('Error al reproducir:', e));
                 } else {
                     video.pause();
                     this.querySelector('i').className = 'fas fa-play';
@@ -57,83 +47,114 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
+        // Configurar reinicio de video
         if (restartBtn) {
             restartBtn.addEventListener('click', function() {
                 video.currentTime = 0;
-                video.play();
-                playPauseBtn.querySelector('i').className = 'fas fa-pause';
+                video.play()
+                    .then(() => {
+                        if (playPauseBtn) {
+                            playPauseBtn.querySelector('i').className = 'fas fa-pause';
+                        }
+                    })
+                    .catch(e => console.error('Error al reiniciar video:', e));
+            });
+        }
+        
+        // Reproducir primer video automáticamente
+        if (index === 0) {
+            video.addEventListener('loadeddata', function() {
+                if (spinner) spinner.style.display = 'none';
+                
+                video.play()
+                    .then(() => {
+                        if (playPauseBtn) {
+                            playPauseBtn.querySelector('i').className = 'fas fa-pause';
+                        }
+                    })
+                    .catch(e => console.error('Error al reproducir video inicial:', e));
             });
         }
     });
     
-    // Función para cambiar de slide
+    // Función para ir a un slide específico
     function goToSlide(index) {
+        // Evitar cambios durante una animación
+        if (isAnimating) return;
+        isAnimating = true;
+        
         // Validar índice
-        if (index < 0) index = slides.length - 1;
-        if (index >= slides.length) index = 0;
+        if (index < 0) index = carouselSlides.length - 1;
+        if (index >= carouselSlides.length) index = 0;
         
-        // No hacer nada si estamos en el mismo slide
-        if (index === currentSlide) return;
+        // Si estamos en el mismo slide, no hacer nada
+        if (index === currentSlideIndex) {
+            isAnimating = false;
+            return;
+        }
         
-        // Detener video actual
-        videos[currentSlide].pause();
+        // Pausar el video actual
+        const currentVideo = carouselVideos[currentSlideIndex];
+        if (currentVideo) {
+            currentVideo.pause();
+            
+            // Actualizar botón
+            const currentBtn = carouselSlides[currentSlideIndex].querySelector('.play-pause i');
+            if (currentBtn) currentBtn.className = 'fas fa-play';
+        }
         
-        // Actualizar botón de reproducción
-        const currentBtn = slides[currentSlide].querySelector('.play-pause i');
-        if (currentBtn) currentBtn.className = 'fas fa-play';
+        // Añadir clase 'prev' al slide actual (para animación)
+        carouselSlides[currentSlideIndex].classList.add('prev');
         
-        // Añadir clase 'prev' al slide actual para animación
-        slides[currentSlide].classList.add('prev');
+        // Quitar clase active de todos los slides e indicadores
+        carouselSlides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(indicator => indicator.classList.remove('active'));
         
-        // Desactivar todos los slides e indicadores
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(ind => ind.classList.remove('active'));
-        
-        // Activar nuevo slide e indicador
-        slides[index].classList.add('active');
+        // Activar el nuevo slide e indicador
+        carouselSlides[index].classList.add('active');
         indicators[index].classList.add('active');
         
-        // Reproducir el nuevo video
-        const newVideo = videos[index];
-        const playBtn = slides[index].querySelector('.play-pause i');
+        // Activar el nuevo video
+        const newVideo = carouselVideos[index];
+        const spinner = carouselSlides[index].querySelector('.loading-spinner');
         
-        // Mostrar spinner
-        if (spinners[index]) spinners[index].style.display = 'flex';
+        if (spinner) spinner.style.display = 'flex';
         
+        // Reproducir el nuevo video después de la transición
         setTimeout(() => {
-            // Eliminar 'prev' para futura transición
-            slides.forEach(slide => slide.classList.remove('prev'));
+            // Limpiar clase 'prev' para futuras transiciones
+            carouselSlides.forEach(slide => slide.classList.remove('prev'));
             
-            // Reproducir video
-            newVideo.play()
-                .then(() => {
-                    // Cambiar ícono y ocultar spinner
-                    if (playBtn) playBtn.className = 'fas fa-pause';
-                    if (spinners[index]) spinners[index].style.display = 'none';
-                })
-                .catch(error => {
-                    console.error('Error al reproducir:', error);
-                });
-                
+            if (newVideo) {
+                newVideo.play()
+                    .then(() => {
+                        // Actualizar icono
+                        const playPauseBtn = carouselSlides[index].querySelector('.play-pause i');
+                        if (playPauseBtn) playPauseBtn.className = 'fas fa-pause';
+                        
+                        // Ocultar spinner
+                        if (spinner) spinner.style.display = 'none';
+                    })
+                    .catch(e => console.error('Error al reproducir video:', e));
+            }
+            
             // Actualizar índice actual
-            currentSlide = index;
-        }, 100);
+            currentSlideIndex = index;
+            isAnimating = false;
+        }, 400); // Coincidir con la duración de la transición CSS
     }
     
-    // Configurar navegación
+    // Eventos de navegación
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
     }
     
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
     }
     
     // Configurar indicadores
     indicators.forEach((indicator, idx) => {
         indicator.addEventListener('click', () => goToSlide(idx));
     });
-    
-    // Inicializar videos inmediatamente
-    console.log('Videos inicializados. Navegación lista.');
 });
