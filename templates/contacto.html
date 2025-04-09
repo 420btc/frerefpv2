@@ -213,7 +213,7 @@
                                 <i class="fas fa-sync-alt"></i> Actualizar datos
                             </button>
                             <div class="weather-updated">
-                                <small>Última actualización: <span id="weather-time">{{ '%H:%M'|strftime }}</span></small>
+                                <small>Última actualización: <span id="weather-time">{{ weather_data.current.formatted_time }}</span></small>
                             </div>
                         </div>
                     {% else %}
@@ -319,8 +319,61 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Recargar la página para mostrar los nuevos datos
-                            location.reload();
+                            // Actualizar solo los datos del clima sin recargar la página
+                            const weatherData = data.data;
+                            
+                            // Actualizar hora actual
+                            if (weatherTimeElement) {
+                                weatherTimeElement.textContent = weatherData.current.formatted_time;
+                            }
+                            
+                            // Actualizar datos actuales
+                            const currentTemp = document.querySelector('.current-temp');
+                            if (currentTemp) {
+                                currentTemp.textContent = `${Math.round(weatherData.current.temp)}°C`;
+                            }
+                            
+                            const currentDesc = document.querySelector('.current-description');
+                            if (currentDesc) {
+                                currentDesc.textContent = weatherData.current.description;
+                            }
+                            
+                            const currentIcon = document.querySelector('.current-icon img');
+                            if (currentIcon) {
+                                currentIcon.src = `https://openweathermap.org/img/wn/${weatherData.current.icon}@2x.png`;
+                                currentIcon.alt = weatherData.current.description;
+                            }
+                            
+                            const currentHumidity = document.querySelector('.current-detail:nth-child(1) .current-detail-value');
+                            if (currentHumidity) {
+                                currentHumidity.innerHTML = `<i class="fas fa-tint"></i> ${weatherData.current.humidity}%`;
+                            }
+                            
+                            const currentWind = document.querySelector('.current-detail:nth-child(2) .current-detail-value');
+                            if (currentWind) {
+                                currentWind.innerHTML = `<i class="fas fa-wind"></i> ${weatherData.current.wind} km/h`;
+                            }
+                            
+                            const currentPressure = document.querySelector('.current-detail:nth-child(3) .current-detail-value');
+                            if (currentPressure) {
+                                currentPressure.innerHTML = `<i class="fas fa-tachometer-alt"></i> ${weatherData.current.pressure} hPa`;
+                            }
+                            
+                            const flightStatus = document.querySelector('.current-flight-status');
+                            if (flightStatus) {
+                                flightStatus.className = `current-flight-status current-status-${weatherData.current.flight_status}`;
+                                const icon = flightStatus.querySelector('i');
+                                if (icon) {
+                                    icon.className = `fas ${weatherData.current.flight_status === 'optimal' ? 'fa-check-circle' : 
+                                                    weatherData.current.flight_status === 'possible' ? 'fa-exclamation-triangle' : 
+                                                    'fa-times-circle'}`;
+                                }
+                                flightStatus.innerHTML = flightStatus.innerHTML.replace(flightStatus.textContent.trim(), weatherData.current.status_text);
+                            }
+                            
+                            // Restablecer el botón
+                            refreshButton.innerHTML = oldText;
+                            refreshButton.disabled = false;
                         } else {
                             // Mostrar error
                             refreshButton.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al actualizar';
