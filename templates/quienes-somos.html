@@ -54,8 +54,8 @@
 <section class="cta-section">
     <div class="container">
         <div class="cta-content">
-            <h2>Descubre la tecnología detrás de mis capturas</h2>
-            <p>Conoce el equipamiento profesional con el que realizo cada grabación para garantizar resultados excepcionales.</p>
+            <h2>¿Quieres conocer mi equipo profesional?</h2>
+            <p>Descubre los drones, cámaras y herramientas que utilizo para crear contenido audiovisual de alta calidad.</p>
             <a href="{{ url_for('mi_equipo') }}" class="btn-primary">Ver mi equipamiento</a>
         </div>
     </div>
@@ -121,6 +121,15 @@
     </div>
 </section>
 
+<section class="cta-section cta-secondary">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Listo para transformar tu visión en imágenes aéreas espectaculares?</h2>
+            <p>Cada proyecto es único y merece ser capturado con una perspectiva extraordinaria.</p>
+            <a href="{{ url_for('contacto') }}" class="btn-primary">Hablemos de tu proyecto</a>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
 
@@ -135,6 +144,31 @@
     
     .equipment-item:hover .equipment-link {
         color: inherit;
+    }
+    
+    .cta-secondary {
+        background: linear-gradient(to right, #0a4d68, #088395);
+        margin-top: 3rem;
+        padding: 2.5rem 0;
+    }
+    
+    .cta-secondary h2 {
+        color: #ffffff;
+    }
+    
+    .cta-secondary p {
+        color: #e0e0e0;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cta-secondary .btn-primary {
+        background-color: #ff7d00;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .cta-secondary .btn-primary:hover {
+        background-color: #ff9a40;
+        transform: translateY(-2px);
     }
 </style>
 {% endblock %}
