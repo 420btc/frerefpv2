@@ -38,12 +38,12 @@
         <nav class="navbar">
             <div class="logo">
                 <a href="{{ url_for('index') }}" class="logo-container">
-                    <div class="logo-icon rotating-logo">
-                        <svg width="30" height="30" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotating-svg">
-                            <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
-                            <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
-                            <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
-                            <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
+                    <div class="logo-icon">
+                        <svg width="30" height="30" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle id="navCircle1" class="logo-circle" cx="30" cy="30" r="25" fill="url(#navGradient1)" style="cursor: pointer"/>
+                            <circle id="navCircle2" class="logo-circle" cx="90" cy="30" r="25" fill="url(#navGradient2)" style="cursor: pointer"/>
+                            <circle id="navCircle3" class="logo-circle" cx="30" cy="90" r="25" fill="url(#navGradient3)" style="cursor: pointer"/>
+                            <circle id="navCircle4" class="logo-circle" cx="90" cy="90" r="25" fill="url(#navGradient4)" style="cursor: pointer"/>
                             <path d="M20 30 L40 30" stroke="#222" stroke-width="3"/>
                             <path d="M30 20 L30 40" stroke="#222" stroke-width="3"/>
                             <path d="M80 30 L100 30" stroke="#222" stroke-width="3"/>
@@ -51,19 +51,19 @@
                             <path d="M80 90 L100 90" stroke="#222" stroke-width="3"/>
                             <path d="M90 80 L90 100" stroke="#222" stroke-width="3"/>
                             <defs>
-                                <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="navGradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                                     <stop offset="0%" stop-color="#FF4D4D"/>
                                     <stop offset="100%" stop-color="#FF9B4D"/>
                                 </linearGradient>
-                                <linearGradient id="gradient2" x1="60" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="navGradient2" x1="60" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
                                     <stop offset="0%" stop-color="#FF9B4D"/>
                                     <stop offset="100%" stop-color="#FFB84D"/>
                                 </linearGradient>
-                                <linearGradient id="gradient3" x1="0" y1="60" x2="60" y2="120" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="navGradient3" x1="0" y1="60" x2="60" y2="120" gradientUnits="userSpaceOnUse">
                                     <stop offset="0%" stop-color="#FF4D4D"/>
                                     <stop offset="100%" stop-color="#FF9B4D"/>
                                 </linearGradient>
-                                <linearGradient id="gradient4" x1="60" y1="60" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="navGradient4" x1="60" y1="60" x2="120" y2="120" gradientUnits="userSpaceOnUse">
                                     <stop offset="0%" stop-color="#FF9B4D"/>
                                     <stop offset="100%" stop-color="#FFB84D"/>
                                 </linearGradient>
@@ -178,6 +178,108 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <!-- Video Optimizer -->
     <script src="{{ url_for('static', filename='js/video-optimizer.js') }}"></script>
+    
+    <!-- Script para la animación de los círculos del logo en el navbar -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Estilos CSS para la animación
+        const style = document.createElement('style');
+        style.textContent = `
+            .logo-circle {
+                transition: transform 0.2s ease;
+                transform-origin: center;
+            }
+            
+            .logo-circle:hover {
+                transform: scale(1.05);
+            }
+            
+            .circle-spinning {
+                animation: spin-roulette 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            }
+            
+            @keyframes spin-roulette {
+                0% {
+                    transform: rotate(0deg);
+                }
+                20% {
+                    transform: rotate(720deg);
+                }
+                30% {
+                    transform: rotate(1080deg);
+                }
+                40% {
+                    transform: rotate(1800deg);
+                }
+                50% {
+                    transform: rotate(2160deg);
+                }
+                60% {
+                    transform: rotate(2520deg);
+                }
+                70% {
+                    transform: rotate(2880deg);
+                }
+                80% {
+                    transform: rotate(3060deg);
+                }
+                90% {
+                    transform: rotate(3240deg);
+                }
+                100% {
+                    transform: rotate(3600deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Seleccionamos todos los círculos del logo
+        const circles = document.querySelectorAll('.logo-circle');
+        
+        // Función para hacer girar un círculo
+        function spinCircle(circle) {
+            // Verificamos que no esté girando ya
+            if (!circle.classList.contains('circle-spinning')) {
+                // Agregamos la clase para la animación
+                circle.classList.add('circle-spinning');
+                
+                // Después de que termine la animación, quitamos la clase
+                setTimeout(() => {
+                    circle.classList.remove('circle-spinning');
+                }, 3000); // 3 segundos, duración de la animación
+            }
+        }
+        
+        // Añadimos los listeners para cada círculo
+        circles.forEach(circle => {
+            // Listener para clic
+            circle.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitar navegación si está dentro de un enlace
+                e.stopPropagation(); // Evitar que el evento se propague
+                spinCircle(this);
+            });
+            
+            // Listener para mouse enter (hover)
+            circle.addEventListener('mouseenter', function() {
+                // Añadimos un pequeño retraso para que no se active inmediatamente al pasar el ratón
+                this.hoverTimeout = setTimeout(() => {
+                    spinCircle(this);
+                }, 200); // 200ms de retraso
+            });
+            
+            // Listener para mouse leave (fin del hover)
+            circle.addEventListener('mouseleave', function() {
+                // Cancelamos el timeout si el usuario retira el ratón antes del retraso
+                if (this.hoverTimeout) {
+                    clearTimeout(this.hoverTimeout);
+                }
+            });
+        });
+        
+        console.log('Animación de ruleta para círculos del logo inicializada');
+    });
+    </script>
+    
     {% block scripts %}{% endblock %}
 </body>
 </html>
