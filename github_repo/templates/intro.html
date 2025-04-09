@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freire FPV - Drones Profesionales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --color-dark: #111111;
+            --color-accent: #FF6B00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-dark);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .logo-animation {
+            margin-bottom: 30px;
+        }
+
+        .logo-svg {
+            width: 150px;
+            height: 150px;
+            animation: rotate 5s infinite linear, pulse 2s infinite ease-in-out;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.4));
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            background: linear-gradient(to right, #FF4D4D, #FFB84D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.5s;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.8s;
+            color: #f8f8f8;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.4;
+            filter: blur(3px) brightness(0.7);
+            animation: zoomEffect 3s alternate infinite;
+        }
+
+        @keyframes zoomEffect {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, #FF4D4D, #FFB84D);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: loadingProgress 3.5s forwards;
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+        }
+
+        @keyframes loadingProgress {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Efecto de superposición de vídeos con filtros temporales */
+        .video-filter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 30%, var(--color-dark) 80%);
+            z-index: -1;
+        }
+
+        /* Elementos para la animación de transición */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-dark);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .logo-svg {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .logo-text {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay para la transición -->
+    <div class="transition-overlay" id="transition-overlay"></div>
+
+    <!-- Video de fondo con efecto -->
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="{{ url_for('static', filename='video/drone-intro.mp4') }}" type="video/mp4">
+    </video>
+    <div class="video-filter"></div>
+
+    <div class="intro-container">
+
+
+        <div class="logo-animation">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+                <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
+                <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
+                <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
+                <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
+                <path d="M20 30 L40 30" stroke="#fff" stroke-width="3"/>
+                <path d="M30 20 L30 40" stroke="#fff" stroke-width="3"/>
+                <path d="M80 30 L100 30" stroke="#fff" stroke-width="3"/>
+                <path d="M20 90 L40 90" stroke="#fff" stroke-width="3"/>
+                <path d="M80 90 L100 90" stroke="#fff" stroke-width="3"/>
+                <path d="M90 80 L90 100" stroke="#fff" stroke-width="3"/>
+                <defs>
+                    <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF4D4D"/>
+                        <stop offset="100%" stop-color="#FF9B4D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient2" x1="60" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF9B4D"/>
+                        <stop offset="100%" stop-color="#FFB84D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient3" x1="0" y1="60" x2="60" y2="120" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF4D4D"/>
+                        <stop offset="100%" stop-color="#FF9B4D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient4" x1="60" y1="60" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF9B4D"/>
+                        <stop offset="100%" stop-color="#FFB84D"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <h1 class="logo-text">Freire FPV</h1>
+        <p class="tagline">Capturando momentos desde los cielos</p>
+
+        <div class="loading-bar"></div>
+    </div>
+
+    <script>
+        // Redirigir a la página principal después de 4 segundos
+        setTimeout(function() {
+            // Mostrar la superposición de transición
+            document.getElementById('transition-overlay').style.opacity = '1';
+            
+            // Esperar a que termine la animación de fundido y luego redirigir
+            setTimeout(function() {
+                window.location.href = "{{ url_for('index') }}";
+            }, 500);
+        }, 3500);
+    </script>
+</body>
+</html>

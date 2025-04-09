@@ -1,0 +1,139 @@
+{% extends 'layout.html' %}
+
+{% block title %}Mi Equipo - Freire FPV{% endblock %}
+
+{% block nav_equipo %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Mi Equipo</h1>
+        <p>Equipamiento profesional para producciones audiovisuales de alta calidad</p>
+    </div>
+</section>
+
+<section class="equipment-section">
+    <div class="container">
+        <div class="equipment-intro">
+            <p>Para ofrecer servicios de primer nivel, cuento con equipamiento profesional de última generación. Cada pieza ha sido seleccionada cuidadosamente para garantizar la máxima calidad en todas mis producciones.</p>
+        </div>
+        
+        <div class="equipment-grid">
+            <div class="equipment-item">
+                <a href="{{ url_for('equipamiento_drones') }}" class="equipment-link">
+                    <i class="fas fa-plane"></i>
+                    <h3>Drones</h3>
+                    <p>Mi flota de drones FPV para grabaciones aéreas</p>
+                </a>
+            </div>
+            
+            <div class="equipment-item">
+                <a href="{{ url_for('equipamiento_camaras') }}" class="equipment-link">
+                    <i class="fas fa-camera"></i>
+                    <h3>Cámaras</h3>
+                    <p>Cámaras de alta resolución para todas las necesidades</p>
+                </a>
+            </div>
+            
+            <div class="equipment-item">
+                <a href="{{ url_for('equipamiento_baterias') }}" class="equipment-link">
+                    <i class="fas fa-battery-full"></i>
+                    <h3>Baterías</h3>
+                    <p>Sistemas de alimentación para largas sesiones</p>
+                </a>
+            </div>
+            
+            <div class="equipment-item">
+                <a href="{{ url_for('equipamiento_software') }}" class="equipment-link">
+                    <i class="fas fa-laptop"></i>
+                    <h3>Software</h3>
+                    <p>Software profesional para edición de vídeo</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .equipment-section {
+        padding: var(--spacing-16) 0;
+        background-color: var(--color-light);
+    }
+    
+    .equipment-intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto var(--spacing-12);
+        font-size: var(--font-size-lg);
+        color: var(--color-dark);
+    }
+    
+    .equipment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-8);
+    }
+    
+    .equipment-item {
+        background-color: var(--color-white);
+        padding: var(--spacing-6);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        text-align: center;
+        transition: transform var(--transition-normal) ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .equipment-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .equipment-item::after {
+        content: '+';
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
+        background-color: var(--color-accent);
+        color: var(--color-white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        transition: transform var(--transition-normal) ease;
+    }
+    
+    .equipment-item:hover::after {
+        transform: scale(1.2);
+    }
+    
+    .equipment-item i {
+        font-size: var(--font-size-4xl);
+        color: var(--color-accent);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .equipment-item h3 {
+        margin-bottom: var(--spacing-3);
+        color: var(--color-primary);
+    }
+    
+    .equipment-link {
+        display: block;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .equipment-item:hover .equipment-link {
+        color: inherit;
+    }
+</style>
+{% endblock %}

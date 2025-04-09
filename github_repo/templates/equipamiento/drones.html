@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+
+{% block title %}Drones FPV - Freire FPV{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Mis Drones FPV</h1>
+        <p>Conoce el equipamiento profesional que utilizo para capturar tomas aéreas espectaculares</p>
+    </div>
+</section>
+
+<section class="equipment-detail">
+    <div class="container">
+        <div class="equipment-items">
+            <div class="equipment-detail-item">
+                <h2>Cinelog 25 V2 DJI O3</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Dron para Interiores</p>
+                        <p class="detail-description">
+                            El Cinelog 25 V2 con sistema DJI O3 es perfecto para espacios interiores. Su tamaño compacto permite maniobras precisas en espacios reducidos, manteniendo una calidad de imagen excepcional gracias a su sistema de transmisión de video.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Transmisión de video HD en tiempo real</li>
+                            <li>Diseño compacto de 2.5 pulgadas</li>
+                            <li>Ideal para espacios interiores y vuelos de precisión</li>
+                            <li>Baja emisión de ruido</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/cinelog25.jpg') }}?t=1744169500" alt="Cinelog 25 V2 DJI O3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-detail-item">
+                <h2>Flywoo LR4</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Dron para Exteriores</p>
+                        <p class="detail-description">
+                            El Flywoo LR4 está diseñado para largas distancias en exteriores. Perfecto para capturar paisajes amplios y seguimientos a larga distancia con una autonomía excepcional.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Autonomía extendida para vuelos de larga duración</li>
+                            <li>Alcance de varios kilómetros en condiciones óptimas</li>
+                            <li>Diseño aerodinámico para máxima eficiencia</li>
+                            <li>Excelente estabilidad incluso con viento moderado</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/flywoolr4.jpg') }}?t=1744169500" alt="Flywoo LR4">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-detail-item">
+                <h2>DJI Mini 2</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Dron estático para exteriores</p>
+                        <p class="detail-description">
+                            El DJI Mini 2 es ideal para tomas estables en exteriores. Su pequeño tamaño no sacrifica calidad de imagen, ofreciendo grabación 4K en un paquete ultraligero y portátil.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Grabación 4K a 30fps</li>
+                            <li>Peso por debajo de 250g</li>
+                            <li>30 minutos de tiempo de vuelo</li>
+                            <li>Estabilización de 3 ejes</li>
+                            <li>Resistencia a vientos de hasta 38km/h</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/djimini2.jpg') }}?t=1744169500" alt="DJI Mini 2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-detail-item">
+                <h2>Manta 5 6s</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Dron para Exteriores</p>
+                        <p class="detail-description">
+                            El Manta 5 6s destaca por su versatilidad y potencia. Especialmente diseñado para deportes y seguimiento de acción, este dron puede mantener velocidades elevadas y seguir objetos en movimiento con precisión.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Alta velocidad para seguimiento de acción</li>
+                            <li>Sistema de alimentación 6S para máxima potencia</li>
+                            <li>Excelente maniobrabilidad para seguimientos deportivos</li>
+                            <li>Configuración aerodinámica para minimizar resistencia</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/manta5.jpg') }}?t=1744169500" alt="Manta 5 6s">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="equipment-navigation">
+            <a href="{{ url_for('mi_equipo') }}" class="btn-secondary">Volver a Equipamiento</a>
+            <a href="{{ url_for('equipamiento_camaras') }}" class="btn-primary">Ver mis Cámaras</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Te interesa grabar con drones profesionales?</h2>
+            <p>Contacta conmigo para discutir tu proyecto y crear videos aéreos espectaculares.</p>
+            <a href="{{ url_for('contacto') }}" class="btn-primary">Contáctame ahora</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'layout.html' %}
+
+{% block title %}Software de Edición - Freire FPV{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Software de Edición</h1>
+        <p>Herramientas profesionales para la postproducción de tu material audiovisual</p>
+    </div>
+</section>
+
+<section class="equipment-detail">
+    <div class="container">
+        <div class="equipment-items">
+            <div class="equipment-detail-item">
+                <h2>Adobe Premiere Pro 2025</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Edición profesional de video</p>
+                        <p class="detail-description">
+                            Adobe Premiere Pro es mi software principal para la edición de vídeo profesional. Con su flujo de trabajo flexible y potentes herramientas, puedo crear producciones de alta calidad adaptadas exactamente a tus necesidades.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Edición no lineal profesional</li>
+                            <li>Corrección avanzada de color</li>
+                            <li>Edición de audio integrada</li>
+                            <li>Compatibilidad con todos los formatos modernos</li>
+                            <li>Exportación optimizada para web, redes sociales y plataformas profesionales</li>
+                            <li>Estabilización de imagen avanzada para tomas de drones</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/software/premiere.png') }}?t=1744169500" alt="Adobe Premiere Pro">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-detail-item">
+                <h2>Adobe After Effects</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Efectos visuales y composición</p>
+                        <p class="detail-description">
+                            Adobe After Effects me permite crear efectos visuales, animaciones y composiciones de alta calidad para elevar tus videos a un nivel profesional. La integración perfecta con Premiere Pro garantiza un flujo de trabajo eficiente.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Animación y efectos visuales profesionales</li>
+                            <li>Creación de títulos y gráficos animados</li>
+                            <li>Corrección de color avanzada</li>
+                            <li>Estabilización avanzada para tomas aéreas</li>
+                            <li>Rastreo de movimiento y composición</li>
+                            <li>Eliminación de objetos no deseados</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/software/aftereffects.png') }}?t=1744169500" alt="Adobe After Effects">
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-overview">
+                <h2>Mi flujo de trabajo</h2>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <h3>Captura</h3>
+                        <p>Grabación de material en bruto con drones y cámaras de alta calidad, ajustado a las necesidades específicas del proyecto.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <h3>Selección</h3>
+                        <p>Revisión y selección del mejor material, organizándolo para una edición eficiente.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <h3>Montaje</h3>
+                        <p>Edición del contenido en Adobe Premiere Pro, creando la estructura narrativa y el ritmo adecuado.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">4</div>
+                        <h3>Efectos</h3>
+                        <p>Aplicación de efectos visuales, títulos y composiciones en After Effects para elementos especiales.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">5</div>
+                        <h3>Color</h3>
+                        <p>Corrección y gradación de color para lograr la estética visual perfecta y coherente.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">6</div>
+                        <h3>Audio</h3>
+                        <p>Edición, mezcla y masterización de audio para una experiencia sonora profesional.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">7</div>
+                        <h3>Revisión</h3>
+                        <p>Proceso de revisión colaborativa con el cliente para ajustes y perfeccionamiento.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">8</div>
+                        <h3>Entrega</h3>
+                        <p>Exportación y entrega en múltiples formatos optimizados según las necesidades del cliente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="equipment-navigation">
+            <a href="{{ url_for('mi_equipo') }}" class="btn-secondary">Volver a Equipamiento</a>
+            <a href="{{ url_for('equipamiento_drones') }}" class="btn-primary">Ver mis Drones</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Necesitas edición profesional para tu proyecto?</h2>
+            <p>Contacta conmigo para discutir cómo puedo ayudarte a crear un contenido visual impactante.</p>
+            <a href="{{ url_for('contacto') }}" class="btn-primary">Contáctame ahora</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .workflow-overview {
+        margin: var(--spacing-16) 0;
+        padding: var(--spacing-8);
+        background-color: var(--color-light);
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .workflow-overview h2 {
+        text-align: center;
+        margin-bottom: var(--spacing-8);
+        color: var(--color-primary);
+    }
+    
+    .workflow-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-6);
+    }
+    
+    .workflow-step {
+        background-color: var(--color-white);
+        padding: var(--spacing-6);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        text-align: center;
+        transition: transform var(--transition-normal) ease;
+    }
+    
+    .workflow-step:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .step-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end));
+        color: var(--color-white);
+        font-weight: 700;
+        margin: 0 auto var(--spacing-4);
+    }
+    
+    .workflow-step h3 {
+        margin-bottom: var(--spacing-2);
+        color: var(--color-primary);
+    }
+    
+    .workflow-step p {
+        font-size: var(--font-size-sm);
+        color: var(--color-dark);
+    }
+</style>
+{% endblock %}

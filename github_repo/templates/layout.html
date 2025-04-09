@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Freire FPV - Grabaciones con drones en Málaga{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Inicializar EmailJS con la clave pública
+            emailjs.init("DfZMgSG2TzFEZUmYA");
+            console.log("EmailJS inicializado con: DfZMgSG2TzFEZUmYA");
+        })();
+    </script>
+    
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="{{ url_for('index') }}" class="logo-container">
+                    <div class="logo-icon rotating-logo">
+                        <svg width="30" height="30" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotating-svg">
+                            <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
+                            <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
+                            <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
+                            <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
+                            <path d="M20 30 L40 30" stroke="#222" stroke-width="3"/>
+                            <path d="M30 20 L30 40" stroke="#222" stroke-width="3"/>
+                            <path d="M80 30 L100 30" stroke="#222" stroke-width="3"/>
+                            <path d="M20 90 L40 90" stroke="#222" stroke-width="3"/>
+                            <path d="M80 90 L100 90" stroke="#222" stroke-width="3"/>
+                            <path d="M90 80 L90 100" stroke="#222" stroke-width="3"/>
+                            <defs>
+                                <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#FF4D4D"/>
+                                    <stop offset="100%" stop-color="#FF9B4D"/>
+                                </linearGradient>
+                                <linearGradient id="gradient2" x1="60" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#FF9B4D"/>
+                                    <stop offset="100%" stop-color="#FFB84D"/>
+                                </linearGradient>
+                                <linearGradient id="gradient3" x1="0" y1="60" x2="60" y2="120" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#FF4D4D"/>
+                                    <stop offset="100%" stop-color="#FF9B4D"/>
+                                </linearGradient>
+                                <linearGradient id="gradient4" x1="60" y1="60" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#FF9B4D"/>
+                                    <stop offset="100%" stop-color="#FFB84D"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Freire FPV</span>
+                </a>
+            </div>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}" class="nav-link {% block nav_home %}{% endblock %}">Inicio</a></li>
+                <li><a href="{{ url_for('servicios') }}" class="nav-link {% block nav_servicios %}{% endblock %}">Servicios</a></li>
+                <li><a href="{{ url_for('quienes_somos') }}" class="nav-link {% block nav_quienes %}{% endblock %}">Quién Soy</a></li>
+                <li><a href="{{ url_for('mi_equipo') }}" class="nav-link {% block nav_equipo %}{% endblock %}">Mi Equipo</a></li>
+                <li><a href="{{ url_for('contacto') }}" class="nav-link {% block nav_contacto %}{% endblock %}">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-cta-banner">
+            <div class="container">
+                <h3>¿Tienes un proyecto especial en mente?</h3>
+                <a href="{{ url_for('contacto') }}" class="btn-primary">Contáctame ahora</a>
+            </div>
+        </div>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span>Freire FPV</span>
+            </div>
+            <div class="footer-links">
+                <a href="{{ url_for('index') }}">Inicio</a>
+                <a href="{{ url_for('servicios') }}">Servicios</a>
+                <a href="{{ url_for('quienes_somos') }}">Quién Soy</a>
+                <a href="{{ url_for('mi_equipo') }}">Mi Equipo</a>
+                <a href="{{ url_for('contacto') }}">Contacto</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/cpf.pv/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@CarlosFreire" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/CarlosFreire0" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Freire FPV - Carlos Pastor Freire</p>
+        </div>
+    </footer>
+
+    <!-- Modal para formulario de servicios -->
+    <div id="servicio-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Solicitar Servicio</h2>
+            <form id="servicio-form">
+                <div class="form-group">
+                    <label for="tipo-servicio">Tipo de Servicio</label>
+                    <input type="text" id="tipo-servicio" name="tipo-servicio" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="precio-base">Precio Base</label>
+                    <input type="text" id="precio-base" name="precio-base" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación</label>
+                    <input type="text" id="ubicacion" name="ubicacion" placeholder="¿Dónde se realizará la grabación?" required>
+                </div>
+                <div class="form-group">
+                    <label for="duracion">Duración Aproximada</label>
+                    <input type="text" id="duracion" name="duracion" placeholder="Ej: 2-3 horas" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="+34 XXX XXX XXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje adicional (opcional)</label>
+                    <textarea id="mensaje" name="mensaje" placeholder="Cuéntame más detalles sobre lo que necesitas"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar Pedido</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    <div id="success-message" class="success-message">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <p>¡Pedido enviado! Te contactaré pronto desde carlosfreire777@gmail.com</p>
+            <button class="btn-close">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/emailjs-check.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

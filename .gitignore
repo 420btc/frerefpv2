@@ -1,0 +1,23 @@
+# Entorno virtual y caché de Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+venv/
+ENV/
+
+# Archivos de ambiente local
+.env
+.env.local
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Replit
+.replit
+.nix/
+.upm/
+.local/
+.config/

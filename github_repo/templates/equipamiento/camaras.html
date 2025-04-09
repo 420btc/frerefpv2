@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}Cámaras - Freire FPV{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Mis Cámaras</h1>
+        <p>Equipamiento fotográfico y de video profesional para capturas de la más alta calidad</p>
+    </div>
+</section>
+
+<section class="equipment-detail">
+    <div class="container">
+        <div class="equipment-items">
+            <div class="equipment-detail-item">
+                <h2>GoPro 12 Naked</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Grabación en 4K</p>
+                        <p class="detail-description">
+                            La GoPro 12 Naked es una versión modificada de la GoPro Hero 12, optimizada para drones FPV. Al eliminar su carcasa original y utilizando sólo los componentes esenciales, se reduce significativamente el peso manteniendo la calidad de imagen excepcional.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Grabación 4K a 60fps</li>
+                            <li>Peso ultraligero para drones FPV</li>
+                            <li>Estabilización HyperSmooth 6.0</li>
+                            <li>HDR y grabación nocturna mejorada</li>
+                            <li>Modo SuperView para ángulo amplio inmersivo</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/camaras/gopro12.jpg') }}?t=1744169500" alt="GoPro 12 Naked">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-detail-item">
+                <h2>Fujifilm XT-2</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Grabación en 4K</p>
+                        <p class="detail-description">
+                            La Fujifilm XT-2 es una cámara versátil que combina la calidad de imagen de Fujifilm con capacidades de video profesionales. Perfecta para sesiones fotográficas y grabaciones complementarias en tierra.
+                        </p>
+                        <ul class="detail-features">
+                            <li>Sensor X-Trans CMOS III de 24.3MP</li>
+                            <li>Grabación de video 4K a 30fps</li>
+                            <li>Sistema de enfoque rápido y preciso</li>
+                            <li>Resistente a clima adverso</li>
+                            <li>Simulación de películas Fujifilm para tonos cinematográficos</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/camaras/fujifilm.jpg') }}?t=1744169500" alt="Fujifilm XT-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="equipment-navigation">
+            <a href="{{ url_for('mi_equipo') }}" class="btn-secondary">Volver a Equipamiento</a>
+            <a href="{{ url_for('equipamiento_baterias') }}" class="btn-primary">Ver mis Baterías</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Necesitas fotografía o video de alta calidad?</h2>
+            <p>Contacta conmigo para discutir tu proyecto y crear contenido visual impactante.</p>
+            <a href="{{ url_for('contacto') }}" class="btn-primary">Contáctame ahora</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

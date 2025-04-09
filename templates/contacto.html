@@ -1,0 +1,621 @@
+{% extends "layout.html" %}
+
+{% block title %}Contacto - Freire FPV{% endblock %}
+
+{% block nav_contacto %}active{% endblock %}
+
+{% block head_extra %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+<link href="{{ url_for('static', filename='css/weather.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Contacta conmigo</h1>
+        <p>Estoy a tu disposición para cualquier consulta o proyecto</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-info animate-on-scroll">
+                <h2>Información de Contacto</h2>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h3>Teléfono</h3>
+                        <p>+34 685788325</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>carlosfreire777@gmail.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Ubicación</h3>
+                        <p>Málaga Capital, España</p>
+                        <p>Opero en toda la Costa del Sol</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h3>Horario</h3>
+                        <p><strong>Verano:</strong> Lunes a Sábados: 8:00 - 21:00</p>
+                        <p><strong>Invierno:</strong> Lunes a Viernes: 8:00 - 18:00</p>
+                        <p><strong>Fin de Semanas:</strong> Con aviso previo</p>
+                        <p><strong>Festivos:</strong> Con aviso previo</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/cpf.pv/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@CarlosFreire" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/CarlosFreire0" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form animate-on-scroll">
+                <h2>Envíame un mensaje</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="nombre-contacto">Nombre</label>
+                        <input type="text" id="nombre-contacto" name="nombre-contacto" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-contacto">Email</label>
+                        <input type="email" id="email-contacto" name="email-contacto" placeholder="tucorreo@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono-contacto">Teléfono</label>
+                        <input type="tel" id="telefono-contacto" name="telefono-contacto" placeholder="+34 XXX XXX XXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <input type="text" id="asunto" name="asunto" placeholder="Motivo de tu consulta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje-contacto">Mensaje</label>
+                        <textarea id="mensaje-contacto" name="mensaje-contacto" placeholder="Explícame tu proyecto o consulta" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="container">
+        <h2 class="section-title">Área de Servicio</h2>
+        <div class="map-wrapper animate-on-scroll">
+            <div id="map">
+                <!-- Mapbox map will be rendered here -->
+            </div>
+            <div class="service-areas">
+                <h3>Zonas de Servicio</h3>
+                <ul>
+                    <li>Málaga Capital</li>
+                    <li>Marbella</li>
+                    <li>Fuengirola</li>
+                    <li>Benalmádena</li>
+                    <li>Torremolinos</li>
+                    <li>Nerja</li>
+                    <li>Estepona</li>
+                    <li>Ronda</li>
+                    <li>Y toda la Costa del Sol</li>
+                </ul>
+            </div>
+            
+            <!-- Sección del Tiempo -->
+            <div class="weather-card">
+                <h3>Previsión Meteorológica - Málaga</h3>
+                <div class="weather-info">
+                    {% if weather_data %}
+                        <!-- Tiempo Actual -->
+                        {% if weather_data.current %}
+                            <div class="current-weather">
+                                <div class="current-weather-header">
+                                    <h4>Condiciones Actuales</h4>
+                                    <div class="current-time">{{ weather_data.current.formatted_time }}</div>
+                                </div>
+                                
+                                <div class="current-weather-main">
+                                    <div class="current-icon">
+                                        <img src="https://openweathermap.org/img/wn/{{ weather_data.current.icon }}@4x.png" alt="{{ weather_data.current.description }}">
+                                    </div>
+                                    <div class="current-temp-container">
+                                        <div class="current-temp">{{ weather_data.current.temp }}°C</div>
+                                        <div class="current-desc">{{ weather_data.current.description }}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="current-weather-details">
+                                    <div class="current-detail">
+                                        <div class="current-detail-title">Viento</div>
+                                        <div class="current-detail-value">
+                                            <i class="fas fa-wind"></i> {{ weather_data.current.wind }} km/h
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="current-detail">
+                                        <div class="current-detail-title">Humedad</div>
+                                        <div class="current-detail-value">
+                                            <i class="fas fa-tint"></i> {{ weather_data.current.humidity }}%
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="current-detail">
+                                        <div class="current-detail-title">Índice UV</div>
+                                        <div class="current-detail-value">
+                                            <i class="fas fa-sun"></i> {{ weather_data.current.uvi|round(1) }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="current-detail">
+                                        <div class="current-detail-title">Presión</div>
+                                        <div class="current-detail-value">
+                                            <i class="fas fa-tachometer-alt"></i> {{ weather_data.current.pressure }} hPa
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="current-flight-status current-status-{{ weather_data.current.flight_status }}">
+                                    <i class="fas {% if weather_data.current.flight_status == 'optimal' %}fa-check-circle{% elif weather_data.current.flight_status == 'possible' %}fa-exclamation-triangle{% else %}fa-times-circle{% endif %}"></i>
+                                    {{ weather_data.current.status_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Pronóstico de 5 días -->
+                        <div style="margin: 10px 0; border-bottom: 1px solid var(--color-light-gray); padding-bottom: 5px;">
+                            <h4 style="font-size: var(--font-size-md); margin: 0;">Pronóstico de 5 días</h4>
+                        </div>
+                        <div class="weather-forecast">
+                            {% for day in weather_data.daily %}
+                                <div class="weather-day flight-status-{{ day.flight_status }}">
+                                    <div class="day-name">{{ day.day_name }}</div>
+                                    <div class="day-date">{{ day.date }}</div>
+                                    <div class="weather-icon">
+                                        <img src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="{{ day.description }}">
+                                    </div>
+                                    <div class="weather-temp">{{ day.temp }}°C</div>
+                                    <div class="weather-desc">{{ day.description }}</div>
+                                    <div class="weather-details">
+                                        <span><i class="fas fa-wind"></i> {{ day.wind }} km/h</span>
+                                        <span><i class="fas fa-tint"></i> {{ day.humidity }}%</span>
+                                        {% if day.rain_amount > 0 %}
+                                            <span class="rain-amount"><i class="fas fa-cloud-rain"></i> {{ day.rain_amount|round(1) }} mm</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="weather-warning {% if day.flight_status == 'optimal' %}status-optimal{% elif day.flight_status == 'possible' %}status-possible{% else %}status-not-recommended{% endif %}">
+                                        <i class="fas {% if day.flight_status == 'optimal' %}fa-check-circle{% elif day.flight_status == 'possible' %}fa-exclamation-triangle{% else %}fa-times-circle{% endif %}"></i>
+                                        {% if day.flight_status == 'optimal' %}
+                                            Óptimo para vuelos
+                                        {% elif day.flight_status == 'possible' %}
+                                            Posible con precaución
+                                        {% else %}
+                                            No recomendable para vuelos
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="weather-refresh">
+                            <button id="refresh-weather" class="btn-secondary btn-icon">
+                                <i class="fas fa-sync-alt"></i> Actualizar datos
+                            </button>
+                            <div class="weather-updated">
+                                <small>Última actualización: <span id="weather-time">{{ '%H:%M'|strftime }}</span></small>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="weather-error">
+                            <p>No se han podido cargar los datos meteorológicos.</p>
+                            <button id="refresh-weather" class="btn-secondary btn-icon">
+                                <i class="fas fa-sync-alt"></i> Intentar de nuevo
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                
+            </div>
+            
+            <!-- Tarjeta separada con información sobre políticas meteorológicas (mismo ancho que Zonas de Servicio) -->
+            <div class="service-areas">
+                <div class="weather-policy-info">
+                    <h4>Información sobre Condiciones Meteorológicas</h4>
+                    <p>El vuelo de drones está altamente condicionado por la meteorología. En Freire FPV nos preocupamos por ofrecer un servicio de calidad y seguro:</p>
+                    <ul>
+                        <li>Los vuelos requieren condiciones óptimas: cielos despejados/parcialmente nublados y vientos menores a 15 km/h.</li>
+                        <li>Con vientos de 15-30 km/h, evaluamos la posibilidad de vuelo según el modelo de dron y tipo de grabación.</li>
+                        <li>No operamos con lluvia o vientos superiores a 30 km/h por seguridad del equipo y calidad del resultado.</li>
+                    </ul>
+                    <p><strong>Política de reprogramación:</strong> Si el día de la sesión las condiciones meteorológicas impiden el vuelo, se reprogramará para la fecha más próxima posible según la predicción de la Agencia Estatal de Meteorología (AEMET) sin coste adicional.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>¿Qué es un drone FPV y en qué se diferencia de los drones normales?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Los drones FPV (First Person View) son drones que se pilotean mediante gafas que muestran la visión en primera persona desde la cámara del drone. Esto permite un control más preciso y la capacidad de realizar maniobras más complejas y dinámicas que los drones tradicionales, resultando en grabaciones con movimientos cinematográficos únicos.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>¿Cuánto tiempo tarda la entrega de un proyecto finalizado?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>El tiempo de entrega de cada proyecto es de unos 2-7 días, dependiendo del volumen de trabajo actual. Para proyectos estándar, suelo entregar los vídeos editados en 2-4 días hábiles. Para proyectos más complejos o con ediciones más elaboradas, puede tomar hasta 5-7 días. Siempre acordamos los plazos antes de iniciar el trabajo y me comprometo a mantener informado al cliente sobre el progreso del proyecto.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>¿Se necesitan permisos especiales para grabar con drones?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Sí, en España la operación de drones está regulada por la Agencia Estatal de Seguridad Aérea (AESA). Poseo las debidas licencias de AESA A1/A2 A3 y STS ES, y su debido aviso al Ministerio del Interior por cada operación. Para ciertas ubicaciones (como zonas urbanas o cerca de aeropuertos) pueden requerirse permisos adicionales que gestiono según cada proyecto, garantizando siempre el cumplimiento normativo.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>¿Qué formato de archivo recibiré con las grabaciones?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Recibirás las grabaciones en formato RAW y MP4 adaptado para redes sociales o como el cliente prefiera. Los videos se entregan en alta definición (1080p o 4K según lo acordado) y pueden ser optimizados para diferentes plataformas como Instagram, YouTube o para uso profesional. Si necesitas otro formato específico, puedo adaptarlo a tus requerimientos particulares.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>¿Se pueden realizar grabaciones en interiores?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>¡Absolutamente! Es totalmente legítimo grabar en un espacio interior privado, respetando las normas comunes. Los drones FPV son especialmente útiles para estas grabaciones gracias a su tamaño compacto y maniobrabilidad excepcional. Son perfectos para recorridos dinámicos dentro de propiedades, edificios o espacios donde los drones convencionales no podrían volar, permitiendo capturar tomas únicas y fluidas que impresionarán a cualquier audiencia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Función para actualizar los datos del tiempo
+    function refreshWeatherData() {
+        const refreshButton = document.getElementById('refresh-weather');
+        const weatherTimeElement = document.getElementById('weather-time');
+        
+        if (refreshButton) {
+            refreshButton.addEventListener('click', function() {
+                // Mostrar estado de carga
+                const oldText = refreshButton.innerHTML;
+                refreshButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
+                refreshButton.disabled = true;
+                
+                // Realizar la petición a la API
+                fetch('/api/weather/refresh')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Recargar la página para mostrar los nuevos datos
+                            location.reload();
+                        } else {
+                            // Mostrar error
+                            refreshButton.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al actualizar';
+                            setTimeout(() => {
+                                refreshButton.innerHTML = oldText;
+                                refreshButton.disabled = false;
+                            }, 3000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar datos del tiempo:', error);
+                        refreshButton.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al actualizar';
+                        setTimeout(() => {
+                            refreshButton.innerHTML = oldText;
+                            refreshButton.disabled = false;
+                        }, 3000);
+                    });
+            });
+        }
+    }
+    
+    // Accordion functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        
+        // Mostrar el primer elemento del acordeón por defecto
+        if(accordionItems.length > 0) {
+            const firstContent = accordionItems[0].querySelector('.accordion-content');
+            const firstIcon = accordionItems[0].querySelector('.accordion-icon');
+            firstContent.style.display = 'block';
+            firstIcon.textContent = '−';
+        }
+        
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = item.querySelector('.accordion-icon');
+            
+            // Inicializar los estilos para que funcione correctamente
+            content.style.display = content.style.display || 'none';
+            
+            header.addEventListener('click', () => {
+                // Cerrar todos los demás acordeones
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        const otherContent = otherItem.querySelector('.accordion-content');
+                        const otherIcon = otherItem.querySelector('.accordion-icon');
+                        otherContent.style.display = 'none';
+                        otherIcon.textContent = '+';
+                    }
+                });
+                
+                // Alternar el estado del acordeón actual
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                icon.textContent = icon.textContent === '+' ? '−' : '+';
+                
+                // Desplazar suavemente a la posición del acordeón
+                if (content.style.display === 'block') {
+                    setTimeout(() => {
+                        header.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            });
+        });
+        
+        // Initialize Mapbox map
+        mapboxgl.accessToken = 'pk.eyJ1IjoiNDIwYnRjIiwiYSI6ImNtOTN3ejBhdzByNjgycHF6dnVmeHl2ZTUifQ.Utq_q5wN6DHwpkn6rcpZdw';
+        
+        // Coordenadas de Málaga (Ubicación central)
+        const malagaCoordinates = [-4.4214, 36.7213];
+        
+        // Crear el mapa con vista satelital
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/satellite-streets-v12', // Estilo de satélite con calles
+            center: malagaCoordinates,
+            zoom: 9,
+            attributionControl: false
+        });
+        
+        // Añadir controles de navegación
+        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+        map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+        
+        // Añadir atribución personalizada
+        map.addControl(new mapboxgl.AttributionControl({
+            compact: true
+        }));
+        
+        // Definir los puntos de servicio
+        const serviceAreas = [
+            { name: 'Málaga Capital', coordinates: [-4.4214, 36.7213], description: 'Sede principal' },
+            { name: 'Marbella', coordinates: [-4.8862, 36.5092], description: 'Servicio completo' },
+            { name: 'Fuengirola', coordinates: [-4.6248, 36.5394], description: 'Servicio completo' },
+            { name: 'Benalmádena', coordinates: [-4.5162, 36.5951], description: 'Servicio completo' },
+            { name: 'Torremolinos', coordinates: [-4.4986, 36.6225], description: 'Servicio completo' },
+            { name: 'Nerja', coordinates: [-3.8768, 36.7446], description: 'Servicio bajo demanda' },
+            { name: 'Estepona', coordinates: [-5.1466, 36.4277], description: 'Servicio bajo demanda' },
+            { name: 'Ronda', coordinates: [-5.1675, 36.7429], description: 'Servicio bajo demanda' }
+        ];
+        
+        // Esperar a que el mapa cargue
+        map.on('load', function() {
+            // Cargar icono del dron en la ubicación principal (Málaga)
+            // Añadir un marcador con estilo personalizado para mi ubicación (drone)
+            const droneElement = document.createElement('div');
+            droneElement.className = 'drone-marker';
+            droneElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/drone-icon.svg')`;
+            droneElement.style.backgroundSize = 'cover';
+            droneElement.style.width = '60px';
+            droneElement.style.height = '60px';
+            
+            // Crear un popup para el dron
+            const dronePopup = new mapboxgl.Popup({
+                offset: 25,
+                closeButton: false
+            }).setHTML('<h3>Freire FPV</h3><p>Mi ubicación principal</p>');
+            
+            // Añadir el marcador del dron al mapa
+            new mapboxgl.Marker(droneElement)
+                .setLngLat(malagaCoordinates)
+                .setPopup(dronePopup)
+                .addTo(map);
+            
+            // Añadir marcadores para cada área de servicio
+            serviceAreas.forEach(area => {
+                if (area.name !== 'Málaga Capital') { // Evitar duplicar marcador en Málaga
+                    // Crear elemento para el marcador personalizado
+                    const markerElement = document.createElement('div');
+                    markerElement.className = 'custom-marker';
+                    markerElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/service-marker.svg')`;
+                    markerElement.style.backgroundSize = 'cover';
+                    markerElement.style.width = '30px';
+                    markerElement.style.height = '45px';
+                    
+                    // Crear popup para el marcador
+                    const popup = new mapboxgl.Popup({
+                        offset: 25,
+                        closeButton: false
+                    }).setHTML(`<h3>${area.name}</h3><p>${area.description}</p>`);
+                    
+                    // Añadir marcador al mapa
+                    new mapboxgl.Marker(markerElement)
+                        .setLngLat(area.coordinates)
+                        .setPopup(popup)
+                        .addTo(map);
+                }
+            });
+        });
+        
+        // Manejar clic en las áreas de servicio para mover el mapa
+        document.querySelectorAll('.service-areas li').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const areaName = item.textContent.trim();
+                const area = serviceAreas.find(a => a.name === areaName);
+                
+                if (area) {
+                    map.flyTo({
+                        center: area.coordinates,
+                        zoom: 13,
+                        essential: true
+                    });
+                }
+            });
+            
+            // Hacer que los elementos de la lista sean interactivos visualmente
+            item.style.cursor = 'pointer';
+            item.addEventListener('mouseenter', () => {
+                item.style.color = '#FF6B00';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.color = '';
+            });
+        });
+        
+        // Inicializar la funcionalidad de actualización del tiempo
+        refreshWeatherData();
+        
+        // Contact form handling with EmailJS
+        const contactForm = document.getElementById('contact-form');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const nombre = document.getElementById('nombre-contacto').value;
+                const email = document.getElementById('email-contacto').value;
+                const telefono = document.getElementById('telefono-contacto').value;
+                const asunto = document.getElementById('asunto').value;
+                const mensaje = document.getElementById('mensaje-contacto').value;
+                
+                // Prepare template parameters for EmailJS
+                const templateParams = {
+                    from_name: nombre,
+                    email: email,
+                    telefono: telefono,
+                    asunto: asunto,
+                    mensaje: mensaje,
+                    to_email: 'carlosfreire777@gmail.com',
+                    subject: 'Consulta de contacto - Freire FPV'
+                };
+                
+                // Create message content for the email
+                templateParams.message = `
+Consulta de contacto - Freire FPV
+Asunto: ${asunto}
+Nombre: ${nombre}
+Email: ${email}
+Teléfono: ${telefono}
+Mensaje: ${mensaje}
+`;
+                
+                // Parámetros para enviar a Carlos (toda la información)
+                const adminContactParams = {
+                    from_name: nombre,
+                    email: email,
+                    telefono: telefono,
+                    asunto: asunto,
+                    mensaje: mensaje,
+                    to_email: 'carlosfreire777@gmail.com',
+                    subject: 'Consulta de contacto - Freire FPV',
+                    message: `
+Consulta de contacto - Freire FPV
+Asunto: ${asunto}
+Nombre: ${nombre}
+Email: ${email}
+Teléfono: ${telefono}
+Mensaje: ${mensaje}
+`
+                };
+                
+                // Parámetros para enviar al cliente (confirmación de contacto)
+                const clientContactParams = {
+                    from_name: 'Freire FPV',
+                    to_email: email,
+                    subject: 'Hemos recibido tu consulta - Freire FPV',
+                    message: `
+Hola ${nombre},
+
+¡Gracias por contactar con Freire FPV!
+
+Hemos recibido tu consulta sobre "${asunto}" y te responderemos a la mayor brevedad posible.
+
+Te contactaremos en un plazo máximo de 24 horas.
+
+Saludos,
+Carlos Freire
+Freire FPV
+`
+                };
+                
+                // Mostrar en la consola los parámetros que se envían
+                console.log('Enviando email de contacto con parámetros:', adminContactParams);
+                
+                // Primero enviar email a Carlos (admin) usando template_1exdmsp
+                emailjs.send('service_k65jk6c', 'template_1exdmsp', adminContactParams)
+                    .then(function(response) {
+                        console.log('Email al admin enviado correctamente:', response.status, response.text);
+                        
+                        // Mostrar en la consola los parámetros del cliente
+                        console.log('Enviando email al cliente con parámetros:', clientContactParams);
+                        
+                        // Luego enviar email al cliente usando template_tnzvsui
+                        return emailjs.send('service_k65jk6c', 'template_tnzvsui', clientContactParams);
+                    })
+                    .then(function(response) {
+                        console.log('Email al cliente enviado correctamente:', response.status, response.text);
+                        
+                        // Show success message
+                        document.getElementById('success-message').style.display = 'flex';
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Crear y mostrar el dron volador
+                        const flyingDrone = document.createElement('div');
+                        flyingDrone.className = 'flying-drone';
+                        document.body.appendChild(flyingDrone);
+                        
+                        // Eliminar el dron después de que termine la animación (5 segundos)
+                        setTimeout(() => {
+                            document.body.removeChild(flyingDrone);
+                        }, 5000);
+                        
+                        // Show alert message
+                        alert("¡Mensaje enviado! Te contactaré pronto desde carlosfreire777@gmail.com");
+                    })
+                    .catch(function(error) {
+                        console.log('FAILED...', error);
+                        console.log('Error detallado:', JSON.stringify(error));
+                        alert("Error al enviar, intenta de nuevo");
+                    });
+            });
+        }
+    });
+</script>
+{% endblock %}

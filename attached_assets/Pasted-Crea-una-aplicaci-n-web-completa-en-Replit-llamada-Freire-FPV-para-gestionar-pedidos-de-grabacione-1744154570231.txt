@@ -1,0 +1,55 @@
+Crea una aplicación web completa en Replit llamada "Freire FPV" para gestionar pedidos de grabaciones con drones FPV. La app debe ser única, dinámica y profesional, reflejando mi pasión por la fotografía y los drones. Mi nombre es Carlos Pastor Freire, tengo 28 años, vivo en Málaga Capital y ofrezco servicios de grabaciones con drones FPV en toda la Costa del Sol. Aquí están los detalles:
+
+1. **Estructura de archivos**:
+   - index.html (página principal)
+   - servicios.html (sección de servicios)
+   - quienes-somos.html (información sobre mí)
+   - contacto.html (datos de contacto)
+   - styles.css (estilos generales con diseño moderno)
+   - script.js (lógica dinámica para formularios y animaciones)
+   - Una carpeta "images" (no generes imágenes, deja espacio para que yo suba mis fotos de drones y grabaciones).
+
+2. **Diseño General**:
+   - Usa una paleta de colores moderna y vibrante: tonos azules (cielo), grises (tecnología) y toques de naranja (energía y creatividad).
+   - Fuentes: Usa una fuente sans-serif limpia como "Montserrat" o "Roboto" (disponible en Google Fonts).
+   - Animaciones: Añade transiciones suaves (hover en botones, fade-in para secciones al cargar).
+   - Responsive: Que se adapte a móviles y escritorio con un diseño fluido.
+   - Banner principal: En index.html, un encabezado dinámico con el texto "Freire FPV" en grande, subtítulo "Grabaciones aéreas únicas desde Málaga" y un fondo placeholder para una imagen (images/banner.jpg).
+
+3. **Funcionalidades y Contenido**:
+   - **Página principal (index.html)**:
+     - Banner con un botón grande y naranja "Descubre mis servicios" que enlace a servicios.html.
+     - Una sección breve debajo: "Soy Carlos Pastor Freire, piloto de drones FPV y apasionado de la fotografía, capturando momentos únicos en la Costa del Sol."
+     - Menú de navegación fijo en la parte superior con enlaces a "Inicio", "Servicios", "Quiénes Somos" y "Contacto". El menú debe tener un efecto hover (cambio de color).
+   - **Servicios (servicios.html)**:
+     - Cuatro categorías en tarjetas dinámicas (con sombra y hover que las levante ligeramente):
+       - Casas/Villas: "Grabaciones aéreas de propiedades en la Costa del Sol. Desde 150€ (1-2 horas)." Imagen: images/casa.jpg.
+       - Edificios/Construcciones: "Perspectivas únicas de obras y proyectos. Desde 150€ (según duración)." Imagen: images/edificio.jpg.
+       - Eventos: "Captura tu evento desde el aire con un toque cinematográfico. Desde 150€ (según horas)." Imagen: images/evento.jpg.
+       - Colegios: "Videos dinámicos para instituciones educativas. Desde 200-250€ (según proyecto)." Imagen: images/colegio.jpg.
+     - Cada tarjeta tiene un botón "Solicitar" que abre un formulario emergente (modal) con animación fade-in.
+   - **Formulario emergente**:
+     - Campos: Tipo de servicio (autocompletado según la categoría), Precio base (autocompletado), Ubicación (texto libre), Duración aproximada (texto libre), Nombre, Email, Teléfono (todos obligatorios).
+     - Botón "Enviar Pedido" que use EmailJS (incluye el código para integrarlo, con placeholders para mi service_id y template_id que configuraré después).
+     - Al enviar, muestra un mensaje "¡Pedido enviado! Te contactaré pronto desde freirefpv@example.com".
+   - **Quiénes Somos (quienes-somos.html)**:
+     - Título: "Sobre Freire FPV".
+     - Texto: "Hola, soy Carlos Pastor Freire, un malagueño de 28 años apasionado por la fotografía y los drones FPV. Desde Málaga Capital, recorro la Costa del Sol capturando perspectivas únicas con un estilo dinámico y creativo. Mi misión es ofrecer grabaciones aéreas que sorprendan y emocionen."
+     - Espacio para una foto mía (images/carlos.jpg).
+   - **Contacto (contacto.html)**:
+     - Título: "Contacta conmigo".
+     - Datos: Teléfono (+34 123 456 789 como placeholder), Email (freirefpv@example.com), y un texto "Opero en toda la Costa del Sol, ¡cuéntame tu idea!".
+     - Opcional: Un mapa simple de Málaga con un pin (puedes usar un iframe de Google Maps).
+
+4. **Dinamismo y Unicidad**:
+   - Añade un efecto parallax al banner de la página principal (el fondo se mueve más lento que el texto).
+   - En servicios.html, las tarjetas deben tener una animación de entrada (aparecen una por una al cargar la página).
+   - Botones con efecto de pulsación (se agrandan ligeramente al hacer clic).
+   - Un footer en todas las páginas con "© 2025 Freire FPV - Carlos Pastor Freire" y un enlace a contacto.html.
+
+5. **Instrucciones finales**:
+   - No generes imágenes, solo deja los placeholders (ej. <img src="images/casa.jpg" alt="Casa">).
+   - Usa comentarios en el código para que pueda entender y modificar fácilmente.
+   - Asegúrate de que el formulario envíe los datos a mi email usando EmailJS (incluye el script y las instrucciones básicas para configurarlo).
+
+Genera el código completo y organízalo en los archivos mencionados. ¡Haz que "Freire FPV" destaque como una app única y profesional!

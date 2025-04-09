@@ -1,0 +1,321 @@
+{% extends "layout.html" %}
+
+{% block title %}Configuración de EmailJS - Freire FPV{% endblock %}
+
+{% block content %}
+<section class="setup-section">
+    <div class="container">
+        <h1 class="section-title">Configuración de EmailJS</h1>
+        
+        <div class="setup-card">
+            <h2>Verificación de la configuración</h2>
+            <p>Esta página te ayudará a verificar y configurar correctamente EmailJS para que los formularios funcionen correctamente.</p>
+            
+            <div class="status-card">
+                <h3>Estado de la conexión:</h3>
+                <div id="connection-status">Verificando...</div>
+            </div>
+            
+            <div class="setup-steps">
+                <h3>Pasos para la configuración:</h3>
+                <ol>
+                    <li>
+                        <strong>Cuenta en EmailJS:</strong> Asegúrate de tener una cuenta en <a href="https://www.emailjs.com/" target="_blank" rel="noopener">EmailJS.com</a>
+                    </li>
+                    <li>
+                        <strong>Servicio de Email:</strong> Configura un servicio de email (Gmail, Office365, SMTP, etc.)
+                        <div class="code-block">
+                            <p>Service ID actual: <code>service_k65jk6c</code></p>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Template de Email:</strong> Crea una plantilla para los emails
+                        <div class="code-block">
+                            <p>Template ID actual: <code>template_tnzvsui</code></p>
+                            <p>Variables utilizadas:</p>
+                            <pre>
+Para el correo al administrador (Carlos):
+to_email: 'carlosfreire777@gmail.com' (Tu correo donde recibes todas las solicitudes)
+from_name: '{{from_name}}' (Nombre del cliente)
+email: '{{email}}' (Email del cliente)
+telefono: '{{telefono}}' (Teléfono del cliente)
+subject: '{{subject}}' (Asunto del mensaje)
+mensaje: '{{mensaje}}' (Mensaje del cliente)
+message: 'El mensaje formateado con todos los datos del cliente'
+
+Para el correo al cliente:
+from_name: 'Freire FPV' (Tu nombre o el de tu empresa)
+to_name: 'Nombre del cliente' (Personalización)
+to_email: 'Email del cliente' (Donde se envía la confirmación)
+subject: 'Confirmación...' (Asunto del email de confirmación)
+message: 'Mensaje de confirmación personalizado para el cliente'</pre>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Clave Pública:</strong> La clave pública ya está configurada en el entorno
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="test-section">
+                <h3>Prueba de envío</h3>
+                <p>Usa el siguiente formulario para probar que la configuración funciona correctamente:</p>
+                
+                <div class="alert alert-info">
+                    <p><strong>⚠️ IMPORTANTE - CONFIGURACIÓN DE EMAILJS ⚠️</strong></p>
+                    <p>El sistema enviará DOS emails por cada formulario, haciendo dos llamadas separadas a EmailJS:</p>
+                    <ol>
+                        <li>Un email a TI (Carlos) con todos los datos del cliente</li>
+                        <li>Un email al CLIENTE con la confirmación de que recibiste su solicitud</li>
+                    </ol>
+                    <p>Para que funcione correctamente, debes configurar EmailJS de la siguiente manera:</p>
+                    
+                    <h4>1. En tu plantilla de EmailJS:</h4>
+                    <ul>
+                        <li>Debes usar la plantilla con ID: <code>template_tnzvsui</code></li>
+                        <li>En el campo "To Email" debes usar <code>{{to_email}}</code> (variable) en lugar de un email fijo</li>
+                        <li>El contenido del email debe usar las variables que enviamos desde el código:</li>
+                    </ul>
+                    
+                    <h4>2. Estructura de la plantilla (HTML):</h4>
+                    <p>Para que la plantilla funcione con el sistema, debes estructurarla de esta forma:</p>
+                    <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px;">
+&lt;!-- CONDICIONAL para mensajes de ADMIN (a ti) --&gt;
+{% if content_type == 'admin' %}
+  &lt;h2&gt;Nuevo {{ asunto ? 'contacto' : 'pedido' }} recibido&lt;/h2&gt;
+  &lt;p&gt;Información del cliente:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Nombre:&lt;/strong&gt; {{nombre}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Email:&lt;/strong&gt; {{email}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Teléfono:&lt;/strong&gt; {{telefono}}&lt;/li&gt;
+  &lt;/ul&gt;
+
+  {% if tipo_servicio %}
+  &lt;h3&gt;Detalles del servicio:&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; {{tipo_servicio}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Precio:&lt;/strong&gt; {{precio_base}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Ubicación:&lt;/strong&gt; {{ubicacion}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Duración:&lt;/strong&gt; {{duracion}}&lt;/li&gt;
+  &lt;/ul&gt;
+  {% endif %}
+
+  {% if asunto %}
+  &lt;h3&gt;Consulta:&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;Asunto:&lt;/strong&gt; {{asunto}}&lt;/p&gt;
+  {% endif %}
+
+  &lt;h3&gt;Mensaje:&lt;/h3&gt;
+  &lt;p&gt;{{mensaje}}&lt;/p&gt;
+
+&lt;!-- CONDICIONAL para mensajes de CLIENTE --&gt;
+{% else %}
+  &lt;h2&gt;Hola {{to_name}},&lt;/h2&gt;
+  
+  {% if asunto %}
+  &lt;p&gt;¡Gracias por contactar con Freire FPV!&lt;/p&gt;
+  &lt;p&gt;Hemos recibido tu consulta sobre &quot;{{asunto}}&quot; y te responderemos a la mayor brevedad posible.&lt;/p&gt;
+  {% else %}
+  &lt;p&gt;¡Gracias por solicitar nuestros servicios de grabación con drones FPV!&lt;/p&gt;
+  &lt;p&gt;Hemos recibido tu pedido:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Servicio:&lt;/strong&gt; {{tipo_servicio}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Ubicación:&lt;/strong&gt; {{ubicacion}}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Duración:&lt;/strong&gt; {{duracion}}&lt;/li&gt;
+  &lt;/ul&gt;
+  {% endif %}
+  
+  &lt;p&gt;Te contactaremos en un plazo máximo de 24 horas.&lt;/p&gt;
+  &lt;p&gt;Saludos,&lt;br&gt;Carlos Freire&lt;br&gt;Freire FPV&lt;/p&gt;
+{% endif %}
+                    </pre>
+                    
+                    <h4>3. Configuración importante:</h4>
+                    <ul>
+                      <li>En el campo "To Email" debes usar <code>{{to_email}}</code> (variable)</li>
+                      <li>Asegúrate de que la plantilla tenga HTML habilitado</li>
+                      <li>Añadimos <code>content_type</code> para diferenciar entre emails a ti y al cliente</li>
+                    </ul>
+                </div>
+                
+                <form id="test-form">
+                    <div class="form-group">
+                        <label for="test-nombre">Nombre</label>
+                        <input type="text" id="test-nombre" name="test-nombre" placeholder="Tu nombre" value="Prueba EmailJS" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="test-email">Email</label>
+                        <input type="email" id="test-email" name="test-email" placeholder="tucorreo@ejemplo.com" value="prueba@prueba.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="test-mensaje">Mensaje</label>
+                        <textarea id="test-mensaje" name="test-mensaje" placeholder="Mensaje de prueba" required>Esto es una prueba de configuración de EmailJS</textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Enviar Prueba</button>
+                </form>
+                
+                <div id="test-result" class="result-box"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const connectionStatus = document.getElementById('connection-status');
+    const testResult = document.getElementById('test-result');
+    const testForm = document.getElementById('test-form');
+    
+    // Verificar conexión con EmailJS
+    if (typeof emailjs !== 'undefined') {
+        connectionStatus.innerHTML = '<span class="success">✅ EmailJS cargado correctamente</span>';
+        
+        if (typeof window._emailjsInit !== 'undefined' || "{{ emailjs_public_key }}") {
+            connectionStatus.innerHTML += '<br><span class="success">✅ EmailJS inicializado con clave pública</span>';
+        } else {
+            connectionStatus.innerHTML += '<br><span class="error">❌ EmailJS no se ha inicializado con una clave pública</span>';
+        }
+    } else {
+        connectionStatus.innerHTML = '<span class="error">❌ EmailJS no está cargado correctamente</span>';
+    }
+    
+    // Test form submission
+    if (testForm) {
+        testForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            testResult.innerHTML = '<p>Enviando prueba...</p>';
+            
+            const nombre = document.getElementById('test-nombre').value;
+            const email = document.getElementById('test-email').value;
+            const mensaje = document.getElementById('test-mensaje').value;
+            
+            // Parámetros para enviar a Carlos (toda la información)
+            const adminTestParams = {
+                nombre: nombre,
+                email: email,
+                telefono: '123456789', // Valor de prueba
+                asunto: 'Prueba de configuración EmailJS',
+                mensaje: mensaje,
+                from_name: 'Sistema Freire FPV',
+                to_email: 'carlosfreire777@gmail.com',
+                subject: 'PRUEBA: Configuración EmailJS',
+                content_type: 'admin'
+            };
+            
+            // Parámetros para enviar al cliente (confirmación de prueba)
+            const clientTestParams = {
+                to_name: nombre,
+                from_name: 'Freire FPV',
+                to_email: email,
+                asunto: 'Prueba de configuración',
+                subject: 'Prueba de confirmación - Freire FPV',
+                content_type: 'client'
+            };
+            
+            console.log('Enviando emails de prueba...');
+            testResult.innerHTML = '<p>Enviando emails de prueba...</p>';
+            
+            // Primero enviar email a Carlos (admin)
+            emailjs.send('service_k65jk6c', 'template_tnzvsui', adminTestParams)
+                .then(function(response) {
+                    console.log('Email de prueba al admin enviado correctamente:', response.status, response.text);
+                    testResult.innerHTML = '<p>Email al admin enviado correctamente ✅. Enviando email al cliente...</p>';
+                    
+                    // Luego enviar email al cliente
+                    return emailjs.send('service_k65jk6c', 'template_tnzvsui', clientTestParams);
+                })
+                .then(function(response) {
+                    console.log('Email de prueba al cliente enviado correctamente:', response.status, response.text);
+                    testResult.innerHTML = `
+                        <p class="success">✅ ¡Prueba completada con éxito!</p>
+                        <p>Se han enviado DOS emails:</p>
+                        <ol>
+                            <li>Un email a TI (carlosfreire777@gmail.com) con los datos de prueba</li>
+                            <li>Un email al CLIENTE (${email}) con la confirmación</li>
+                        </ol>
+                        <p>Verifica que ambos correos se hayan recibido correctamente.</p>
+                    `;
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    testResult.innerHTML = `
+                        <p class="error">❌ Error al enviar la prueba</p>
+                        <p>Error: ${JSON.stringify(error)}</p>
+                        <p><strong>Posibles soluciones:</strong></p>
+                        <ul>
+                            <li>Verifica que el Service ID <code>service_k65jk6c</code> sea correcto</li>
+                            <li>Verifica que el Template ID <code>template_tnzvsui</code> exista en tu cuenta</li>
+                            <li>Asegúrate de que tu plantilla tenga las variables correctas</li>
+                        </ul>
+                    `;
+                });
+        });
+    }
+});
+</script>
+<style>
+    .setup-section {
+        padding: 40px 0;
+    }
+    .setup-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .status-card {
+        background: #f8f9fa;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+    .setup-steps {
+        margin: 30px 0;
+    }
+    .setup-steps li {
+        margin-bottom: 15px;
+    }
+    .code-block {
+        background: #f1f1f1;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+        font-family: monospace;
+    }
+    .code-block pre {
+        margin: 0;
+        white-space: pre-wrap;
+    }
+    .test-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    .result-box {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+        min-height: 100px;
+    }
+    .success {
+        color: #28a745;
+    }
+    .error {
+        color: #dc3545;
+    }
+    .alert-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+</style>
+{% endblock %}

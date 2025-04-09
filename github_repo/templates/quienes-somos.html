@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}Quiénes Somos - Freire FPV{% endblock %}
+
+{% block nav_quienes %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Sobre Freire FPV</h1>
+        <p>Conóceme y descubre mi pasión por los drones FPV</p>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-image animate-on-scroll">
+                <div class="image-placeholder" aria-label="Foto de Carlos">
+                    <img src="https://images.unsplash.com/photo-1607764689498-6df800a9a7d8" alt="Carlos Pastor Freire">
+                </div>
+            </div>
+            <div class="about-text animate-on-scroll">
+                <h2>Carlos Pastor Freire</h2>
+                <h3>Piloto de drones FPV & Fotógrafo</h3>
+                <p>Hola, soy Carlos Pastor Freire, un malagueño de 28 años apasionado por la fotografía y los drones FPV. Desde Málaga Capital, recorro la Costa del Sol capturando perspectivas únicas con un estilo dinámico y creativo.</p>
+                <p>Mi misión es ofrecer grabaciones aéreas que sorprendan y emocionen. Combino mi conocimiento técnico con una visión artística para entregar contenido de alta calidad que supere las expectativas de mis clientes.</p>
+                <p>Mi aventura con los drones comenzó hace varios años y desde entonces me he especializado en el pilotaje FPV (First Person View), que permite maniobras y tomas imposibles con drones convencionales.</p>
+                <div class="skills">
+                    <div class="skill">
+                        <span class="skill-name">Pilotaje FPV</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <span class="skill-name">Edición de Video</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <span class="skill-name">Fotografía</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Quieres conocer mi equipo profesional?</h2>
+            <p>Descubre los drones, cámaras y herramientas que utilizo para crear contenido audiovisual de alta calidad.</p>
+            <a href="{{ url_for('mi_equipo') }}" class="btn-primary">Ver mi equipamiento</a>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="container">
+        <h2 class="section-title">Lo que dicen mis clientes</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <p>"Carlos capturó la esencia de nuestra casa de una manera que nunca habíamos imaginado. Las tomas aéreas son simplemente espectaculares."</p>
+                    <div class="client-info">
+                        <span class="client-name">Ana Martínez</span>
+                        <span class="client-role">Propietaria Villa en Marbella</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <p>"Contraté a Freire FPV para grabar nuestro evento deportivo y el resultado superó todas nuestras expectativas. Definitivamente volveremos a trabajar juntos."</p>
+                    <div class="client-info">
+                        <span class="client-name">Juan Gómez</span>
+                        <span class="client-role">Organizador de Eventos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <p>"El video promocional que Carlos creó para nuestro colegio ha sido un éxito total. Su profesionalidad y creatividad son excepcionales."</p>
+                    <div class="client-info">
+                        <span class="client-name">María Sánchez</span>
+                        <span class="client-role">Directora de Colegio</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <p>"Como agente inmobiliario, necesitaba destacar mis propiedades de manera única. Las grabaciones aéreas de Carlos han sido clave para cerrar ventas rápidamente. Sus videos muestran detalles que las fotografías no pueden capturar."</p>
+                    <div class="client-info">
+                        <span class="client-name">Roberto Núñez</span>
+                        <span class="client-role">Agente Inmobiliario</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <p>"Contratamos a Freire FPV para grabar nuestra boda y fue la mejor decisión. La perspectiva aérea capturó momentos mágicos que un fotógrafo convencional no habría podido. Muy recomendable para cualquier celebración especial."</p>
+                    <div class="client-info">
+                        <span class="client-name">Elena y Pedro Jiménez</span>
+                        <span class="client-role">Recién casados</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block styles %}
+<style>
+    .equipment-link {
+        display: block;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .equipment-item:hover .equipment-link {
+        color: inherit;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Testimonial slider functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.style.display = 'none');
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[n].style.display = 'block';
+            dots[n].classList.add('active');
+            currentSlide = n;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Initialize
+        showSlide(0);
+        
+        // Auto-rotate
+        setInterval(nextSlide, 5000);
+        
+        // Click on dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => showSlide(index));
+        });
+
+        // Los modales de equipamiento han sido reemplazados por páginas independientes
+        console.log('Los modales de equipamiento han sido reemplazados por páginas independientes');
+    });
+</script>
+{% endblock %}

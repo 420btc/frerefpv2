@@ -1,0 +1,40 @@
+Modifica mi aplicación web existente en Replit llamada "Freire FPV" para integrar EmailJS y enviar los pedidos del formulario a mi email (freirefpv@gmail.com). Ya tengo un service_id: `service_k65jk6c`. La app ya tiene una estructura con index.html, servicios.html, quienes-somos.html, contacto.html, styles.css, script.js y una carpeta "images". El formulario está en servicios.html dentro de un modal emergente. Aquí está lo que necesito:
+
+1. **Integración de EmailJS**:
+   - Añade el script de EmailJS al proyecto. Usa la versión CDN: `<script src="https://cdn.emailjs.com/dist/email.min.js"></script>` en el `<head>` de servicios.html.
+   - Inicializa EmailJS en script.js con mi `service_id`: `service_k65jk6c`. No tengo un `template_id` aún, así que crea un template genérico en el código para enviar los datos del formulario (tipo de servicio, precio base, ubicación, duración aproximada, nombre, email y teléfono).
+
+2. **Modificación del formulario**:
+   - Asegúrate de que el formulario en servicios.html (el modal emergente) tenga los siguientes campos con IDs claros:
+     - Tipo de servicio (`id="tipo"`, readonly)
+     - Precio base (`id="precio"`, readonly)
+     - Ubicación (`id="ubicacion"`)
+     - Duración aproximada (`id="duracion"`)
+     - Nombre (`id="nombre"`)
+     - Email (`id="email"`)
+     - Teléfono (`id="telefono"`)
+   - El formulario debe tener un `id="pedidoForm"` y un botón "Enviar Pedido".
+
+3. **Lógica en script.js**:
+   - Actualiza o añade una función para manejar el envío del formulario:
+     - Recoge los valores de todos los campos cuando se envíe el formulario.
+     - Usa EmailJS para enviar esos datos a mi email (`freirefpv@gmail.com`) con mi `service_id` (`service_k65jk6c`).
+     - Muestra un mensaje de éxito con `alert("¡Pedido enviado! Te contactaré pronto desde freirefpv@gmail.com")` si el envío es exitoso, o un `alert("Error al enviar, intenta de nuevo")` si falla.
+   - Ejemplo de cómo quiero que se vea el email:
+     ```
+     Nuevo pedido de Freire FPV
+     Tipo de servicio: Casas/Villas
+     Precio base: 150€
+     Ubicación: Málaga Capital
+     Duración aproximada: 2 horas
+     Nombre: Juan Pérez
+     Email: juan@example.com
+     Teléfono: +34 987 654 321
+     ```
+
+4. **Instrucciones adicionales**:
+   - No modifiques el diseño ni el resto de la app (estilos, animaciones, etc.), solo añade la funcionalidad de EmailJS.
+   - Comenta el código en script.js para que pueda entender cómo funciona y ajustarlo si necesito.
+   - Si falta algo en el formulario actual (como IDs o el evento de envío), corrígelo para que funcione con EmailJS.
+
+Aplica estos cambios al código existente en Replit y asegúrate de que los pedidos se envíen correctamente a freirefpv@gmail.com usando mi service_id: `service_k65jk6c`.

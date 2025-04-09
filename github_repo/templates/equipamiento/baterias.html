@@ -1,0 +1,171 @@
+{% extends 'layout.html' %}
+
+{% block title %}Baterías y Alimentación - Freire FPV{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Mis Baterías</h1>
+        <p>Alimentación confiable para sesiones de grabación ininterrumpidas</p>
+    </div>
+</section>
+
+<section class="equipment-detail">
+    <div class="container">
+        <div class="battery-showcase">
+            <div class="battery-content">
+                <h2>Sistema completo de alimentación</h2>
+                <div class="battery-description">
+                    <p>Dispongo de todas las baterías necesarias para mantener mis drones en el aire durante toda la sesión de grabación, sin importar la duración del proyecto.</p>
+                    
+                    <h3>Mi equipamiento incluye:</h3>
+                    <ul class="battery-list">
+                        <li>
+                            <i class="fas fa-battery-full"></i>
+                            <div>
+                                <strong>Baterías LiPo 6S</strong>
+                                <p>Para vuelos de alta potencia con el Manta 5</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-battery-full"></i>
+                            <div>
+                                <strong>Baterías LiPo 4S</strong>
+                                <p>Perfectas para el equilibrio entre potencia y tiempo de vuelo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-battery-full"></i>
+                            <div>
+                                <strong>Baterías de larga duración</strong>
+                                <p>Especiales para el Flywoo LR4 y misiones de largo alcance</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-battery-full"></i>
+                            <div>
+                                <strong>Baterías DJI originales</strong>
+                                <p>Para el DJI Mini 2 con hasta 30 minutos de vuelo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-battery-three-quarters"></i>
+                            <div>
+                                <strong>Sistema de carga múltiple</strong>
+                                <p>Cargadores de campo para mantener todas las baterías listas durante la sesión</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-battery-three-quarters"></i>
+                            <div>
+                                <strong>Baterías de repuesto</strong>
+                                <p>Stock completo de baterías adicionales para todos los equipos</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="battery-guarantee">
+                        <h3>Mi garantía:</h3>
+                        <p>Nunca tendrás que preocuparte por quedarte sin energía durante una sesión de grabación. Mi sistema completo de baterías y cargadores asegura que podamos trabajar sin interrupciones durante todo el tiempo que sea necesario para tu proyecto.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="battery-image-container">
+                <img src="{{ url_for('static', filename='img/equipamiento/baterias/lipo.jpg') }}?t=1744169500" alt="Sistema de baterías profesional LiPo">
+            </div>
+        </div>
+
+        <div class="equipment-navigation">
+            <a href="{{ url_for('mi_equipo') }}" class="btn-secondary">Volver a Equipamiento</a>
+            <a href="{{ url_for('equipamiento_software') }}" class="btn-primary">Ver mi Software</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>¿Tienes un proyecto que requiere largas horas de grabación?</h2>
+            <p>Mi equipamiento está preparado para cualquier desafío. ¡Contacta conmigo y hablemos!</p>
+            <a href="{{ url_for('contacto') }}" class="btn-primary">Contáctame ahora</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .battery-showcase {
+        display: flex;
+        gap: var(--spacing-12);
+        margin: var(--spacing-8) 0;
+        align-items: center;
+    }
+    
+    .battery-content {
+        flex: 1.5;
+    }
+    
+    .battery-image-container {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .battery-image-container img {
+        max-width: 100%;
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .battery-description {
+        margin-top: var(--spacing-4);
+    }
+    
+    .battery-list {
+        margin: var(--spacing-6) 0;
+    }
+    
+    .battery-list li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-4);
+        gap: var(--spacing-4);
+    }
+    
+    .battery-list i {
+        color: var(--color-accent);
+        font-size: var(--font-size-xl);
+        margin-top: var(--spacing-1);
+    }
+    
+    .battery-list strong {
+        display: block;
+        margin-bottom: var(--spacing-1);
+        color: var(--color-primary);
+    }
+    
+    .battery-guarantee {
+        background-color: var(--color-light);
+        padding: var(--spacing-6);
+        border-radius: var(--border-radius-lg);
+        margin-top: var(--spacing-8);
+        border-left: 4px solid var(--color-accent);
+    }
+    
+    .battery-guarantee h3 {
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-2);
+    }
+    
+    @media (max-width: 768px) {
+        .battery-showcase {
+            flex-direction: column;
+        }
+        
+        .battery-image-container {
+            order: -1;
+            margin-bottom: var(--spacing-6);
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+
+{% block title %}Freire FPV - Grabaciones con drones en Málaga{% endblock %}
+
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<section class="hero parallax-section">
+    <!-- Video de fondo con imagen de placeholder -->
+    <div class="hero-video-container">
+        <div class="preloading-container" id="preloading-container">
+            <div class="gif-slide active" data-index="0">
+                <img src="{{ url_for('static', filename='img/preload/gif1.gif') }}?t=1744166400" alt="Freire FPV - Studio">
+            </div>
+            <div class="gif-slide" data-index="1">
+                <img src="{{ url_for('static', filename='img/preload/gif2.gif') }}?t=1744166400" alt="Freire FPV - Equipment">
+            </div>
+            <div class="gif-slide" data-index="2">
+                <img src="{{ url_for('static', filename='img/preload/gif3.gif') }}?t=1744166400" alt="Freire FPV - Landscape">
+            </div>
+            <div class="gif-slide" data-index="3">
+                <img src="{{ url_for('static', filename='img/preload/gif4.gif') }}?t=1744166800" alt="Freire FPV - Restaurant">
+            </div>
+            <div class="gif-slide" data-index="4">
+                <img src="{{ url_for('static', filename='img/preload/gif5.gif') }}?t=1744167900" alt="Freire FPV - Paradise Island">
+            </div>
+        </div>
+        <video id="hero-background-video" class="hero-background-video" muted loop autoplay playsinline preload="metadata">
+            <source src="{{ url_for('static', filename='video/Persiguien.mp4') }}?t=1744166400" type="video/mp4">
+        </video>
+    </div>
+    <div class="hero-content">
+        <div class="logo-icon">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
+                <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
+                <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
+                <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
+                <path d="M20 30 L40 30" stroke="#333" stroke-width="2"/>
+                <path d="M30 20 L30 40" stroke="#333" stroke-width="2"/>
+                <path d="M80 30 L100 30" stroke="#333" stroke-width="2"/>
+                <path d="M20 90 L40 90" stroke="#333" stroke-width="2"/>
+                <path d="M80 90 L100 90" stroke="#333" stroke-width="2"/>
+                <path d="M90 80 L90 100" stroke="#333" stroke-width="2"/>
+                <defs>
+                    <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF4D4D"/>
+                        <stop offset="100%" stop-color="#FF9B4D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient2" x1="60" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF9B4D"/>
+                        <stop offset="100%" stop-color="#FFB84D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient3" x1="0" y1="60" x2="60" y2="120" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF4D4D"/>
+                        <stop offset="100%" stop-color="#FF9B4D"/>
+                    </linearGradient>
+                    <linearGradient id="gradient4" x1="60" y1="60" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF9B4D"/>
+                        <stop offset="100%" stop-color="#FFB84D"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        <h1 class="animate-in">Freire FPV</h1>
+        <h2 class="animate-in">Grabaciones aéreas únicas desde Málaga</h2>
+        <a href="{{ url_for('servicios') }}" class="btn-primary animate-in">Descubre mis servicios</a>
+    </div>
+</section>
+
+<section class="intro">
+    <div class="container">
+        <div class="intro-content">
+            <div class="intro-text animate-on-scroll">
+                <h3>Capturo momentos desde el cielo</h3>
+                <p>Soy Carlos Pastor Freire, piloto de drones FPV y apasionado de la fotografía, capturando momentos únicos en la Costa del Sol.</p>
+                <p>Con mis drones FPV puedo ofrecer perspectivas únicas y dinámicas imposibles de conseguir con drones convencionales o cámaras tradicionales.</p>
+            </div>
+            <div class="intro-image animate-on-scroll">
+                <div class="video-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-slide active" data-index="0">
+                            <div class="video-container" aria-label="Video de drone">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                                <video id="drone-video-1" class="drone-video" muted loop preload="auto">
+                                    <source src="{{ url_for('static', filename='video/drone_video.mp4') }}?t=1744164900" type="video/mp4">
+                                    Tu navegador no soporta el elemento de video.
+                                </video>
+                                <div class="video-controls">
+                                    <button class="video-control play-pause" aria-label="Pausar/Reproducir video">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button class="video-control video-restart" aria-label="Reiniciar video">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="1">
+                            <div class="video-container" aria-label="Video de drone">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                                <video id="drone-video-2" class="drone-video" muted loop preload="auto">
+                                    <source src="{{ url_for('static', filename='video/villa_sunset.mp4') }}?t=1744164900" type="video/mp4">
+                                    Tu navegador no soporta el elemento de video.
+                                </video>
+                                <div class="video-controls">
+                                    <button class="video-control play-pause" aria-label="Pausar/Reproducir video">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="video-control video-restart" aria-label="Reiniciar video">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="carousel-nav-btn prev" aria-label="Anterior video">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel-indicators">
+                            <span class="indicator active" data-index="0"></span>
+                            <span class="indicator" data-index="1"></span>
+                        </div>
+                        <button class="carousel-nav-btn next" aria-label="Siguiente video">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-services">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Servicios Destacados</h2>
+        <div class="services-grid">
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/villa_nueva.png') }}?t=1744163200" alt="Grabación de propiedades">
+                </div>
+                <div class="service-content">
+                    <h3>Casas y Villas</h3>
+                    <p>Destacá tu propiedad con tomas aéreas impresionantes</p>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/evento.jpg') }}?t=1744162800" alt="Grabación de eventos">
+                </div>
+                <div class="service-content">
+                    <h3>Eventos</h3>
+                    <p>Captura momentos especiales desde una perspectiva única</p>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/construccion.jpg') }}?t=1744162800" alt="Edificios y Construcciones">
+                </div>
+                <div class="service-content">
+                    <h3>Edificios/Construcciones</h3>
+                    <p>Perspectivas únicas de obras y proyectos arquitectónicos</p>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/bodas_celebraciones.jpg') }}?t=1744172000" alt="Bodas y Celebraciones">
+                </div>
+                <div class="service-content">
+                    <h3>Bodas y Celebraciones</h3>
+                    <p>Captura los momentos más especiales de tu vida desde el aire</p>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/inspeccion_tecnica.jpg') }}?t=1744172000" alt="Inspecciones Técnicas">
+                </div>
+                <div class="service-content">
+                    <h3>Inspecciones Técnicas</h3>
+                    <p>Análisis detallado y seguro de estructuras de difícil acceso</p>
+                </div>
+            </div>
+            <!-- Botón "Ver Más" como la sexta tarjeta -->
+            <div class="service-card ver-mas-card animate-on-scroll">
+                <div class="ver-mas-content">
+                    <a href="{{ url_for('servicios') }}" class="btn-ver-mas">Ver Más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

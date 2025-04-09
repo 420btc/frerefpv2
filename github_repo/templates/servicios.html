@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+
+{% block title %}Servicios - Freire FPV{% endblock %}
+
+{% block nav_servicios %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Nuestros Servicios</h1>
+        <p>Descubre todas las posibilidades de grabación con drones FPV</p>
+    </div>
+</section>
+
+<section class="services-section">
+    <div class="container">
+        <div class="services-grid">
+            <div class="service-card" data-service="Casas/Villas" data-precio="Desde 150€ (1-2 horas)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/villa_nueva.png') }}?t=1744163200" alt="Casas y Villas">
+                </div>
+                <div class="service-content">
+                    <h3>Casas/Villas</h3>
+                    <p>Grabaciones aéreas de propiedades en la Costa del Sol. Perfectas para inmobiliarias, alquileres vacacionales o propietarios que deseen destacar sus viviendas.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 150€ (1-2 horas)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Edificios/Construcciones" data-precio="Desde 150€ (según duración)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/construccion.jpg') }}?t=1744162800" alt="Edificios y Construcciones">
+                </div>
+                <div class="service-content">
+                    <h3>Edificios/Construcciones</h3>
+                    <p>Perspectivas únicas de obras y proyectos arquitectónicos. Ideal para constructoras, arquitectos y empresas que quieran mostrar sus proyectos desde ángulos imposibles.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 150€ (según duración)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Eventos" data-precio="Desde 150€ (según horas)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/evento.jpg') }}?t=1744162800" alt="Eventos">
+                </div>
+                <div class="service-content">
+                    <h3>Eventos</h3>
+                    <p>Captura tu evento desde el aire con un toque cinematográfico. Bodas, festivales, competiciones deportivas, conciertos y cualquier celebración especial.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 150€ (según horas)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Colegios" data-precio="Desde 200-250€ (según proyecto)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/colegio.jpg') }}?t=1744162800" alt="Colegios">
+                </div>
+                <div class="service-content">
+                    <h3>Colegios</h3>
+                    <p>Videos dinámicos para instituciones educativas. Muestra las instalaciones, eventos deportivos, graduaciones o crea contenido promocional para tu centro.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 200-250€ (según proyecto)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+            
+            <!-- Nuevos servicios -->
+            <div class="service-card" data-service="Naturaleza y Paisajes" data-precio="Desde 50-200€ (según duración y ubicación)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/naturaleza.jpg') }}?t=1744168300" alt="Naturaleza y Paisajes">
+                </div>
+                <div class="service-content">
+                    <h3>Naturaleza y Paisajes</h3>
+                    <p>Grabaciones aéreas de la belleza natural de la Costa del Sol: playas, montañas, acantilados, parques naturales como el Torcal o la Sierra de las Nieves. Ideal para promoción turística, documentales o amantes de la naturaleza.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 50-200€ (según duración y ubicación)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Deportes y Acción" data-precio="Desde 150-200€ (según horas y complejidad)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/deportes.jpg') }}?t=1744168300" alt="Deportes y Acción">
+                </div>
+                <div class="service-content">
+                    <h3>Deportes y Acción</h3>
+                    <p>Captura de deportes dinámicos como surf, kitesurf, ciclismo de montaña o motocross desde perspectivas FPV espectaculares. Perfecto para deportistas o eventos deportivos en la costa.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 150-200€ (según horas y complejidad)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Bodas y Celebraciones Especiales" data-precio="Desde 250€ (según duración y detalles)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/bodas_celebraciones.jpg') }}?t=1744172000" alt="Bodas y Celebraciones Especiales">
+                </div>
+                <div class="service-content">
+                    <h3>Bodas y Celebraciones Especiales</h3>
+                    <p>Videos aéreos únicos para bodas, aniversarios o fiestas privadas, con un toque cinematográfico que destaque en Málaga y la Costa del Sol.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 250€ (según duración y detalles)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Publicidad y Marketing" data-precio="Desde 100-200€ (según proyecto)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/publicidad_nueva.jpg') }}?t=1744169400" alt="Publicidad y Marketing">
+                </div>
+                <div class="service-content">
+                    <h3>Publicidad y Marketing</h3>
+                    <p>Grabaciones para promociones comerciales, como anuncios de hoteles, restaurantes o negocios locales, mostrando vistas aéreas impactantes.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 100-200€ (según proyecto)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="Inspecciones Técnicas" data-precio="Desde 50€ (según complejidad)">
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='img/servicios/inspeccion_tecnica.jpg') }}?t=1744172000" alt="Inspecciones Técnicas">
+                </div>
+                <div class="service-content">
+                    <h3>Inspecciones Técnicas</h3>
+                    <p>Uso del dron para inspeccionar tejados, torres, paneles solares o zonas de difícil acceso, con un enfoque más técnico pero visualmente atractivo.</p>
+                    <div class="service-details">
+                        <div class="detail">
+                            <i class="fas fa-euro-sign"></i>
+                            <span>Desde 50€ (según complejidad)</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Costa del Sol</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary open-modal">Solicitar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="process-section">
+    <div class="container">
+        <h2 class="section-title">¿Cómo trabajamos?</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Consulta</h3>
+                    <p>Conversamos sobre tu proyecto y necesidades específicas</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Planificación</h3>
+                    <p>Diseño el plan de vuelo y programamos la grabación</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Grabación</h3>
+                    <p>Realizamos la grabación en la fecha acordada</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Edición</h3>
+                    <p>Edito y perfecciono el material para entregarte el resultado final</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
