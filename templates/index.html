@@ -41,20 +41,29 @@
                 <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
                 <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
                 <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
-                <g id="symbol1" class="propeller-symbol">
+                
+                <!-- Símbolo + en el círculo 1 (arriba izquierda) -->
+                <g id="propeller1" class="propeller-symbol" style="transform-origin: 30px 30px;">
                     <path d="M20 30 L40 30" stroke="#333" stroke-width="2"/>
                     <path d="M30 20 L30 40" stroke="#333" stroke-width="2"/>
                 </g>
-                <g id="symbol2" class="propeller-symbol">
+                
+                <!-- Símbolo - en el círculo 2 (arriba derecha) -->
+                <g id="propeller2" class="propeller-symbol" style="transform-origin: 90px 30px;">
                     <path d="M80 30 L100 30" stroke="#333" stroke-width="2"/>
                 </g>
-                <g id="symbol3" class="propeller-symbol">
+                
+                <!-- Símbolo - en el círculo 3 (abajo izquierda) -->
+                <g id="propeller3" class="propeller-symbol" style="transform-origin: 30px 90px;">
                     <path d="M20 90 L40 90" stroke="#333" stroke-width="2"/>
                 </g>
-                <g id="symbol4" class="propeller-symbol">
+                
+                <!-- Símbolo + en el círculo 4 (abajo derecha) -->
+                <g id="propeller4" class="propeller-symbol" style="transform-origin: 90px 90px;">
                     <path d="M80 90 L100 90" stroke="#333" stroke-width="2"/>
                     <path d="M90 80 L90 100" stroke="#333" stroke-width="2"/>
                 </g>
+                
                 <defs>
                     <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                         <stop offset="0%" stop-color="#FF4D4D"/>
