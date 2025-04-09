@@ -59,20 +59,41 @@ class CarouselOptimizer {
         // Configurar manejadores de eventos para los botones de navegación
         const prevBtn = document.querySelector('.carousel-nav-btn.prev');
         const nextBtn = document.querySelector('.carousel-nav-btn.next');
+        const indicators = document.querySelectorAll('.indicator');
         
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 this.pauseAllVideos();
-                setTimeout(() => this.handleSlideChange(), 100);
+                
+                // Calcular el índice anterior
+                let prevIndex = this.activeSlideIndex - 1;
+                if (prevIndex < 0) prevIndex = this.carouselVideos.length - 1;
+                
+                // Cambiar las clases para activar la diapositiva anterior
+                this.navigateToSlide(prevIndex);
             });
         }
         
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
                 this.pauseAllVideos();
-                setTimeout(() => this.handleSlideChange(), 100);
+                
+                // Calcular el siguiente índice
+                let nextIndex = this.activeSlideIndex + 1;
+                if (nextIndex >= this.carouselVideos.length) nextIndex = 0;
+                
+                // Cambiar las clases para activar la siguiente diapositiva
+                this.navigateToSlide(nextIndex);
             });
         }
+        
+        // Configurar eventos para los indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                this.pauseAllVideos();
+                this.navigateToSlide(index);
+            });
+        });
         
         // Detectar cambios en el carrusel mediante observación de clases
         const slideObserver = new MutationObserver((mutations) => {
@@ -238,6 +259,59 @@ class CarouselOptimizer {
                 }
             }
         });
+    }
+    
+    /**
+     * Navega a una diapositiva específica
+     */
+    navigateToSlide(index) {
+        // Validamos el índice
+        if (index < 0) index = this.carouselVideos.length - 1;
+        if (index >= this.carouselVideos.length) index = 0;
+        
+        // Si estamos en la misma diapositiva, no hacer nada
+        if (index === this.activeSlideIndex) return;
+        
+        const slides = this.carouselContainer.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        // Añadir clase 'prev' a la diapositiva actual antes de moverla
+        if (this.activeSlideIndex !== index && slides[this.activeSlideIndex]) {
+            slides[this.activeSlideIndex].classList.add('prev');
+        }
+        
+        // Eliminar clase 'active' de todas las diapositivas e indicadores
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+        });
+        
+        indicators.forEach(ind => {
+            ind.classList.remove('active');
+        });
+        
+        // Activar la diapositiva e indicador correspondiente
+        if (slides[index]) {
+            slides[index].classList.add('active');
+        }
+        
+        if (indicators[index]) {
+            indicators[index].classList.add('active');
+        }
+        
+        // Eliminar la clase 'prev' de todas las diapositivas después de un momento
+        setTimeout(() => {
+            slides.forEach(slide => {
+                slide.classList.remove('prev');
+            });
+        }, 100);
+        
+        // Actualizar el índice actual
+        this.activeSlideIndex = index;
+        
+        // Manejar el cambio de video
+        this.handleSlideChange();
+        
+        console.log(`CarouselOptimizer: Navegado a slide ${index}`);
     }
     
     /**
