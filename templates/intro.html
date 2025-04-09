@@ -190,13 +190,10 @@
     <!-- Overlay para la transición -->
     <div class="transition-overlay" id="transition-overlay"></div>
 
-    <!-- Video de fondo con efecto -->
-    <video class="video-background" autoplay muted loop playsinline preload="none" 
-           poster="{{ url_for('static', filename='img/servicios/deportes.jpg') }}"
-           data-optimize="true" data-autoplay="true">
-        <source src="{{ url_for('static', filename='video/drone-intro.mp4') }}" type="video/mp4"
-                data-mobile-src="{{ url_for('static', filename='video/drone-intro_mobile.mp4') }}">
-    </video>
+    <!-- GIFs de fondo requeridos por el cliente -->
+    <img class="video-background" src="{{ url_for('static', filename='img/gifs/f-mv2.gif') }}" alt="Fondo animado FPV">
+    <!-- Se usa un segundo GIF en la secuencia de carga -->
+    <img class="video-background" src="{{ url_for('static', filename='img/gifs/4d7~mv2.gif') }}" alt="Fondo animado FPV" style="z-index: -3; opacity: 0.3;">
     <div class="video-filter"></div>
 
     <div class="intro-container">

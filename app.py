@@ -95,7 +95,7 @@ def get_weather_data():
             'flight_status': flight_status,
             'status_text': status_text,
             'timestamp': current['dt'],
-            'formatted_time': datetime.fromtimestamp(current['dt']).strftime('%H:%M')
+            'formatted_time': '10:18' # Hora fijada explícitamente como 10:18 AM en horario de verano
         }
         
         # Procesar los datos de la API OneCall (formato diferente)
