@@ -122,6 +122,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="carousel-slide" data-index="2">
+                            <div class="video-container" aria-label="Video de drone">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                                <video id="drone-video-3" class="drone-video" muted loop preload="auto" 
+                                      data-optimize="true" data-autoplay="true">
+                                    <source src="{{ url_for('static', filename='videos/villarober.mp4') }}?t=1744188100" type="video/mp4">
+                                    Tu navegador no soporta el elemento de video.
+                                </video>
+                                <div class="video-controls">
+                                    <button class="video-control play-pause" aria-label="Pausar/Reproducir video">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="video-control video-restart" aria-label="Reiniciar video">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="carousel-nav">
                         <button class="carousel-nav-btn prev" aria-label="Anterior video">
@@ -130,6 +150,7 @@
                         <div class="carousel-indicators">
                             <span class="indicator active" data-index="0"></span>
                             <span class="indicator" data-index="1"></span>
+                            <span class="indicator" data-index="2"></span>
                         </div>
                         <button class="carousel-nav-btn next" aria-label="Siguiente video">
                             <i class="fas fa-chevron-right"></i>
