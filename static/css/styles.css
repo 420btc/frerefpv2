@@ -658,6 +658,8 @@ body {
         max-width: 100%; /* Asegurar ancho completo */
         margin-left: 0;
         margin-right: 0;
+        border-radius: 15px; /* Esquinas redondeadas para el contenedor */
+        overflow: hidden; /* Asegurar que el contenido se recorte según el radio */
     }
     
     .video-carousel {
@@ -675,11 +677,16 @@ body {
         padding-left: 0;
         padding-right: 0;
     }
+    
+    .video-container video {
+        border-radius: 15px; /* Esquinas redondeadas para los videos */
+    }
 }
 
 @media (max-width: 480px) {
     .carousel-container {
         height: 250px; /* Altura más pequeña para teléfonos pequeños */
+        border-radius: 20px; /* Esquinas más redondeadas para teléfonos pequeños */
     }
     
     .carousel-nav-btn {
@@ -691,6 +698,10 @@ body {
     .video-control {
         width: 50px;
         height: 50px;
+    }
+    
+    .video-container video {
+        border-radius: 20px; /* Esquinas más redondeadas para los videos en teléfonos pequeños */
     }
 }
 
