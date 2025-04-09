@@ -20,6 +20,10 @@
     --color-gradient-start: #FF4D4D; /* Red-orange */
     --color-gradient-end: #FFB84D; /* Yellow-orange */
     
+    /* Variables para la animación de botones */
+    --click-x: 50%;
+    --click-y: 50%;
+    
     /* Typography */
     --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-size-xs: 0.75rem;
@@ -416,6 +420,28 @@ body {
     background: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end));
     color: var(--color-white);
     box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: width 0.5s, height 0.5s;
+    pointer-events: none;
+}
+
+.btn-primary span {
+    position: relative;
+    z-index: 2;
 }
 
 .btn-primary:hover {
@@ -424,8 +450,32 @@ body {
     color: var(--color-white);
 }
 
+.btn-primary:active::before {
+    width: 300px;
+    height: 300px;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 .btn-primary:active {
-    transform: translateY(1px);
+    transform: scale(0.97);
+    transition: transform 0.1s;
+}
+
+/* Animación especial para botones naranjas en móvil (touch) */
+@media (hover: none) {
+    .btn-primary:active::before {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Efecto de click para los botones */
+.btn-primary.button-clicked::before,
+.btn-submit.button-clicked::before,
+.btn-ver-mas.button-clicked::before {
+    width: 300px !important;
+    height: 300px !important;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 .btn-secondary {
@@ -455,11 +505,44 @@ body {
     cursor: pointer;
     font-size: var(--font-size-md);
     transition: all var(--transition-normal) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: width 0.5s, height 0.5s;
+    pointer-events: none;
+}
+
+.btn-submit span {
+    position: relative;
+    z-index: 2;
 }
 
 .btn-submit:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+.btn-submit:active::before {
+    width: 300px;
+    height: 300px;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-submit:active {
+    transform: scale(0.97);
+    transition: transform 0.1s;
 }
 
 .btn-close {
@@ -485,11 +568,44 @@ body {
     display: inline-block !important;
     box-shadow: var(--shadow-md) !important;
     transition: all var(--transition-normal) ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.btn-ver-mas::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1 !important;
+    transition: width 0.5s, height 0.5s !important;
+    pointer-events: none !important;
+}
+
+.btn-ver-mas span {
+    position: relative !important;
+    z-index: 2 !important;
 }
 
 .btn-ver-mas:hover {
     transform: translateY(-2px) !important;
     box-shadow: var(--shadow-lg) !important;
+}
+
+.btn-ver-mas:active::before {
+    width: 300px !important;
+    height: 300px !important;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.btn-ver-mas:active {
+    transform: scale(0.97) !important;
+    transition: transform 0.1s !important;
 }
 
 .ver-mas-container {
