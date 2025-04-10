@@ -157,6 +157,12 @@
     border: 1px solid #e5d8b5;
 }
 
+.current-status-caution {
+    background-color: #ffecb5;
+    color: #e67e22;
+    border: 1px solid #ffd699;
+}
+
 .current-status-not-recommended {
     background-color: #ffdddd;
     color: #e63946;

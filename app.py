@@ -57,30 +57,38 @@ def get_weather_data():
             current_rain = current['rain']['1h']
         
         # Determinar si es posible volar según las condiciones actuales
-        can_fly = True
-        no_fly_reason = ""
+        # Nuevas reglas:
+        # - Verde (óptimo): Lluvia entre 0mm y 0.5mm Y viento menor a 30km/h
+        # - Naranja (por determinar): Lluvia entre 0.6mm y 1.5mm
+        # - Rojo (no operable): Lluvia mayor a 1.5mm O viento mayor a 30km/h
         
-        # Si hay lluvia o la descripción indica lluvia, no se puede volar
-        if current_rain > 0 or 'lluvia' in current_description.lower() or 'rain' in current_weather.get('main', '').lower():
-            can_fly = False
-            no_fly_reason = "Condiciones de lluvia"
+        flight_status = ""
+        status_text = ""
         
-        # Si el viento es mayor a 30 km/h, no se puede volar
-        elif current_wind > 30:
-            can_fly = False
-            no_fly_reason = "Viento demasiado fuerte"
+        # Condiciones no operables (rojo)
+        if current_rain > 1.5 or current_wind > 30:
+            flight_status = "not_recommended"  # Rojo - No recomendable
+            
+            if current_rain > 1.5:
+                no_fly_reason = "Lluvia excesiva"
+            else:
+                no_fly_reason = "Viento demasiado fuerte"
+                
+            status_text = f"No operable: {no_fly_reason}"
         
-        # Asignar estado al vuelo (óptimo, posible, o no recomendable)
-        if can_fly:
+        # Condiciones por determinar (naranja)
+        elif current_rain > 0.5 and current_rain <= 1.5:
+            flight_status = "caution"  # Naranja - Por determinar
+            status_text = "Por determinar situación meteorológica"
+        
+        # Condiciones óptimas (verde)
+        else:
             if current_wind < 15:
                 flight_status = "optimal"  # Verde - Óptimo para volar
                 status_text = "Óptimo para volar"
             else:
                 flight_status = "possible"  # Amarillo - Posible pero con precaución
                 status_text = "Posible con precaución"
-        else:
-            flight_status = "not_recommended"  # Rojo - No recomendable
-            status_text = f"No recomendable: {no_fly_reason}"
         
         # Datos del tiempo actual
         result['current'] = {
@@ -117,25 +125,28 @@ def get_weather_data():
             # Comprobar si hay previsión de lluvia
             rain_amount = day_data.get('rain', 0)
             
-            # Determinar si es posible volar este día
-            can_fly_day = True
+            # Determinar el estado del vuelo usando las nuevas reglas
+            # - Verde (óptimo): Lluvia entre 0mm y 0.5mm Y viento menor a 30km/h
+            # - Naranja (por determinar): Lluvia entre 0.6mm y 1.5mm
+            # - Rojo (no operable): Lluvia mayor a 1.5mm O viento mayor a 30km/h
             
-            # Si hay lluvia o la descripción indica lluvia, no se puede volar
-            if rain_amount > 0.5 or 'lluvia' in description.lower() or 'rain' in weather.get('main', '').lower():
-                can_fly_day = False
+            # Inicializar estado del vuelo
+            day_flight_status = ""
             
-            # Si el viento es mayor a 30 km/h, no se puede volar
-            elif wind > 30:
-                can_fly_day = False
-            
-            # Asignar estado al vuelo para este día
-            if can_fly_day:
-                if wind < 15:
-                    day_flight_status = "optimal"  # Verde
-                else:
-                    day_flight_status = "possible"  # Amarillo
-            else:
+            # Condiciones no operables (rojo)
+            if rain_amount > 1.5 or wind > 30:
                 day_flight_status = "not_recommended"  # Rojo
+            
+            # Condiciones por determinar (naranja)
+            elif rain_amount > 0.5 and rain_amount <= 1.5:
+                day_flight_status = "caution"  # Naranja
+            
+            # Condiciones óptimas (verde)
+            else:
+                if wind < 15:
+                    day_flight_status = "optimal"  # Verde - Óptimo
+                else:
+                    day_flight_status = "possible"  # Amarillo - Posible con precaución
             
             daily_forecast.append({
                 'date': dt.strftime('%d/%m'),
@@ -146,7 +157,7 @@ def get_weather_data():
                 'wind': round(wind),
                 'humidity': humidity,
                 'rain_amount': rain_amount,
-                'is_rainy': rain_amount > 0.5 or 'lluvia' in description.lower() or 'rain' in weather.get('main', '').lower(),
+                'is_rainy': rain_amount > 0.1 or 'lluvia' in description.lower() or 'rain' in weather.get('main', '').lower(),
                 'flight_status': day_flight_status
             })
         
