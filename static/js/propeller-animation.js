@@ -2,46 +2,66 @@
  * Freire FPV - Propeller Animation Script
  * 
  * Este script maneja la animación de los símbolos + y - del logo como hélices de dron
+ * Se asegura de que la animación solo se active por interacción del usuario
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Seleccionamos todos los símbolos del logo
-    const propellers = document.querySelectorAll('.propeller-symbol');
+    // Esperamos un momento para asegurarnos de que todo esté cargado
+    setTimeout(() => {
+        initializePropellerAnimations();
+    }, 100);
+});
+
+// Función principal para inicializar las animaciones
+function initializePropellerAnimations() {
+    // Primero, aseguramos que no haya ninguna animación activa
+    const allPropellers = document.querySelectorAll('.propeller-symbol');
     
-    if (propellers.length === 0) {
+    // Detener cualquier animación que pueda estar activa
+    allPropellers.forEach(propeller => {
+        propeller.classList.remove('propeller-spinning');
+        propeller.classList.remove('propeller-spinning-slow');
+        
+        // Reiniciar estilos para asegurar que no hay animaciones residuales
+        propeller.style.animation = 'none';
+        propeller.offsetHeight; // Forzar un reflow para que se aplique el cambio de estilo
+        propeller.style.animation = null;
+    });
+
+    if (allPropellers.length === 0) {
         console.log('No se encontraron elementos con clase .propeller-symbol');
         return;
     }
     
     // Función para iniciar la rotación de un símbolo
     function spinPropeller(propeller) {
-        // Verificamos que no esté girando ya
-        if (propeller.classList.contains('propeller-spinning') || 
-            propeller.classList.contains('propeller-spinning-slow')) {
-            return; // Ya está girando, no hacemos nada
-        }
+        // Parar cualquier animación previa
+        propeller.classList.remove('propeller-spinning');
+        propeller.classList.remove('propeller-spinning-slow');
+        propeller.style.animation = 'none';
+        propeller.offsetHeight; // Forzar un reflow para que se aplique el cambio de estilo
+        propeller.style.animation = null;
         
-        // Iniciamos la animación con velocidad aleatoria
-        if (Math.random() > 0.5) {
-            propeller.classList.add('propeller-spinning');
-        } else {
-            propeller.classList.add('propeller-spinning-slow');
-        }
-        
-        // Detenemos la animación después de un tiempo corto (1-2 segundos)
-        const duration = 1000 + Math.random() * 1000; 
+        // Esperar un momento antes de iniciar la nueva animación
         setTimeout(() => {
-            propeller.classList.remove('propeller-spinning');
-            propeller.classList.remove('propeller-spinning-slow');
-        }, duration);
+            // Iniciamos la animación con velocidad aleatoria
+            if (Math.random() > 0.5) {
+                propeller.classList.add('propeller-spinning');
+            } else {
+                propeller.classList.add('propeller-spinning-slow');
+            }
+            
+            // Detenemos la animación después de un tiempo corto (1-2 segundos)
+            const duration = 1000 + Math.random() * 1000; 
+            setTimeout(() => {
+                propeller.classList.remove('propeller-spinning');
+                propeller.classList.remove('propeller-spinning-slow');
+            }, duration);
+        }, 10);
     }
     
     // Añadimos los listeners para cada símbolo
-    propellers.forEach(propeller => {
-        // Eliminar cualquier animación que pudiera haberse iniciado automáticamente
-        propeller.classList.remove('propeller-spinning');
-        propeller.classList.remove('propeller-spinning-slow');
-        
+    allPropellers.forEach(propeller => {
         // Listener para clic
         propeller.addEventListener('click', function(e) {
             e.preventDefault(); // Evitar navegación si está dentro de un enlace
@@ -55,5 +75,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    console.log('Animación de hélices para los símbolos del logo inicializada');
-});
+    console.log('Animación de hélices para los símbolos del logo inicializada correctamente');
+}
