@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Añadimos los listeners para cada símbolo
     propellers.forEach(propeller => {
+        // Eliminar cualquier animación que pudiera haberse iniciado automáticamente
+        propeller.classList.remove('propeller-spinning');
+        propeller.classList.remove('propeller-spinning-slow');
+        
         // Listener para clic
         propeller.addEventListener('click', function(e) {
             e.preventDefault(); // Evitar navegación si está dentro de un enlace
