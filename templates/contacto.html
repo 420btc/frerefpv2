@@ -170,7 +170,7 @@
                                 </div>
                                 
                                 <div class="current-flight-status current-status-{{ weather_data.current.flight_status }}">
-                                    <i class="fas {% if weather_data.current.flight_status == 'optimal' %}fa-check-circle{% elif weather_data.current.flight_status == 'possible' %}fa-exclamation-triangle{% else %}fa-times-circle{% endif %}"></i>
+                                    <i class="fas {% if weather_data.current.flight_status == 'optimal' %}fa-check-circle{% elif weather_data.current.flight_status == 'possible' %}fa-exclamation-triangle{% elif weather_data.current.flight_status == 'caution' %}fa-exclamation-circle{% else %}fa-times-circle{% endif %}"></i>
                                     {{ weather_data.current.status_text }}
                                 </div>
                             </div>
@@ -197,14 +197,16 @@
                                             <span class="rain-amount"><i class="fas fa-cloud-rain"></i> {{ day.rain_amount|round(1) }} mm</span>
                                         {% endif %}
                                     </div>
-                                    <div class="weather-warning {% if day.flight_status == 'optimal' %}status-optimal{% elif day.flight_status == 'possible' %}status-possible{% else %}status-not-recommended{% endif %}">
-                                        <i class="fas {% if day.flight_status == 'optimal' %}fa-check-circle{% elif day.flight_status == 'possible' %}fa-exclamation-triangle{% else %}fa-times-circle{% endif %}"></i>
+                                    <div class="weather-warning {% if day.flight_status == 'optimal' %}status-optimal{% elif day.flight_status == 'possible' %}status-possible{% elif day.flight_status == 'caution' %}status-caution{% else %}status-not-recommended{% endif %}">
+                                        <i class="fas {% if day.flight_status == 'optimal' %}fa-check-circle{% elif day.flight_status == 'possible' %}fa-exclamation-triangle{% elif day.flight_status == 'caution' %}fa-exclamation-circle{% else %}fa-times-circle{% endif %}"></i>
                                         {% if day.flight_status == 'optimal' %}
                                             Óptimo para vuelos
                                         {% elif day.flight_status == 'possible' %}
                                             Posible con precaución
+                                        {% elif day.flight_status == 'caution' %}
+                                            Por determinar situación
                                         {% else %}
-                                            No recomendable para vuelos
+                                            No operable
                                         {% endif %}
                                     </div>
                                 </div>
@@ -391,6 +393,7 @@
                                 if (icon) {
                                     icon.className = `fas ${weatherData.current.flight_status === 'optimal' ? 'fa-check-circle' : 
                                                     weatherData.current.flight_status === 'possible' ? 'fa-exclamation-triangle' : 
+                                                    weatherData.current.flight_status === 'caution' ? 'fa-exclamation-circle' :
                                                     'fa-times-circle'}`;
                                 }
                                 flightStatus.innerHTML = flightStatus.innerHTML.replace(flightStatus.textContent.trim(), weatherData.current.status_text);

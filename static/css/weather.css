@@ -289,6 +289,11 @@
     border-color: #e5d8b5;
 }
 
+.flight-status-caution {
+    background: linear-gradient(to bottom, #fff0d9, #ffecb5);
+    border-color: #ffd699;
+}
+
 .flight-status-not-recommended {
     background: linear-gradient(to bottom, #ffeeee, #ffdddd);
     border-color: #ffcccc;
@@ -377,6 +382,10 @@
 
 .status-possible {
     color: #c7843a; /* Amarillo/Naranja */
+}
+
+.status-caution {
+    color: #e67e22; /* Naranja */
 }
 
 .status-not-recommended {
