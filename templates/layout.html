@@ -38,18 +38,34 @@
         <nav class="navbar">
             <div class="logo">
                 <a href="{{ url_for('index') }}" class="logo-container">
-                    <div class="logo-icon rotating-logo">
-                        <svg width="30" height="30" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotating-svg">
+                    <div class="logo-icon">
+                        <svg width="30" height="30" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="30" cy="30" r="25" fill="url(#gradient1)"/>
                             <circle cx="90" cy="30" r="25" fill="url(#gradient2)"/>
                             <circle cx="30" cy="90" r="25" fill="url(#gradient3)"/>
                             <circle cx="90" cy="90" r="25" fill="url(#gradient4)"/>
-                            <path d="M20 30 L40 30" stroke="#222" stroke-width="3"/>
-                            <path d="M30 20 L30 40" stroke="#222" stroke-width="3"/>
-                            <path d="M80 30 L100 30" stroke="#222" stroke-width="3"/>
-                            <path d="M20 90 L40 90" stroke="#222" stroke-width="3"/>
-                            <path d="M80 90 L100 90" stroke="#222" stroke-width="3"/>
-                            <path d="M90 80 L90 100" stroke="#222" stroke-width="3"/>
+                            
+                            <!-- Símbolo + en el círculo 1 (arriba izquierda) -->
+                            <g id="propeller1" class="propeller-symbol" style="transform-origin: 30px 30px;">
+                                <path d="M20 30 L40 30" stroke="#222" stroke-width="3"/>
+                                <path d="M30 20 L30 40" stroke="#222" stroke-width="3"/>
+                            </g>
+                            
+                            <!-- Símbolo - en el círculo 2 (arriba derecha) -->
+                            <g id="propeller2" class="propeller-symbol" style="transform-origin: 90px 30px;">
+                                <path d="M80 30 L100 30" stroke="#222" stroke-width="3"/>
+                            </g>
+                            
+                            <!-- Símbolo - en el círculo 3 (abajo izquierda) -->
+                            <g id="propeller3" class="propeller-symbol" style="transform-origin: 30px 90px;">
+                                <path d="M20 90 L40 90" stroke="#222" stroke-width="3"/>
+                            </g>
+                            
+                            <!-- Símbolo + en el círculo 4 (abajo derecha) -->
+                            <g id="propeller4" class="propeller-symbol" style="transform-origin: 90px 90px;">
+                                <path d="M80 90 L100 90" stroke="#222" stroke-width="3"/>
+                                <path d="M90 80 L90 100" stroke="#222" stroke-width="3"/>
+                            </g>
                             <defs>
                                 <linearGradient id="gradient1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                                     <stop offset="0%" stop-color="#FF4D4D"/>
@@ -180,6 +196,8 @@
     <script src="{{ url_for('static', filename='js/video-optimizer.js') }}"></script>
     <!-- Animación de botones -->
     <script src="{{ url_for('static', filename='js/button-animation.js') }}"></script>
+    <!-- Animación de hélices para el logo -->
+    <script src="{{ url_for('static', filename='js/propeller-animation.js') }}"></script>
 
     {% block scripts %}{% endblock %}
 </body>

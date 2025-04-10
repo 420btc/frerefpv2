@@ -201,28 +201,27 @@ body {
     margin-top: 22px; /* Aumentado un 15% adicional para bajar el logo como solicitó el cliente */
 }
 
-.rotating-logo {
-    transition: transform 0.5s ease;
+/* Estilos para la animación de los símbolos del logo como hélices de dron */
+.propeller-symbol {
+    transform-origin: center;
+    cursor: pointer;
 }
 
-.rotating-svg {
-    animation: rotate-logo 5s linear infinite;
+.propeller-spinning {
+    animation: spin-propeller 2s linear infinite;
 }
 
-@keyframes rotate-logo {
+.propeller-spinning-slow {
+    animation: spin-propeller 4s linear infinite;
+}
+
+@keyframes spin-propeller {
     0% {
         transform: rotate(0deg);
     }
     100% {
         transform: rotate(360deg);
     }
-}
-
-/* Acelerar la animación al pasar el ratón */
-.logo-container:hover .rotating-svg,
-.logo-container:active .rotating-svg,
-.logo-container:focus .rotating-svg {
-    animation: rotate-logo 2s linear infinite;
 }
 
 .logo-text {
