@@ -14,67 +14,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Función para iniciar la rotación de un símbolo
-    function spinPropeller(propeller, isInteractive = false) {
-        // Verificamos que no esté girando ya o detenemos animación existente
+    function spinPropeller(propeller) {
+        // Verificamos que no esté girando ya
         if (propeller.classList.contains('propeller-spinning') || 
             propeller.classList.contains('propeller-spinning-slow')) {
-            if (isInteractive) {
-                // Si es interactivo, detenemos la animación
-                propeller.classList.remove('propeller-spinning');
-                propeller.classList.remove('propeller-spinning-slow');
-            } else {
-                // Si no es interactivo, no hacemos nada (ya está girando)
-                return;
-            }
-        } else {
-            // Iniciamos la animación
-            if (Math.random() > 0.5) {
-                propeller.classList.add('propeller-spinning');
-            } else {
-                propeller.classList.add('propeller-spinning-slow');
-            }
-            
-            // Si es interactivo, después de un tiempo aleatorio, detenemos la animación
-            if (isInteractive) {
-                const duration = 3000 + Math.random() * 5000; // Entre 3 y 8 segundos
-                setTimeout(() => {
-                    propeller.classList.remove('propeller-spinning');
-                    propeller.classList.remove('propeller-spinning-slow');
-                }, duration);
-            }
+            return; // Ya está girando, no hacemos nada
         }
+        
+        // Iniciamos la animación con velocidad aleatoria
+        if (Math.random() > 0.5) {
+            propeller.classList.add('propeller-spinning');
+        } else {
+            propeller.classList.add('propeller-spinning-slow');
+        }
+        
+        // Detenemos la animación después de un tiempo corto (1-2 segundos)
+        const duration = 1000 + Math.random() * 1000; 
+        setTimeout(() => {
+            propeller.classList.remove('propeller-spinning');
+            propeller.classList.remove('propeller-spinning-slow');
+        }, duration);
     }
     
     // Añadimos los listeners para cada símbolo
     propellers.forEach(propeller => {
-        // Hacer que algunos símbolos comiencen a girar automáticamente
-        if (Math.random() > 0.5) {
-            spinPropeller(propeller);
-        }
-        
         // Listener para clic
         propeller.addEventListener('click', function(e) {
             e.preventDefault(); // Evitar navegación si está dentro de un enlace
             e.stopPropagation(); // Evitar que el evento se propague
-            spinPropeller(this, true);
+            spinPropeller(this);
         });
         
         // Listener para mouse enter (hover)
         propeller.addEventListener('mouseenter', function() {
-            // Añadimos un pequeño retraso para que no se active inmediatamente al pasar el ratón
-            this.hoverTimeout = setTimeout(() => {
-                if (Math.random() > 0.3) { // 70% de probabilidad de que gire al pasar el ratón
-                    spinPropeller(this, true);
-                }
-            }, 100); // 100ms de retraso
-        });
-        
-        // Listener para mouse leave (fin del hover)
-        propeller.addEventListener('mouseleave', function() {
-            // Cancelamos el timeout si el usuario retira el ratón antes del retraso
-            if (this.hoverTimeout) {
-                clearTimeout(this.hoverTimeout);
-            }
+            spinPropeller(this);
         });
     });
     
