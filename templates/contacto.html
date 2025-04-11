@@ -371,17 +371,22 @@
                                 currentIcon.alt = weatherData.current.description;
                             }
                             
-                            const currentHumidity = document.querySelector('.current-detail:nth-child(1) .current-detail-value');
-                            if (currentHumidity) {
-                                currentHumidity.innerHTML = `<i class="fas fa-tint"></i> ${weatherData.current.humidity}%`;
-                            }
-                            
-                            const currentWind = document.querySelector('.current-detail:nth-child(2) .current-detail-value');
+                            const currentWind = document.querySelector('.current-detail:nth-child(1) .current-detail-value');
                             if (currentWind) {
                                 currentWind.innerHTML = `<i class="fas fa-wind"></i> ${weatherData.current.wind} km/h`;
                             }
                             
-                            const currentPressure = document.querySelector('.current-detail:nth-child(3) .current-detail-value');
+                            const currentHumidity = document.querySelector('.current-detail:nth-child(2) .current-detail-value');
+                            if (currentHumidity) {
+                                currentHumidity.innerHTML = `<i class="fas fa-tint"></i> ${weatherData.current.humidity}%`;
+                            }
+                            
+                            const currentUV = document.querySelector('.current-detail:nth-child(3) .current-detail-value');
+                            if (currentUV) {
+                                currentUV.innerHTML = `<i class="fas fa-sun"></i> ${weatherData.current.uvi.toFixed(1)}`;
+                            }
+                            
+                            const currentPressure = document.querySelector('.current-detail:nth-child(4) .current-detail-value');
                             if (currentPressure) {
                                 currentPressure.innerHTML = `<i class="fas fa-tachometer-alt"></i> ${weatherData.current.pressure} hPa`;
                             }
