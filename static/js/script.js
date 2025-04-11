@@ -369,8 +369,8 @@ Freire FPV
                         document.body.removeChild(flyingDrone);
                     }, 5000);
                     
-                    // Show alert message as requested
-                    alert("¡Pedido enviado! Te contactaré pronto desde carlosfreire777@gmail.com");
+                    // Ya no mostramos alerta del navegador, solo el mensaje en la aplicación
+                    console.log("Pedido enviado correctamente");
                 })
                 .catch(function(error) {
                     console.log('FAILED...', error);
@@ -495,8 +495,8 @@ Freire FPV
                         contactSubmitBtn.innerHTML = '<span>Enviar Mensaje</span>';
                     }, 3000);
                     
-                    // Show alert message
-                    alert("¡Mensaje enviado! Te contactaré pronto desde carlosfreire777@gmail.com");
+                    // Ya no mostramos alerta del navegador, solo el mensaje en la aplicación
+                    console.log("Mensaje enviado correctamente");
                 })
                 .catch(function(error) {
                     console.log('FAILED...', error);
