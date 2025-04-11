@@ -67,7 +67,7 @@ def get_weather_data():
         
         # Condiciones no operables (rojo)
         if current_rain > 1.5 or current_wind > 30:
-            flight_status = "not_recommended"  # Rojo - No recomendable
+            flight_status = "not-recommended"  # Rojo - No recomendable
             
             if current_rain > 1.5:
                 no_fly_reason = "Lluvia excesiva"
@@ -135,7 +135,7 @@ def get_weather_data():
             
             # Condiciones no operables (rojo)
             if rain_amount > 1.5 or wind > 30:
-                day_flight_status = "not_recommended"  # Rojo
+                day_flight_status = "not-recommended"  # Rojo
             
             # Condiciones por determinar (naranja)
             elif rain_amount > 0.5 and rain_amount <= 1.5:
