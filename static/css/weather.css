@@ -282,21 +282,29 @@
 .flight-status-optimal {
     background: linear-gradient(to bottom, #e3ffe3, #d4ffd4);
     border-color: #b5e5b5;
+    color: #1a8e1a;
+    box-shadow: 0 0 8px rgba(26, 142, 26, 0.3);
 }
 
 .flight-status-possible {
     background: linear-gradient(to bottom, #fff9e3, #fff3d4);
     border-color: #e5d8b5;
+    color: #c7843a;
+    box-shadow: 0 0 8px rgba(199, 132, 58, 0.3);
 }
 
 .flight-status-caution {
     background: linear-gradient(to bottom, #fff0d9, #ffecb5);
     border-color: #ffd699;
+    color: #e67e22;
+    box-shadow: 0 0 8px rgba(230, 126, 34, 0.3);
 }
 
 .flight-status-not-recommended {
-    background: linear-gradient(to bottom, #ffeeee, #ffdddd);
-    border-color: #ffcccc;
+    background: linear-gradient(to bottom, #ffdddd, #ffbbbb);
+    border-color: #ff9999;
+    color: #e63946;
+    box-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
 }
 
 /* Para compatibilidad con el código anterior */
