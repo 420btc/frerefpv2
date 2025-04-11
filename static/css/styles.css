@@ -1043,6 +1043,10 @@ body {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: all var(--transition-normal) ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .service-card:hover {
@@ -1068,6 +1072,9 @@ body {
 
 .service-content {
     padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .service-content h3 {
@@ -1086,6 +1093,10 @@ body {
     flex-direction: column;
     gap: var(--spacing-2);
     margin-bottom: var(--spacing-6);
+}
+
+.service-card .btn-primary {
+    margin-top: auto;
 }
 
 .detail {
