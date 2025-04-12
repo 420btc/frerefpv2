@@ -67,9 +67,9 @@
     </div>
 </section>
 
-<section class="testimonials" style="background-color: #1a2035; padding: 4rem 0; margin-top: 3rem; color: #fff;">
+<section class="testimonials" style="background-color: #1a2035; padding: 2.6rem 0; margin-top: 3rem; color: #fff;">
     <div class="container">
-        <h2 class="section-title" style="color: #fff; margin-bottom: 2.5rem; font-size: 2.2rem; position: relative; text-align: center;"">Lo que dicen mis clientes</h2>
+        <h2 class="section-title" style="color: #fff; margin-bottom: 1.8rem; font-size: 2.2rem; position: relative; text-align: center;">Lo que dicen mis clientes</h2>
         <div class="testimonial-slider">
             <div class="testimonial-slide">
                 <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
@@ -77,6 +77,7 @@
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Ana Martínez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Propietaria Villa en Marbella</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">15 marzo 2024</span>
                     </div>
                 </div>
             </div>
@@ -86,6 +87,7 @@
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Juan Gómez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Organizador de Eventos</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">7 junio 2024</span>
                     </div>
                 </div>
             </div>
@@ -95,6 +97,7 @@
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">María Sánchez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Directora de Colegio</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">12 septiembre 2024</span>
                     </div>
                 </div>
             </div>
@@ -104,6 +107,7 @@
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Roberto Núñez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Agente Inmobiliario</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">5 noviembre 2024</span>
                     </div>
                 </div>
             </div>
@@ -113,6 +117,7 @@
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Elena y Pedro Jiménez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Recién casados</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">8 enero 2025</span>
                     </div>
                 </div>
             </div>
@@ -124,10 +129,36 @@
             <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
             <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
         </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <button id="add-testimonial-btn" class="btn-primary" style="background-color: #ff7d00; color: white; border: none; padding: 12px 24px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Añadir mi opinión</button>
+        </div>
     </div>
 </section>
 
 
+
+<!-- Modal para añadir testimonios -->
+<div id="testimonial-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);">
+    <div class="modal-content" style="background-color: #1a2035; margin: 10% auto; padding: 30px; border: 1px solid var(--color-primary); width: 80%; max-width: 600px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); position: relative;">
+        <span class="close-modal" style="color: #ff7d00; float: right; font-size: 28px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">&times;</span>
+        <h2 style="color: white; text-align: center; margin-bottom: 20px; font-size: 1.8rem;">Comparte tu experiencia</h2>
+        <form id="testimonial-form">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="testimonial-name" style="display: block; color: white; margin-bottom: 8px; font-weight: 500;">Nombre completo</label>
+                <input type="text" id="testimonial-name" name="testimonial-name" style="width: 100%; padding: 12px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: white;" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="testimonial-role" style="display: block; color: white; margin-bottom: 8px; font-weight: 500;">Ocupación o empresa</label>
+                <input type="text" id="testimonial-role" name="testimonial-role" style="width: 100%; padding: 12px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: white;" placeholder="Ej: Propietario de negocio, Fotógrafo, etc." required>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="testimonial-text" style="display: block; color: white; margin-bottom: 8px; font-weight: 500;">Tu opinión</label>
+                <textarea id="testimonial-text" name="testimonial-text" style="width: 100%; padding: 12px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: white; height: 120px;" placeholder="Cuéntanos tu experiencia con Freire FPV..." required></textarea>
+            </div>
+            <button type="submit" style="width: 100%; background-color: #ff7d00; color: white; border: none; padding: 14px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 10px;">Enviar opinión</button>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -288,14 +319,22 @@
     document.addEventListener('DOMContentLoaded', function() {
         const slides = document.querySelectorAll('.testimonial-slide');
         const dots = document.querySelectorAll('.dot');
+        const testimonialContainer = document.querySelector('.testimonial-slider');
+        const dotsContainer = document.querySelector('.testimonial-dots');
         let currentSlide = 0;
 
         function showSlide(n) {
             slides.forEach(slide => slide.style.display = 'none');
-            dots.forEach(dot => dot.classList.remove('active'));
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                dot.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+                dot.style.transform = 'scale(1)';
+            });
             
             slides[n].style.display = 'block';
             dots[n].classList.add('active');
+            dots[n].style.backgroundColor = 'var(--color-primary)';
+            dots[n].style.transform = 'scale(1.2)';
             currentSlide = n;
         }
 
@@ -307,16 +346,133 @@
         // Initialize
         showSlide(0);
         
-        // Auto-rotate
-        setInterval(nextSlide, 5000);
+        // Auto-rotate with a paused state variable
+        let isRotationPaused = false;
+        const slideInterval = setInterval(() => {
+            if (!isRotationPaused) {
+                nextSlide();
+            }
+        }, 5000);
         
-        // Click on dots
+        // Click on dots - pause rotation temporarily when user interacts
         dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => showSlide(index));
+            dot.addEventListener('click', () => {
+                isRotationPaused = true;
+                showSlide(index);
+                // Resume auto-rotation after user interaction
+                setTimeout(() => {
+                    isRotationPaused = false;
+                }, 10000);  // Pause for 10 seconds
+            });
         });
 
-        // Los modales de equipamiento han sido reemplazados por páginas independientes
-        console.log('Los modales de equipamiento han sido reemplazados por páginas independientes');
+        // Modal functionality for adding testimonials
+        const testimonialModal = document.getElementById('testimonial-modal');
+        const addTestimonialBtn = document.getElementById('add-testimonial-btn');
+        const closeModalBtn = testimonialModal.querySelector('.close-modal');
+        const testimonialForm = document.getElementById('testimonial-form');
+        
+        // Open modal
+        addTestimonialBtn.addEventListener('click', () => {
+            testimonialModal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            isRotationPaused = true; // Pause rotation when modal is open
+        });
+        
+        // Close modal
+        closeModalBtn.addEventListener('click', () => {
+            testimonialModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scrolling
+            isRotationPaused = false; // Resume rotation
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === testimonialModal) {
+                testimonialModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                isRotationPaused = false;
+            }
+        });
+        
+        // Handle form submission
+        testimonialForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('testimonial-name').value;
+            const role = document.getElementById('testimonial-role').value;
+            const text = document.getElementById('testimonial-text').value;
+            
+            // Create new testimonial
+            const newTestimonial = createNewTestimonial(name, role, text);
+            
+            // Add to slider
+            testimonialContainer.appendChild(newTestimonial);
+            
+            // Add new dot
+            const newDot = document.createElement('span');
+            newDot.className = 'dot';
+            newDot.style.width = '12px';
+            newDot.style.height = '12px';
+            newDot.style.borderRadius = '50%';
+            newDot.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            newDot.style.margin = '0 6px';
+            newDot.style.cursor = 'pointer';
+            dotsContainer.appendChild(newDot);
+            
+            // Update slides and dots arrays
+            const allSlides = document.querySelectorAll('.testimonial-slide');
+            const allDots = document.querySelectorAll('.dot');
+            
+            // Add click event to new dot
+            newDot.addEventListener('click', () => {
+                isRotationPaused = true;
+                showSlide(allSlides.length - 1);
+                setTimeout(() => {
+                    isRotationPaused = false;
+                }, 10000);
+            });
+            
+            // Show the new testimonial
+            showSlide(allSlides.length - 1);
+            
+            // Close modal
+            testimonialModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Reset form
+            testimonialForm.reset();
+            
+            // Show message
+            alert('¡Gracias por compartir tu opinión!');
+        });
+        
+        // Function to create new testimonial
+        function createNewTestimonial(name, role, text) {
+            const today = new Date();
+            const day = today.getDate();
+            const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+            const month = monthNames[today.getMonth()];
+            const year = today.getFullYear();
+            const dateString = `${day} ${month} ${year}`;
+            
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-slide';
+            
+            slide.innerHTML = `
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"${text}"</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">${name}</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">${role}</span>
+                        <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">${dateString}</span>
+                    </div>
+                </div>
+            `;
+            
+            return slide;
+        }
     });
 </script>
 {% endblock %}
