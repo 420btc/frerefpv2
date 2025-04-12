@@ -15,9 +15,9 @@
         <div class="battery-header">
             <h2>Sistema completo de alimentación</h2>
             <p class="battery-intro-text">Dispongo de todas las baterías LiPo (Litio-Polímero) necesarias para mantener mis drones en el aire durante toda la sesión, ajustadas a cada tipo de grabación.</p>
+            <p class="battery-intro-text">Las baterías LiPo requieren un manejo profesional y cuidadoso. Utilizo protocolos estrictos de carga, almacenamiento y transporte para garantizar la seguridad en todas las sesiones.</p>
             <div class="battery-warning">
                 <i class="fas fa-exclamation-triangle"></i>
-                <p>Las baterías LiPo requieren un manejo profesional y cuidadoso. Utilizo protocolos estrictos de carga, almacenamiento y transporte para garantizar la seguridad en todas las sesiones.</p>
             </div>
         </div>
         
@@ -135,10 +135,21 @@
 
 {% block styles %}
 <style>
-    /* Estilos para la introducción */
+    /* Estilos para la introducción y el encabezado de baterías */
     .battery-intro {
         text-align: center;
         margin-bottom: var(--spacing-10);
+    }
+    
+    .battery-header {
+        text-align: center;
+        margin-bottom: var(--spacing-10);
+    }
+    
+    .battery-header h2 {
+        font-size: var(--font-size-3xl);
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-4);
     }
     
     .battery-intro h2 {
@@ -150,8 +161,33 @@
     .battery-intro-text {
         font-size: var(--font-size-lg);
         max-width: 800px;
-        margin: 0 auto;
+        margin: 0 auto var(--spacing-4);
         color: var(--color-dark);
+    }
+    
+    .battery-warning {
+        text-align: center;
+        margin: var(--spacing-6) auto;
+    }
+    
+    .battery-warning i {
+        font-size: 2.5rem;
+        color: #ff6b00;
+        display: inline-block;
+        transform: scale(1);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
     
     /* Estilos para el grid de tarjetas */
