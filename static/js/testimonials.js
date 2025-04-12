@@ -376,8 +376,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                         showSlide(slides.length - 1);
                         
-                        // Guardar timestamp para control de frecuencia
+                        // Guardar timestamp para control de frecuencia y token para identificación
                         localStorage.setItem('lastTestimonialTime', Date.now());
+                        localStorage.setItem('myTestimonialToken', token);
                         
                         // Configurar estado
                         canAddTestimonial = false;
