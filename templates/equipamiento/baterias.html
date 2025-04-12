@@ -12,80 +12,108 @@
 
 <section class="equipment-detail">
     <div class="container">
-        <div class="battery-intro">
+        <div class="battery-header">
             <h2>Sistema completo de alimentación</h2>
-            <p class="battery-intro-text">Dispongo de todas las baterías necesarias para mantener mis drones en el aire durante toda la sesión de grabación, sin importar la duración del proyecto.</p>
-        </div>
-        
-        <div class="battery-grid">
-            <div class="battery-card">
-                <div class="battery-card-icon">
-                    <i class="fas fa-battery-full"></i>
-                </div>
-                <h3>Baterías LiPo 6S</h3>
-                <p>Proporcionan la máxima potencia para el Manta 5 y el Chimera 7. Ideales para vuelos que requieren velocidad, ascensos rápidos y maniobras exigentes en condiciones adversas.</p>
-                <ul class="battery-card-features">
-                    <li>Voltaje: 22.2V</li>
-                    <li>Alta tasa de descarga</li>
-                    <li>Máxima potencia disponible</li>
-                </ul>
-            </div>
-            
-            <div class="battery-card">
-                <div class="battery-card-icon">
-                    <i class="fas fa-battery-full"></i>
-                </div>
-                <h3>Baterías LiPo 4S</h3>
-                <p>El equilibrio perfecto entre potencia y tiempo de vuelo. Utilizadas principalmente con el Cinelog 25, ofrecen la combinación ideal de rendimiento y duración.</p>
-                <ul class="battery-card-features">
-                    <li>Voltaje: 14.8V</li>
-                    <li>Buena relación peso/potencia</li>
-                    <li>Versátiles para diversos drones</li>
-                </ul>
-            </div>
-            
-            <div class="battery-card">
-                <div class="battery-card-icon">
-                    <i class="fas fa-route"></i>
-                </div>
-                <h3>Baterías Long Range</h3>
-                <p>Especialmente diseñadas para el Flywoo LR4 y misiones de largo alcance. Estas baterías optimizan la duración sobre la potencia máxima para vuelos extendidos.</p>
-                <ul class="battery-card-features">
-                    <li>Alta densidad energética</li>
-                    <li>Autonomía extendida</li>
-                    <li>Ideal para filmaciones panorámicas</li>
-                </ul>
-            </div>
-            
-            <div class="battery-card">
-                <div class="battery-card-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <h3>Baterías DJI originales</h3>
-                <p>Diseñadas específicamente para el DJI Mini 2, estas baterías inteligentes ofrecen hasta 30 minutos de vuelo con protecciones integradas para máxima seguridad.</p>
-                <ul class="battery-card-features">
-                    <li>Sistema inteligente integrado</li>
-                    <li>Auto-descarga de protección</li>
-                    <li>Indicadores LED de nivel</li>
-                </ul>
+            <p class="battery-intro-text">Dispongo de todas las baterías LiPo (Litio-Polímero) necesarias para mantener mis drones en el aire durante toda la sesión, ajustadas a cada tipo de grabación.</p>
+            <div class="battery-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Las baterías LiPo requieren un manejo profesional y cuidadoso. Utilizo protocolos estrictos de carga, almacenamiento y transporte para garantizar la seguridad en todas las sesiones.</p>
             </div>
         </div>
         
-        <div class="battery-system">
-            <div class="battery-system-content">
-                <h3>Sistema de carga avanzado</h3>
-                <p>Para mantener todas las baterías listas durante las sesiones de grabación, cuento con un sistema de carga múltiple que permite cargar hasta 4 baterías simultáneamente. Esto asegura que siempre tendremos energía disponible sin interrupciones.</p>
-                <p>Adicionalmente, mantengo un stock completo de baterías de repuesto para todos los equipos, garantizando sesiones de trabajo continuas incluso en localizaciones remotas sin acceso a electricidad.</p>
+        <div class="equipment-items">
+            <div class="equipment-detail-item">
+                <h2>MINISTAR 1500mAh 4S 120C</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Batería de alta potencia 4S</p>
+                        <p class="detail-description">
+                            Las baterías MINISTAR 4S son mi elección principal para el Cinelog 25, ofreciendo el equilibrio perfecto entre potencia y tiempo de vuelo. Con una tasa de descarga de 120C, proporcionan la energía necesaria para maniobras precisas y filmaciones estables.
+                        </p>
+                        <ul class="detail-features">
+                            <li><i class="fas fa-bolt"></i> Voltaje: 14.8V (4 celdas en serie)</li>
+                            <li><i class="fas fa-weight"></i> Peso ultraligero optimizado para FPV</li>
+                            <li><i class="fas fa-tachometer-alt"></i> Tasa de descarga 120C para respuesta inmediata</li>
+                            <li><i class="fas fa-hourglass-half"></i> Capacidad de 1500mAh (22.2Wh)</li>
+                            <li><i class="fas fa-shield-alt"></i> Sistema de protección contra sobrecargas</li>
+                        </ul>
+                        <div class="battery-tip">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Ideal para: Vuelos de precisión en espacios reducidos y grabaciones que requieren movimientos fluidos.</p>
+                        </div>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/baterias/ministar_4s.jpg') }}?t=1744424500" alt="Batería MINISTAR 4S">
+                    </div>
+                </div>
             </div>
-            <div class="battery-image-container">
-                <img src="{{ url_for('static', filename='img/equipamiento/baterias/lipo.jpg') }}?t=1744169500" alt="Sistema de baterías profesional LiPo">
+
+            <div class="equipment-detail-item">
+                <h2>MINISTAR 1800mAh 6S 120C</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Batería de máxima potencia 6S</p>
+                        <p class="detail-description">
+                            Las baterías MINISTAR 6S son esenciales para el Manta 5 y el Chimera 7, proporcionando la máxima potencia para vuelos en condiciones exigentes. Su alta capacidad y voltaje permiten ascensos rápidos y mayor carga útil para equipos profesionales.
+                        </p>
+                        <ul class="detail-features">
+                            <li><i class="fas fa-bolt"></i> Voltaje: 22.2V (6 celdas en serie)</li>
+                            <li><i class="fas fa-wind"></i> Rendimiento superior en condiciones de viento</li>
+                            <li><i class="fas fa-tachometer-alt"></i> Tasa de descarga 120C para potencia instantánea</li>
+                            <li><i class="fas fa-hourglass-half"></i> Capacidad de 1800mAh (39.96Wh)</li>
+                            <li><i class="fas fa-mountain"></i> Ideal para vuelos a gran altura y distancia</li>
+                        </ul>
+                        <div class="battery-tip">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Ideal para: Grabaciones en exteriores, naturaleza, y situaciones que requieren vuelos potentes o a larga distancia.</p>
+                        </div>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/baterias/ministar_6s.jpg') }}?t=1744424500" alt="Batería MINISTAR 6S">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="equipment-detail-item">
+                <h2>Sistema de Carga Profesional</h2>
+                <div class="detail-info">
+                    <div class="detail-text">
+                        <p class="detail-category">Carga segura y eficiente</p>
+                        <p class="detail-description">
+                            Mi sistema de carga profesional garantiza que todas las baterías estén siempre disponibles para sesiones extendidas. Cuento con cargadores de campo y baterías de repuesto para todos los equipos.
+                        </p>
+                        <ul class="detail-features">
+                            <li><i class="fas fa-plug"></i> Cargadores inteligentes multicelda</li>
+                            <li><i class="fas fa-car-battery"></i> Capacidad para cargar 4 baterías simultáneamente</li>
+                            <li><i class="fas fa-shield-alt"></i> Monitorización en tiempo real de temperatura y voltaje</li>
+                            <li><i class="fas fa-sync"></i> Sistema de balanceo para mayor vida útil</li>
+                            <li><i class="fas fa-briefcase"></i> Estuches de transporte con certificación de seguridad</li>
+                        </ul>
+                        <div class="battery-safety">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div class="safety-content">
+                                <h4>Protocolos de seguridad</h4>
+                                <p>Las baterías LiPo son almacenadas al 60% de carga para maximizar su vida útil y transportadas en bolsas ignífugas especiales según normativas de seguridad aérea.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-image">
+                        <img src="{{ url_for('static', filename='img/equipamiento/baterias/lipo.jpg') }}?t=1744169500" alt="Sistema de carga profesional">
+                    </div>
+                </div>
             </div>
         </div>
         
         <div class="battery-guarantee">
-            <h3>Mi garantía de energía continua</h3>
-            <p>Nunca tendrás que preocuparte por quedarte sin energía durante una sesión de grabación. Mi sistema completo de baterías y cargadores asegura que podamos trabajar sin interrupciones durante todo el tiempo que sea necesario para tu proyecto.</p>
+            <div class="guarantee-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="guarantee-content">
+                <h3>Mi garantía de energía continua</h3>
+                <p>Nunca tendrás que preocuparte por quedarte sin energía durante una sesión de grabación. Mi sistema completo de baterías y cargadores asegura que podamos trabajar sin interrupciones durante todo el tiempo que sea necesario para tu proyecto.</p>
+            </div>
         </div>
+    </div>
 
         <div class="equipment-navigation">
             <a href="{{ url_for('mi_equipo') }}" class="btn-secondary">Volver a Equipamiento</a>
