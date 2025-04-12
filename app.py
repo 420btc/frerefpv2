@@ -253,5 +253,87 @@ def equipamiento_baterias():
 def equipamiento_software():
     return render_template("equipamiento/software.html", emailjs_public_key=emailjs_public_key)
 
+# API para testimonios
+@app.route("/api/testimonios", methods=["GET"])
+def get_testimonios():
+    """API para obtener todos los testimonios aprobados"""
+    testimonios = Testimonio.query.filter_by(aprobado=True).order_by(Testimonio.fecha_creacion.desc()).all()
+    return jsonify({
+        "success": True,
+        "testimonios": [testimonio.to_dict() for testimonio in testimonios]
+    })
+
+@app.route("/api/testimonios", methods=["POST"])
+def add_testimonio():
+    """API para añadir un nuevo testimonio"""
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"success": False, "error": "No se recibieron datos"}), 400
+        
+        # Validar datos obligatorios
+        if not all(key in data for key in ['nombre', 'ocupacion', 'texto']):
+            return jsonify({"success": False, "error": "Faltan campos obligatorios"}), 400
+        
+        # Obtener la IP del cliente
+        ip_address = request.remote_addr
+        
+        # Verificar si ya hay un testimonio reciente de esta IP
+        last_testimonio = Testimonio.query.filter_by(ip_address=ip_address).order_by(Testimonio.fecha_creacion.desc()).first()
+        
+        if last_testimonio:
+            # Calcular días desde el último testimonio
+            days_passed = (datetime.utcnow() - last_testimonio.fecha_creacion).days
+            if days_passed < 7:
+                return jsonify({
+                    "success": False, 
+                    "error": f"Solo puedes añadir un testimonio cada 7 días. Te quedan {7 - days_passed} días."
+                }), 429
+        
+        # Generar un token único para identificación del testimonio
+        token = str(uuid.uuid4())
+        
+        # Crear nuevo testimonio
+        testimonio = Testimonio(
+            nombre=data['nombre'],
+            ocupacion=data['ocupacion'],
+            texto=data['texto'],
+            ip_address=ip_address,
+            token=token,
+            aprobado=True  # Por defecto aprobado
+        )
+        
+        db.session.add(testimonio)
+        db.session.commit()
+        
+        return jsonify({
+            "success": True,
+            "mensaje": "Testimonio añadido correctamente",
+            "testimonio": testimonio.to_dict(),
+            "token": token
+        })
+    
+    except Exception as e:
+        app.logger.error(f"Error al añadir testimonio: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/testimonios/<token>", methods=["DELETE"])
+def delete_testimonio(token):
+    """API para eliminar un testimonio por su token"""
+    try:
+        testimonio = Testimonio.query.filter_by(token=token).first()
+        
+        if not testimonio:
+            return jsonify({"success": False, "error": "Testimonio no encontrado"}), 404
+        
+        db.session.delete(testimonio)
+        db.session.commit()
+        
+        return jsonify({"success": True, "mensaje": "Testimonio eliminado correctamente"})
+    
+    except Exception as e:
+        app.logger.error(f"Error al eliminar testimonio: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
