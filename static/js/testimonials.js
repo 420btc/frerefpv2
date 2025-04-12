@@ -134,6 +134,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Verificar si el usuario es el propietario del testimonio
+        const myToken = localStorage.getItem('myTestimonialToken');
+        if (myToken !== token) {
+            showMessage('Solo puedes eliminar testimonios que tú has creado', true);
+            return;
+        }
+        
         if (!confirm('¿Estás seguro de que deseas eliminar este testimonio?')) {
             return;
         }
@@ -172,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Permitir añadir un nuevo testimonio
                     localStorage.removeItem('lastTestimonialTime');
+                    localStorage.removeItem('myTestimonialToken');
                     canAddTestimonial = true;
                 }
             } else {
