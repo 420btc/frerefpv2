@@ -1044,7 +1044,11 @@ body {
     box-shadow: var(--shadow);
     transition: all var(--transition-normal) ease;
     position: relative;
-    height: 650px; /* Altura fija para todas las tarjetas */
+}
+
+/* Estilo específico para las tarjetas de servicio en la página de servicios */
+.services-section .service-card {
+    height: 650px; /* Altura fija para las tarjetas en la página de servicios */
 }
 
 .service-card:hover {
