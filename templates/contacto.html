@@ -588,19 +588,19 @@
                     const windSpeed = {{ weather_data.current.wind|default(10) }}; // Velocidad en km/h
                     const windDirection = {{ weather_data.current.wind_deg|default(45) }}; // Dirección en grados
                     
-                    // Determinar el color del viento según la velocidad
+                    // Determinar el color del viento según la velocidad - Colores más vibrantes
                     let windColor;
                     if (windSpeed < 15) {
-                        windColor = '#4CAF50'; // Verde para vientos suaves (0-15 km/h)
+                        windColor = '#00E676'; // Verde vibrante para vientos suaves (0-15 km/h)
                     } else if (windSpeed < 35) {
-                        windColor = '#FF6B00'; // Naranja para vientos moderados (15-34 km/h)
+                        windColor = '#FF9800'; // Naranja vibrante para vientos moderados (15-34 km/h)
                     } else {
-                        windColor = '#FF0000'; // Rojo para vientos fuertes (>35 km/h)
+                        windColor = '#FF1744'; // Rojo vibrante para vientos fuertes (>35 km/h)
                     }
                     
-                    // Ajustar la visualización en función de la velocidad
-                    const opacity = Math.min(0.7, 0.4 + (windSpeed / 100)); // Mayor opacidad a mayor velocidad
-                    const width = Math.min(1.5, 0.8 + (windSpeed / 70)); // Ligero aumento de grosor con la velocidad
+                    // Ajustar la visualización - Mayor grosor y opacidad como solicitado
+                    const opacity = Math.min(0.9, 0.6 + (windSpeed / 100)); // Mayor opacidad
+                    const width = 1.5; // Grosor fijo de 1.5px como solicitado
                     
                     // Enfoque mejorado: Usar cuadrícula local en lugar de global
                     // Generar líneas solo para el área de Málaga y alrededores
@@ -609,7 +609,7 @@
                         [-3.5, 37.5]  // Noreste de la provincia
                     ];
                     
-                    const gridSize = 25; // Número de puntos en cada dirección (más denso)
+                    const gridSize = 30; // Número de puntos en cada dirección (aún más denso)
                     const cellSizeX = (malageaBounds[1][0] - malageaBounds[0][0]) / gridSize;
                     const cellSizeY = (malageaBounds[1][1] - malageaBounds[0][1]) / gridSize;
                     
@@ -679,7 +679,7 @@
                         }
                     });
                     
-                    // Animar las líneas de viento
+                    // Animar las líneas de viento con movimiento más pronunciado
                     let animationOffset = 0;
                     const animateWind = () => {
                         if (!map.getLayer('wind-lines')) {
@@ -687,12 +687,16 @@
                             return;
                         }
                         
-                        animationOffset = (animationOffset + 1) % 16; // Ciclo de la animación
+                        // Incremento más rápido para movimiento más notorio
+                        animationOffset = (animationOffset + 1.5) % 20; // Ciclo más largo y rápido
+                        
+                        // Patrón más dinámico para la animación
                         map.setPaintProperty('wind-lines', 'line-dasharray', [
                             0,
-                            4 - (animationOffset / 8), // Variar el patrón para crear movimiento
-                            3 + (animationOffset / 8)
+                            5 - (animationOffset / 6), // Mayor variación para movimiento más visible
+                            2 + (animationOffset / 4)
                         ]);
+                        
                         windAnimationId = requestAnimationFrame(animateWind);
                     };
                     
@@ -754,13 +758,13 @@
                     return;
                 }
                 
-                // Crear elemento para el marcador personalizado (reducido un 40% de tamaño)
+                // Crear elemento para el marcador personalizado (tamaño ajustado)
                 const markerElement = document.createElement('div');
                 markerElement.className = 'custom-marker';
                 markerElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/service-marker.svg')`;
                 markerElement.style.backgroundSize = 'cover';
-                markerElement.style.width = '18px'; // 30px - 40% = 18px
-                markerElement.style.height = '27px'; // 45px - 40% = 27px
+                markerElement.style.width = '20px'; // 18px + 10% = ~20px
+                markerElement.style.height = '30px'; // 27px + 10% = ~30px
                 
                 // Crear popup para el marcador
                 const popup = new mapboxgl.Popup({
