@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <button class="delete-testimonial" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--color-primary); font-size: 18px; cursor: pointer; opacity: 0.7; transition: all 0.3s ease;">&times;</button>
                             <p style="font-size: 1rem; line-height: 1.6; font-weight: 400; color: #fff; margin-bottom: 1rem; text-align: center; font-style: italic;">"${newTestimonial.texto}"</p>
                             <div class="client-info" style="text-align: center; margin-top: 1rem;">
-                                <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">${newTestimonial.nombre}</span>
+                                <span class="client-name">${newTestimonial.nombre}</span>
                                 <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">${newTestimonial.ocupacion}</span>
                                 <span class="testimonial-date" style="display: block; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-top: 0.5rem;">${new Date(newTestimonial.fecha_creacion).toLocaleDateString('es-ES', {
                                     day: 'numeric',
