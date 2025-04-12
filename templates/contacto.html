@@ -531,45 +531,148 @@
             
             const mapStyleButton = document.createElement('button');
             mapStyleButton.className = 'map-style-btn';
-            mapStyleButton.textContent = 'Cambiar Vista';
+            mapStyleButton.innerHTML = '<i class="fas fa-layer-group"></i>';
+            mapStyleButton.title = 'Cambiar vista del mapa';
             mapStyleButton.addEventListener('click', function() {
                 // Cambiar entre los estilos
                 currentMapStyle = currentMapStyle === 'satellite' ? 'streets' : 'satellite';
                 map.setStyle(mapStyles[currentMapStyle]);
                 
-                // Esperar a que el estilo se cargue para restaurar los marcadores
+                // Esperar a que el estilo se cargue para restaurar los marcadores y capas
                 map.once('style.load', function() {
                     // Intentar añadir la capa de viento después de cambiar el estilo
-                    addWindLayer();
+                    if (windLayerActive) {
+                        addWindLayer();
+                    }
                 });
             });
             
             mapStyleControl.appendChild(mapStyleButton);
             document.getElementById('map').appendChild(mapStyleControl);
             
-            // Función para añadir la capa de viento (probando implementación)
+            // Control para la capa de viento
+            const windLayerControl = document.createElement('div');
+            windLayerControl.className = 'wind-layer-control';
+            
+            const windLayerButton = document.createElement('button');
+            windLayerButton.className = 'wind-layer-btn';
+            windLayerButton.innerHTML = '<i class="fas fa-wind"></i>';
+            windLayerButton.title = 'Mostrar/ocultar capa de viento';
+            
+            // Estado de la capa de viento
+            let windLayerActive = false;
+            
+            windLayerButton.addEventListener('click', function() {
+                windLayerActive = !windLayerActive;
+                
+                if (windLayerActive) {
+                    windLayerButton.classList.add('wind-active');
+                    addWindLayer();
+                } else {
+                    windLayerButton.classList.remove('wind-active');
+                    removeWindLayer();
+                }
+            });
+            
+            windLayerControl.appendChild(windLayerButton);
+            document.getElementById('map').appendChild(windLayerControl);
+            
+            // Función para añadir la capa de viento
             function addWindLayer() {
                 try {
-                    // Intentar recuperar datos de viento actuales desde OpenWeather
-                    // Esta es una implementación inicial que se puede mejorar con datos reales de API
-                    if (map.getSource('wind-data')) {
-                        return; // Ya existe la capa, evitar duplicados
+                    // Eliminar la capa y fuente existentes si las hay
+                    removeWindLayer();
+                    
+                    // Obtener los datos de viento de la API del tiempo
+                    // Aquí usamos los datos del clima que ya tenemos en la página
+                    const windSpeed = {{ weather_data.current.wind|default(10) }}; // Velocidad en km/h
+                    const windDirection = {{ weather_data.current.wind_deg|default(45) }}; // Dirección en grados
+                    
+                    // Crear puntos para las líneas de viento basadas en un patrón de cuadrícula
+                    const gridSize = 30; // Número de puntos en cada dirección
+                    const windPoints = [];
+                    
+                    // Crear una cuadrícula de puntos que cubre el área visible
+                    const bounds = map.getBounds();
+                    const sw = bounds.getSouthWest();
+                    const ne = bounds.getNorthEast();
+                    
+                    const latStep = (ne.lat - sw.lat) / gridSize;
+                    const lngStep = (ne.lng - sw.lng) / gridSize;
+                    
+                    // Calcular componentes de viento basados en dirección y velocidad
+                    const windRadians = (windDirection * Math.PI) / 180;
+                    const windX = Math.sin(windRadians) * (windSpeed / 20); // Escalar para visualización
+                    const windY = Math.cos(windRadians) * (windSpeed / 20);
+                    
+                    // Normalizar la longitud de la línea basándose en la velocidad del viento
+                    const lineLength = Math.min(Math.max(windSpeed / 10, 0.1), 0.4);
+                    
+                    // Crear puntos de inicio y final para cada línea de viento
+                    for (let i = 0; i < gridSize; i++) {
+                        for (let j = 0; j < gridSize; j++) {
+                            const lat = sw.lat + i * latStep;
+                            const lng = sw.lng + j * lngStep;
+                            
+                            // Punto de inicio
+                            windPoints.push({
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'LineString',
+                                    'coordinates': [
+                                        [lng, lat],
+                                        [lng + windX * lineLength, lat + windY * lineLength]
+                                    ]
+                                },
+                                'properties': {
+                                    'speed': windSpeed,
+                                    'direction': windDirection
+                                }
+                            });
+                        }
                     }
                     
-                    // Simulación de datos de viento para visualización inicial
-                    // En una implementación completa, estos datos vendrían de una API de clima
-                    // Las líneas serán de color naranja y sutiles (1px) como solicitado
-                    console.log('Inicializando capa de viento (implementación preliminar)');
+                    // Añadir la fuente de datos
+                    map.addSource('wind-data', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': windPoints
+                        }
+                    });
                     
-                    // Aquí se implementaría la conexión real a una API de viento
-                    // Por ahora, solo mostramos la estructura y preparamos el terreno
+                    // Añadir la capa de líneas
+                    map.addLayer({
+                        'id': 'wind-lines',
+                        'type': 'line',
+                        'source': 'wind-data',
+                        'layout': {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#FF6B00', // Color naranja
+                            'line-width': 1, // Ancho de 1px como solicitado
+                            'line-opacity': 0.6 // Ligeramente transparente para ser sutil
+                        }
+                    });
+                    
+                    console.log('Capa de viento añadida con éxito');
                 } catch (error) {
                     console.error('Error al añadir capa de viento:', error);
                 }
             }
             
-            // Intentar añadir la capa de viento inicialmente
-            addWindLayer();
+            // Función para eliminar la capa de viento
+            function removeWindLayer() {
+                if (map.getLayer('wind-lines')) {
+                    map.removeLayer('wind-lines');
+                }
+                
+                if (map.getSource('wind-data')) {
+                    map.removeSource('wind-data');
+                }
+            }
             
             // Añadir marcadores para cada área de servicio
             serviceAreas.forEach(area => {

@@ -1745,31 +1745,63 @@ body {
 
 .map-style-control {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 85px; /* 10px (margen) + 75px (altura de otros dos controles) */
+    right: 10px;
     z-index: 1;
-    background-color: white;
-    border-radius: 4px;
-    padding: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: var(--font-family);
 }
 
 .map-style-btn {
-    background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-    color: white;
+    width: 30px;
+    height: 30px;
+    background-color: white;
     border: none;
     border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 15px;
+    color: #333;
     transition: all 0.3s ease;
-    font-weight: 500;
 }
 
 .map-style-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f2f2f2;
+}
+
+.wind-layer-control {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.wind-layer-btn {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 15px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.wind-layer-btn:hover {
+    background-color: #f2f2f2;
+}
+
+.wind-active {
+    background-color: rgba(255, 107, 0, 0.2);
+    color: #FF6B00;
 }
 
 .service-areas {
