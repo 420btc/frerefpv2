@@ -743,9 +743,9 @@
                 
                 // Esperar a que el estilo se cargue para restaurar los marcadores y capas
                 map.once('style.load', function() {
-                    // Intentar añadir la capa de viento después de cambiar el estilo
+                    // Intentar mostrar la brújula de viento después de cambiar el estilo
                     if (windLayerActive) {
-                        addWindLayer();
+                        showWindCompass();
                     }
                 });
             });
@@ -996,6 +996,7 @@
             
             // Función para mostrar la brújula de viento
             function showWindCompass() {
+                console.log('Mostrando brújula de viento');
                 // Eliminar cualquier brújula existente
                 removeWindLayer();
                 
