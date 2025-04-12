@@ -1063,6 +1063,9 @@
                         <div class="wind-compass-header">
                             <h3>Datos del Viento</h3>
                             <span class="wind-update-time">Actualizado: ${formattedDate} ${formattedTime}</span>
+                            <button class="wind-compass-close" aria-label="Cerrar">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                         <div class="wind-compass-content">
                             <div class="wind-compass-data">
@@ -1097,6 +1100,17 @@
                 if (mapContainer) {
                     mapContainer.appendChild(windCompassContainer);
                     console.log('Brújula añadida al mapa');
+                    
+                    // Configurar el botón de cierre
+                    const closeButton = document.querySelector('.wind-compass-close');
+                    if (closeButton) {
+                        closeButton.addEventListener('click', function() {
+                            // Desactivar la capa de viento
+                            windLayerActive = false;
+                            windLayerButton.classList.remove('wind-active');
+                            removeWindLayer();
+                        });
+                    }
                 } else {
                     console.error('No se encontró el contenedor del mapa');
                     // Añadir a la página en caso de que el mapa no esté disponible
