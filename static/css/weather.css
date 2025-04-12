@@ -470,6 +470,8 @@
 
 .weather-policy-info li {
     margin-bottom: var(--spacing-1);
+    line-height: 1.5;
+    padding-right: 10px;
 }
 
 .weather-policy-info strong {
