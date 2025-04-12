@@ -325,6 +325,10 @@ def delete_testimonio(token):
         
         if not testimonio:
             return jsonify({"success": False, "error": "Testimonio no encontrado"}), 404
+            
+        # Asegurarnos de que el testimonio tiene un token válido (no puede ser nulo o vacío)
+        if not testimonio.token or testimonio.token.strip() == "":
+            return jsonify({"success": False, "error": "No se pueden eliminar testimonios del sistema"}), 403
         
         db.session.delete(testimonio)
         db.session.commit()
