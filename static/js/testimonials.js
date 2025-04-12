@@ -134,6 +134,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Verificar si es un testimonio del sistema
+        if (token === 'system') {
+            showMessage('Este testimonio no puede ser eliminado. Es un testimonio verificado.', true);
+            return;
+        }
+        
         // Verificar si el usuario es el propietario del testimonio
         const myToken = localStorage.getItem('myTestimonialToken');
         if (myToken !== token) {
