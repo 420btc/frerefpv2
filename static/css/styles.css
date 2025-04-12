@@ -1773,9 +1773,9 @@ body {
 
 .wind-layer-control {
     position: absolute;
-    bottom: 10px;
-    left: 10px; /* Cambiado a la izquierda como solicitado */
-    z-index: 1;
+    bottom: 50px; /* Subido para no quedar debajo de la marca de agua de Mapbox */
+    left: 10px;
+    z-index: 10; /* Mayor z-index para asegurar visibilidad */
 }
 
 .wind-layer-btn {

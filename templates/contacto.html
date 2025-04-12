@@ -602,17 +602,16 @@
                     const opacity = Math.min(0.7, 0.4 + (windSpeed / 100)); // Mayor opacidad a mayor velocidad
                     const width = Math.min(1.5, 0.8 + (windSpeed / 70)); // Ligero aumento de grosor con la velocidad
                     
-                    // CONFIGURAR CUADRÍCULA GLOBAL
-                    // En lugar de basarse en el área visible actual, crear una cuadrícula global
-                    // para que las líneas permanezcan al hacer zoom
-                    const worldBounds = [
-                        [-180, -85], // Esquina sur-oeste del mundo
-                        [180, 85]    // Esquina nor-este del mundo
+                    // Enfoque mejorado: Usar cuadrícula local en lugar de global
+                    // Generar líneas solo para el área de Málaga y alrededores
+                    const malageaBounds = [
+                        [-5.5, 36.2], // Suroeste de la provincia
+                        [-3.5, 37.5]  // Noreste de la provincia
                     ];
                     
-                    const gridSize = 50; // Número de puntos en cada dirección
-                    const cellSizeX = (worldBounds[1][0] - worldBounds[0][0]) / gridSize;
-                    const cellSizeY = (worldBounds[1][1] - worldBounds[0][1]) / gridSize;
+                    const gridSize = 25; // Número de puntos en cada dirección (más denso)
+                    const cellSizeX = (malageaBounds[1][0] - malageaBounds[0][0]) / gridSize;
+                    const cellSizeY = (malageaBounds[1][1] - malageaBounds[0][1]) / gridSize;
                     
                     // Calcular componentes de viento basados en dirección y velocidad
                     const windRadians = (windDirection * Math.PI) / 180;
@@ -620,15 +619,19 @@
                     const windY = Math.cos(windRadians) * (windSpeed / 20);
                     
                     // Normalizar la longitud de la línea basándose en la velocidad del viento
-                    const lineLength = Math.min(Math.max(windSpeed / 10, 0.1), 0.4);
+                    // Líneas más largas para que sean más visibles
+                    const lineLength = Math.min(Math.max(windSpeed / 8, 0.15), 0.45);
                     
                     const windPoints = [];
                     
-                    // Crear puntos de inicio y final para cada línea de viento en la cuadrícula global
+                    // Crear puntos de inicio y final para cada línea de viento
                     for (let i = 0; i < gridSize; i++) {
                         for (let j = 0; j < gridSize; j++) {
-                            const lng = worldBounds[0][0] + i * cellSizeX + (Math.random() * cellSizeX * 0.7);
-                            const lat = worldBounds[0][1] + j * cellSizeY + (Math.random() * cellSizeY * 0.7);
+                            const lng = malageaBounds[0][0] + i * cellSizeX + (Math.random() * cellSizeX * 0.5);
+                            const lat = malageaBounds[0][1] + j * cellSizeY + (Math.random() * cellSizeY * 0.5);
+                            
+                            // Agregar variación para que no todas las líneas tengan la misma longitud
+                            const variationFactor = 0.8 + (Math.random() * 0.4); // Entre 0.8 y 1.2
                             
                             // Punto de inicio y final (línea)
                             windPoints.push({
@@ -637,7 +640,8 @@
                                     'type': 'LineString',
                                     'coordinates': [
                                         [lng, lat],
-                                        [lng + windX * lineLength, lat + windY * lineLength]
+                                        [lng + windX * lineLength * variationFactor, 
+                                         lat + windY * lineLength * variationFactor]
                                     ]
                                 },
                                 'properties': {
@@ -664,7 +668,8 @@
                         'source': 'wind-data',
                         'layout': {
                             'line-join': 'round',
-                            'line-cap': 'round'
+                            'line-cap': 'round',
+                            'visibility': 'visible' // Asegurar que sea visible
                         },
                         'paint': {
                             'line-color': windColor, // Color según velocidad
@@ -677,6 +682,11 @@
                     // Animar las líneas de viento
                     let animationOffset = 0;
                     const animateWind = () => {
+                        if (!map.getLayer('wind-lines')) {
+                            // Si la capa fue eliminada, detener la animación
+                            return;
+                        }
+                        
                         animationOffset = (animationOffset + 1) % 16; // Ciclo de la animación
                         map.setPaintProperty('wind-lines', 'line-dasharray', [
                             0,
@@ -693,7 +703,7 @@
                     map.on('zoom', updateWindOnZoom);
                     map.on('move', updateWindOnZoom);
                     
-                    console.log('Capa de viento añadida con éxito');
+                    console.log('Capa de viento añadida con éxito - Color: ' + windColor);
                 } catch (error) {
                     console.error('Error al añadir capa de viento:', error);
                 }
@@ -739,23 +749,42 @@
             
             // Añadir marcadores para cada área de servicio
             serviceAreas.forEach(area => {
-                // Crear elemento para el marcador personalizado
+                // Saltamos Málaga Capital, la dejamos en la lista pero sin marcador en el mapa
+                if (area.name === 'Málaga Capital') {
+                    return;
+                }
+                
+                // Crear elemento para el marcador personalizado (reducido un 40% de tamaño)
                 const markerElement = document.createElement('div');
                 markerElement.className = 'custom-marker';
                 markerElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/service-marker.svg')`;
                 markerElement.style.backgroundSize = 'cover';
-                markerElement.style.width = '30px';
-                markerElement.style.height = '45px';
+                markerElement.style.width = '18px'; // 30px - 40% = 18px
+                markerElement.style.height = '27px'; // 45px - 40% = 27px
                 
                 // Crear popup para el marcador
                 const popup = new mapboxgl.Popup({
-                    offset: 25,
+                    offset: 15, // Ajustado para el nuevo tamaño
                     closeButton: false
                 }).setHTML(`<h3>${area.name}</h3><p>${area.description}</p>`);
                 
+                // Coordenadas ajustadas para las distintas áreas
+                let adjustedCoords = [...area.coordinates];
+                
+                // Ajustes específicos para cada localidad para centrar mejor los iconos
+                if (area.name === 'Rincón de la Victoria') {
+                    adjustedCoords = [-4.2773, 36.7222]; // Ajustado para mejor posición
+                } else if (area.name === 'Antequera') {
+                    adjustedCoords = [-4.5633, 37.0212]; // Ajustado para mejor posición
+                } else if (area.name === 'Marbella') {
+                    adjustedCoords = [-4.8862, 36.5122]; // Ajustado para mejor posición
+                } else if (area.name === 'Torremolinos') {
+                    adjustedCoords = [-4.4986, 36.6245]; // Ajustado para mejor posición
+                }
+                
                 // Añadir marcador al mapa
                 new mapboxgl.Marker(markerElement)
-                    .setLngLat(area.coordinates)
+                    .setLngLat(adjustedCoords)
                     .setPopup(popup)
                     .addTo(map);
             });
