@@ -10,10 +10,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}?v={{ range(100000, 999999) | random }}">
 {% endblock %}
 
-{% block scripts %}
-<script src="{{ url_for('static', filename='js/testimonials.js') }}?v={{ range(100000, 999999) | random }}"></script>
-{% endblock %}
-
 {% block content %}
 <section class="page-header">
     <div class="container">
