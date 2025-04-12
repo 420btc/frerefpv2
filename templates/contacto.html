@@ -202,14 +202,18 @@
                                     </div>
                                     <div class="weather-warning {% if day.flight_status == 'optimal' %}status-optimal{% elif day.flight_status == 'possible' %}status-possible{% elif day.flight_status == 'caution' %}status-caution{% else %}status-not-recommended{% endif %}">
                                         <i class="fas {% if day.flight_status == 'optimal' %}fa-check-circle{% elif day.flight_status == 'possible' %}fa-exclamation-triangle{% elif day.flight_status == 'caution' %}fa-exclamation-circle{% else %}fa-times-circle{% endif %}"></i>
-                                        {% if day.flight_status == 'optimal' %}
-                                            Óptimo para vuelos
-                                        {% elif day.flight_status == 'possible' %}
-                                            Posible con precaución
-                                        {% elif day.flight_status == 'caution' %}
-                                            Por determinar situación
+                                        {% if day.status_text %}
+                                            {{ day.status_text }}
                                         {% else %}
-                                            No operable
+                                            {% if day.flight_status == 'optimal' %}
+                                                Óptimo para vuelos
+                                            {% elif day.flight_status == 'possible' %}
+                                                Posible con precaución
+                                            {% elif day.flight_status == 'caution' %}
+                                                Por determinar situación
+                                            {% else %}
+                                                No operable
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>
