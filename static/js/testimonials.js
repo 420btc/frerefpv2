@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Verificar si es un testimonio del sistema
         if (token === 'system') {
-            showMessage('Este testimonio no puede ser eliminado. Es un testimonio verificado.', true);
+            showMessage('Solo puedes eliminar testimonios que tú has creado', true);
             return;
         }
         
