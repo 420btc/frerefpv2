@@ -326,6 +326,90 @@
         font-size: 1.5rem;
         margin-bottom: 0;
     }
+    
+    /* Estilos para los popups personalizados */
+    .custom-popup {
+        padding: 5px;
+    }
+    
+    .custom-popup h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        color: #003366;
+        font-size: 16px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 5px;
+    }
+    
+    .popup-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .popup-badge-success {
+        background-color: #00e676;
+        color: #003300;
+    }
+    
+    .popup-badge-warning {
+        background-color: #ff9800;
+        color: #663300;
+    }
+    
+    .popup-details {
+        font-size: 13px;
+        color: #333;
+    }
+    
+    .popup-details p {
+        margin: 5px 0;
+        line-height: 1.4;
+    }
+    
+    .popup-details i {
+        margin-right: 5px;
+        color: #FF6B00;
+    }
+    
+    /* Estilo para el mensaje de carga del viento */
+    .wind-loading-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 14px;
+        z-index: 1000;
+        text-align: center;
+        min-width: 200px;
+    }
+    
+    .wind-loading-message i {
+        margin-right: 10px;
+        color: #FF6B00;
+    }
+    
+    .wind-loading-message button {
+        background-color: #FF6B00;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 5px 10px;
+        margin-top: 8px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    
+    .wind-loading-message button:hover {
+        background-color: #e55f00;
+    }
 </style>
 {% endblock %}
 
@@ -509,16 +593,16 @@
         
         // Definir los puntos de servicio
         const serviceAreas = [
-            { name: 'Málaga Capital', coordinates: [-4.4214, 36.7213], description: 'Sede principal' },
-            { name: 'Marbella', coordinates: [-4.8862, 36.5092], description: 'Servicio completo' },
-            { name: 'Fuengirola', coordinates: [-4.6248, 36.5394], description: 'Servicio completo' },
-            { name: 'Benalmádena', coordinates: [-4.5162, 36.5951], description: 'Servicio completo' },
-            { name: 'Torremolinos', coordinates: [-4.4986, 36.6225], description: 'Servicio completo' },
-            { name: 'Nerja', coordinates: [-3.8768, 36.7446], description: 'Servicio bajo demanda' },
-            { name: 'Estepona', coordinates: [-5.1466, 36.4277], description: 'Servicio bajo demanda' },
-            { name: 'Ronda', coordinates: [-5.1675, 36.7429], description: 'Servicio bajo demanda' },
-            { name: 'Rincón de la Victoria', coordinates: [-4.2773, 36.7172], description: 'Servicio completo' },
-            { name: 'Antequera', coordinates: [-4.5633, 37.0192], description: 'Servicio bajo demanda' }
+            { name: 'Málaga Capital', coordinates: [-4.4214, 36.7213], description: 'Sede principal', distance: 15, info: 'Centro económico y cultural de la provincia' },
+            { name: 'Marbella', coordinates: [-4.8862, 36.5092], description: 'Servicio completo', distance: 48, info: 'Destino turístico de lujo en la Costa del Sol' },
+            { name: 'Fuengirola', coordinates: [-4.6248, 36.5394], description: 'Servicio completo', distance: 18, info: 'Popular destino de playa con ambiente familiar' },
+            { name: 'Benalmádena', coordinates: [-4.5162, 36.5951], description: 'Servicio completo', distance: 8, info: 'Conocida por su puerto deportivo y parque de atracciones' },
+            { name: 'Torremolinos', coordinates: [-4.4986, 36.6225], description: 'Servicio completo', distance: 0, info: 'Base de operaciones principal con disponibilidad inmediata' },
+            { name: 'Nerja', coordinates: [-3.8768, 36.7446], description: 'Servicio bajo demanda', distance: 65, info: 'Famosa por sus cuevas y acantilados impresionantes' },
+            { name: 'Estepona', coordinates: [-5.1466, 36.4277], description: 'Servicio bajo demanda', distance: 70, info: 'Ciudad costera con encanto andaluz tradicional' },
+            { name: 'Ronda', coordinates: [-5.1675, 36.7429], description: 'Servicio bajo demanda', distance: 85, info: 'Impresionante ciudad de montaña con vistas panorámicas' },
+            { name: 'Rincón de la Victoria', coordinates: [-4.2773, 36.7172], description: 'Servicio completo', distance: 22, info: 'Zona residencial con hermosas playas' },
+            { name: 'Antequera', coordinates: [-4.5633, 37.0192], description: 'Servicio bajo demanda', distance: 52, info: 'Ciudad histórica con impresionante patrimonio' }
         ];
         
         // Esperar a que el mapa cargue
@@ -575,24 +659,49 @@
                     windLayerButton.classList.remove('wind-active');
                     removeWindLayer();
                 } else {
-                    // Si no está activa, mostramos indicador de carga
+                    // Si no está activa, mostramos mensaje de carga
                     windLayerLoading = true;
                     windLayerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
                     windLayerButton.title = 'Cargando capa de viento...';
                     
+                    // Crear mensaje de carga visible en el mapa
+                    const loadingMessage = document.createElement('div');
+                    loadingMessage.className = 'wind-loading-message';
+                    loadingMessage.innerHTML = `
+                        <div><i class="fas fa-spinner fa-spin"></i> Cargando datos del viento actuales...</div>
+                        <button id="cancel-wind-loading">Cancelar</button>
+                    `;
+                    document.getElementById('map').appendChild(loadingMessage);
+                    
+                    // Agregar funcionalidad al botón de cancelar
+                    document.getElementById('cancel-wind-loading').addEventListener('click', function() {
+                        // Eliminar mensaje de carga
+                        loadingMessage.remove();
+                        
+                        // Restaurar botón
+                        windLayerButton.innerHTML = '<i class="fas fa-wind"></i>';
+                        windLayerButton.title = 'Mostrar capa de viento';
+                        windLayerLoading = false;
+                    });
+                    
                     // Usamos setTimeout para permitir que la UI se actualice antes de iniciar
-                    // la operación pesada, así el usuario ve el indicador de carga
+                    // la operación pesada, así el usuario ve el mensaje de carga
                     setTimeout(() => {
                         // Añadir la capa
                         windLayerActive = true;
                         addWindLayer();
+                        
+                        // Eliminar mensaje de carga
+                        if (document.contains(loadingMessage)) {
+                            loadingMessage.remove();
+                        }
                         
                         // Restaurar el botón
                         windLayerButton.innerHTML = '<i class="fas fa-wind"></i>';
                         windLayerButton.title = 'Ocultar capa de viento';
                         windLayerButton.classList.add('wind-active');
                         windLayerLoading = false;
-                    }, 50);
+                    }, 100);
                 }
             });
             
@@ -649,8 +758,8 @@
                     
                     const windPoints = [];
                     
-                    // Reducimos la cantidad de líneas para mejorar el rendimiento (20x20 en lugar de 30x30)
-                    const optimizedGridSize = 20;
+                    // Reducimos drásticamente la cantidad de líneas para mejorar el rendimiento y visibilidad
+                    const optimizedGridSize = 12; // Menor cantidad de líneas para no saturar la vista
                     const stepX = cellSizeX * (gridSize / optimizedGridSize);
                     const stepY = cellSizeY * (gridSize / optimizedGridSize);
                     
@@ -842,11 +951,23 @@
                 markerElement.style.width = '20px'; // 18px + 10% = ~20px
                 markerElement.style.height = '30px'; // 27px + 10% = ~30px
                 
-                // Crear popup para el marcador
+                // Crear popup para el marcador con información detallada
                 const popup = new mapboxgl.Popup({
                     offset: 15, // Ajustado para el nuevo tamaño
-                    closeButton: false
-                }).setHTML(`<h3>${area.name}</h3><p>${area.description}</p>`);
+                    closeButton: false,
+                    maxWidth: '280px' // Ancho máximo para mejor legibilidad
+                }).setHTML(`
+                    <div class="custom-popup">
+                        <h3>${area.name}</h3>
+                        <div class="popup-badge ${area.description.includes('completo') ? 'popup-badge-success' : 'popup-badge-warning'}">
+                            ${area.description}
+                        </div>
+                        <div class="popup-details">
+                            <p><i class="fas fa-info-circle"></i> ${area.info}</p>
+                            <p><i class="fas fa-road"></i> <strong>Distancia desde Torremolinos:</strong> ${area.distance} km</p>
+                        </div>
+                    </div>
+                `);
                 
                 // Coordenadas ajustadas para las distintas áreas
                 let adjustedCoords = [...area.coordinates];
