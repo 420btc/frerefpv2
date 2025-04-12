@@ -12,67 +12,79 @@
 
 <section class="equipment-detail">
     <div class="container">
-        <div class="battery-showcase">
-            <div class="battery-content">
-                <h2>Sistema completo de alimentación</h2>
-                <div class="battery-description">
-                    <p>Dispongo de todas las baterías necesarias para mantener mis drones en el aire durante toda la sesión de grabación, sin importar la duración del proyecto.</p>
-                    
-                    <h3>Mi equipamiento incluye:</h3>
-                    <ul class="battery-list">
-                        <li>
-                            <i class="fas fa-battery-full"></i>
-                            <div>
-                                <strong>Baterías LiPo 6S</strong>
-                                <p>Para vuelos de alta potencia con el Manta 5</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-battery-full"></i>
-                            <div>
-                                <strong>Baterías LiPo 4S</strong>
-                                <p>Perfectas para el equilibrio entre potencia y tiempo de vuelo</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-battery-full"></i>
-                            <div>
-                                <strong>Baterías de larga duración</strong>
-                                <p>Especiales para el Flywoo LR4 y misiones de largo alcance</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-battery-full"></i>
-                            <div>
-                                <strong>Baterías DJI originales</strong>
-                                <p>Para el DJI Mini 2 con hasta 30 minutos de vuelo</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-battery-three-quarters"></i>
-                            <div>
-                                <strong>Sistema de carga múltiple</strong>
-                                <p>Cargadores de campo para mantener todas las baterías listas durante la sesión</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-battery-three-quarters"></i>
-                            <div>
-                                <strong>Baterías de repuesto</strong>
-                                <p>Stock completo de baterías adicionales para todos los equipos</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="battery-guarantee">
-                        <h3>Mi garantía:</h3>
-                        <p>Nunca tendrás que preocuparte por quedarte sin energía durante una sesión de grabación. Mi sistema completo de baterías y cargadores asegura que podamos trabajar sin interrupciones durante todo el tiempo que sea necesario para tu proyecto.</p>
-                    </div>
+        <div class="battery-intro">
+            <h2>Sistema completo de alimentación</h2>
+            <p class="battery-intro-text">Dispongo de todas las baterías necesarias para mantener mis drones en el aire durante toda la sesión de grabación, sin importar la duración del proyecto.</p>
+        </div>
+        
+        <div class="battery-grid">
+            <div class="battery-card">
+                <div class="battery-card-icon">
+                    <i class="fas fa-battery-full"></i>
                 </div>
+                <h3>Baterías LiPo 6S</h3>
+                <p>Proporcionan la máxima potencia para el Manta 5 y el Chimera 7. Ideales para vuelos que requieren velocidad, ascensos rápidos y maniobras exigentes en condiciones adversas.</p>
+                <ul class="battery-card-features">
+                    <li>Voltaje: 22.2V</li>
+                    <li>Alta tasa de descarga</li>
+                    <li>Máxima potencia disponible</li>
+                </ul>
+            </div>
+            
+            <div class="battery-card">
+                <div class="battery-card-icon">
+                    <i class="fas fa-battery-full"></i>
+                </div>
+                <h3>Baterías LiPo 4S</h3>
+                <p>El equilibrio perfecto entre potencia y tiempo de vuelo. Utilizadas principalmente con el Cinelog 25, ofrecen la combinación ideal de rendimiento y duración.</p>
+                <ul class="battery-card-features">
+                    <li>Voltaje: 14.8V</li>
+                    <li>Buena relación peso/potencia</li>
+                    <li>Versátiles para diversos drones</li>
+                </ul>
+            </div>
+            
+            <div class="battery-card">
+                <div class="battery-card-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h3>Baterías Long Range</h3>
+                <p>Especialmente diseñadas para el Flywoo LR4 y misiones de largo alcance. Estas baterías optimizan la duración sobre la potencia máxima para vuelos extendidos.</p>
+                <ul class="battery-card-features">
+                    <li>Alta densidad energética</li>
+                    <li>Autonomía extendida</li>
+                    <li>Ideal para filmaciones panorámicas</li>
+                </ul>
+            </div>
+            
+            <div class="battery-card">
+                <div class="battery-card-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Baterías DJI originales</h3>
+                <p>Diseñadas específicamente para el DJI Mini 2, estas baterías inteligentes ofrecen hasta 30 minutos de vuelo con protecciones integradas para máxima seguridad.</p>
+                <ul class="battery-card-features">
+                    <li>Sistema inteligente integrado</li>
+                    <li>Auto-descarga de protección</li>
+                    <li>Indicadores LED de nivel</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="battery-system">
+            <div class="battery-system-content">
+                <h3>Sistema de carga avanzado</h3>
+                <p>Para mantener todas las baterías listas durante las sesiones de grabación, cuento con un sistema de carga múltiple que permite cargar hasta 4 baterías simultáneamente. Esto asegura que siempre tendremos energía disponible sin interrupciones.</p>
+                <p>Adicionalmente, mantengo un stock completo de baterías de repuesto para todos los equipos, garantizando sesiones de trabajo continuas incluso en localizaciones remotas sin acceso a electricidad.</p>
             </div>
             <div class="battery-image-container">
                 <img src="{{ url_for('static', filename='img/equipamiento/baterias/lipo.jpg') }}?t=1744169500" alt="Sistema de baterías profesional LiPo">
             </div>
+        </div>
+        
+        <div class="battery-guarantee">
+            <h3>Mi garantía de energía continua</h3>
+            <p>Nunca tendrás que preocuparte por quedarte sin energía durante una sesión de grabación. Mi sistema completo de baterías y cargadores asegura que podamos trabajar sin interrupciones durante todo el tiempo que sea necesario para tu proyecto.</p>
         </div>
 
         <div class="equipment-navigation">
@@ -95,15 +107,130 @@
 
 {% block styles %}
 <style>
-    .battery-showcase {
-        display: flex;
-        gap: var(--spacing-12);
-        margin: var(--spacing-8) 0;
-        align-items: center;
+    /* Estilos para la introducción */
+    .battery-intro {
+        text-align: center;
+        margin-bottom: var(--spacing-10);
     }
     
-    .battery-content {
+    .battery-intro h2 {
+        font-size: var(--font-size-3xl);
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .battery-intro-text {
+        font-size: var(--font-size-lg);
+        max-width: 800px;
+        margin: 0 auto;
+        color: var(--color-dark);
+    }
+    
+    /* Estilos para el grid de tarjetas */
+    .battery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-6);
+        margin-bottom: var(--spacing-10);
+    }
+    
+    /* Estilos para las tarjetas individuales */
+    .battery-card {
+        background-color: var(--color-white);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-6);
+        transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .battery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .battery-card-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-4);
+    }
+    
+    .battery-card-icon i {
+        font-size: var(--font-size-3xl);
+        color: var(--color-white);
+    }
+    
+    .battery-card h3 {
+        text-align: center;
+        font-size: var(--font-size-xl);
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .battery-card p {
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        color: var(--color-dark);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .battery-card-features {
+        margin-top: auto;
+        background-color: var(--color-light);
+        border-radius: var(--border-radius-md);
+        padding: var(--spacing-4);
+    }
+    
+    .battery-card-features li {
+        margin-bottom: var(--spacing-2);
+        padding-left: var(--spacing-4);
+        position: relative;
+        font-weight: 500;
+    }
+    
+    .battery-card-features li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--color-accent);
+    }
+    
+    /* Estilos para el sistema de carga */
+    .battery-system {
+        display: flex;
+        gap: var(--spacing-8);
+        align-items: center;
+        margin-bottom: var(--spacing-10);
+        background-color: var(--color-white);
+        border-radius: var(--border-radius-lg);
+        padding: var(--spacing-6);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .battery-system-content {
         flex: 1.5;
+    }
+    
+    .battery-system-content h3 {
+        font-size: var(--font-size-xl);
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .battery-system-content p {
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-4);
     }
     
     .battery-image-container {
@@ -117,48 +244,32 @@
         box-shadow: var(--shadow-lg);
     }
     
-    .battery-description {
-        margin-top: var(--spacing-4);
-    }
-    
-    .battery-list {
-        margin: var(--spacing-6) 0;
-    }
-    
-    .battery-list li {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: var(--spacing-4);
-        gap: var(--spacing-4);
-    }
-    
-    .battery-list i {
-        color: var(--color-accent);
-        font-size: var(--font-size-xl);
-        margin-top: var(--spacing-1);
-    }
-    
-    .battery-list strong {
-        display: block;
-        margin-bottom: var(--spacing-1);
-        color: var(--color-primary);
-    }
-    
+    /* Estilos para la garantía */
     .battery-guarantee {
         background-color: var(--color-light);
         padding: var(--spacing-6);
         border-radius: var(--border-radius-lg);
-        margin-top: var(--spacing-8);
+        margin-bottom: var(--spacing-8);
         border-left: 4px solid var(--color-accent);
+        text-align: center;
     }
     
     .battery-guarantee h3 {
         color: var(--color-primary);
-        margin-bottom: var(--spacing-2);
+        margin-bottom: var(--spacing-4);
+        font-size: var(--font-size-xl);
     }
     
+    .battery-guarantee p {
+        font-size: var(--font-size-lg);
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    /* Estilos responsivos */
     @media (max-width: 768px) {
-        .battery-showcase {
+        .battery-system {
             flex-direction: column;
         }
         
