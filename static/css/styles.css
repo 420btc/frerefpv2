@@ -1745,7 +1745,7 @@ body {
 
 .map-style-control {
     position: absolute;
-    top: 85px; /* 10px (margen) + 75px (altura de otros dos controles) */
+    top: 165px; /* Movido más abajo para no estar debajo de otros controles */
     right: 10px;
     z-index: 1;
 }
@@ -1774,7 +1774,7 @@ body {
 .wind-layer-control {
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    left: 10px; /* Cambiado a la izquierda como solicitado */
     z-index: 1;
 }
 
@@ -1802,6 +1802,20 @@ body {
 .wind-active {
     background-color: rgba(255, 107, 0, 0.2);
     color: #FF6B00;
+}
+
+/* Animación para líneas de viento */
+@keyframes moveWind {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 20;
+    }
+}
+
+.mapboxgl-canvas-container.mapboxgl-interactive {
+    cursor: grab;
 }
 
 .service-areas {

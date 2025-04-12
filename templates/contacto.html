@@ -577,7 +577,7 @@
             windLayerControl.appendChild(windLayerButton);
             document.getElementById('map').appendChild(windLayerControl);
             
-            // Función para añadir la capa de viento
+            // Función para añadir la capa de viento con animación
             function addWindLayer() {
                 try {
                     // Eliminar la capa y fuente existentes si las hay
@@ -588,17 +588,31 @@
                     const windSpeed = {{ weather_data.current.wind|default(10) }}; // Velocidad en km/h
                     const windDirection = {{ weather_data.current.wind_deg|default(45) }}; // Dirección en grados
                     
-                    // Crear puntos para las líneas de viento basadas en un patrón de cuadrícula
-                    const gridSize = 30; // Número de puntos en cada dirección
-                    const windPoints = [];
+                    // Determinar el color del viento según la velocidad
+                    let windColor;
+                    if (windSpeed < 15) {
+                        windColor = '#4CAF50'; // Verde para vientos suaves (0-15 km/h)
+                    } else if (windSpeed < 35) {
+                        windColor = '#FF6B00'; // Naranja para vientos moderados (15-34 km/h)
+                    } else {
+                        windColor = '#FF0000'; // Rojo para vientos fuertes (>35 km/h)
+                    }
                     
-                    // Crear una cuadrícula de puntos que cubre el área visible
-                    const bounds = map.getBounds();
-                    const sw = bounds.getSouthWest();
-                    const ne = bounds.getNorthEast();
+                    // Ajustar la visualización en función de la velocidad
+                    const opacity = Math.min(0.7, 0.4 + (windSpeed / 100)); // Mayor opacidad a mayor velocidad
+                    const width = Math.min(1.5, 0.8 + (windSpeed / 70)); // Ligero aumento de grosor con la velocidad
                     
-                    const latStep = (ne.lat - sw.lat) / gridSize;
-                    const lngStep = (ne.lng - sw.lng) / gridSize;
+                    // CONFIGURAR CUADRÍCULA GLOBAL
+                    // En lugar de basarse en el área visible actual, crear una cuadrícula global
+                    // para que las líneas permanezcan al hacer zoom
+                    const worldBounds = [
+                        [-180, -85], // Esquina sur-oeste del mundo
+                        [180, 85]    // Esquina nor-este del mundo
+                    ];
+                    
+                    const gridSize = 50; // Número de puntos en cada dirección
+                    const cellSizeX = (worldBounds[1][0] - worldBounds[0][0]) / gridSize;
+                    const cellSizeY = (worldBounds[1][1] - worldBounds[0][1]) / gridSize;
                     
                     // Calcular componentes de viento basados en dirección y velocidad
                     const windRadians = (windDirection * Math.PI) / 180;
@@ -608,13 +622,15 @@
                     // Normalizar la longitud de la línea basándose en la velocidad del viento
                     const lineLength = Math.min(Math.max(windSpeed / 10, 0.1), 0.4);
                     
-                    // Crear puntos de inicio y final para cada línea de viento
+                    const windPoints = [];
+                    
+                    // Crear puntos de inicio y final para cada línea de viento en la cuadrícula global
                     for (let i = 0; i < gridSize; i++) {
                         for (let j = 0; j < gridSize; j++) {
-                            const lat = sw.lat + i * latStep;
-                            const lng = sw.lng + j * lngStep;
+                            const lng = worldBounds[0][0] + i * cellSizeX + (Math.random() * cellSizeX * 0.7);
+                            const lat = worldBounds[0][1] + j * cellSizeY + (Math.random() * cellSizeY * 0.7);
                             
-                            // Punto de inicio
+                            // Punto de inicio y final (línea)
                             windPoints.push({
                                 'type': 'Feature',
                                 'geometry': {
@@ -641,7 +657,7 @@
                         }
                     });
                     
-                    // Añadir la capa de líneas
+                    // Añadir la capa de líneas con animación
                     map.addLayer({
                         'id': 'wind-lines',
                         'type': 'line',
@@ -651,11 +667,31 @@
                             'line-cap': 'round'
                         },
                         'paint': {
-                            'line-color': '#FF6B00', // Color naranja
-                            'line-width': 1, // Ancho de 1px como solicitado
-                            'line-opacity': 0.6 // Ligeramente transparente para ser sutil
+                            'line-color': windColor, // Color según velocidad
+                            'line-width': width, // Ancho de 1px aprox como solicitado
+                            'line-opacity': opacity, // Opacidad basada en velocidad
+                            'line-dasharray': [0, 4, 3], // Patrón para animar
                         }
                     });
+                    
+                    // Animar las líneas de viento
+                    let animationOffset = 0;
+                    const animateWind = () => {
+                        animationOffset = (animationOffset + 1) % 16; // Ciclo de la animación
+                        map.setPaintProperty('wind-lines', 'line-dasharray', [
+                            0,
+                            4 - (animationOffset / 8), // Variar el patrón para crear movimiento
+                            3 + (animationOffset / 8)
+                        ]);
+                        windAnimationId = requestAnimationFrame(animateWind);
+                    };
+                    
+                    // Iniciar la animación y guardar su ID para poder detenerla después
+                    windAnimationId = requestAnimationFrame(animateWind);
+                    
+                    // Manejar zoom y movimiento del mapa para que las líneas se actualicen
+                    map.on('zoom', updateWindOnZoom);
+                    map.on('move', updateWindOnZoom);
                     
                     console.log('Capa de viento añadida con éxito');
                 } catch (error) {
@@ -663,8 +699,35 @@
                 }
             }
             
-            // Función para eliminar la capa de viento
+            // Variable para guardar el ID de la animación
+            let windAnimationId = null;
+            
+            // Actualizar líneas de viento al hacer zoom o mover el mapa
+            function updateWindOnZoom() {
+                if (windLayerActive) {
+                    // Solo actualizar si el viento está activo y la capa existe
+                    if (map.getLayer('wind-lines')) {
+                        // Actualizar la opacidad para mantener la visualización constante en diferentes niveles de zoom
+                        const zoomLevel = map.getZoom();
+                        const adjustedOpacity = Math.min(0.8, 0.3 + (zoomLevel / 15));
+                        map.setPaintProperty('wind-lines', 'line-opacity', adjustedOpacity);
+                    }
+                }
+            }
+            
+            // Función para eliminar la capa de viento y detener su animación
             function removeWindLayer() {
+                // Detener la animación si existe
+                if (windAnimationId) {
+                    cancelAnimationFrame(windAnimationId);
+                    windAnimationId = null;
+                }
+                
+                // Eliminar eventos de zoom y movimiento
+                map.off('zoom', updateWindOnZoom);
+                map.off('move', updateWindOnZoom);
+                
+                // Eliminar capa y fuente
                 if (map.getLayer('wind-lines')) {
                     map.removeLayer('wind-lines');
                 }
