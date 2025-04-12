@@ -2,8 +2,9 @@ import os
 import logging
 import requests
 import json
+import uuid
 from datetime import datetime
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 import time
 
 # Set up logging for easier debugging
@@ -12,6 +13,22 @@ logging.basicConfig(level=logging.DEBUG)
 # Create Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "freire-fpv-secret-key")
+
+# Configuración de la base de datos
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_recycle": 300,
+    "pool_pre_ping": True,
+}
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Inicialización de la base de datos
+from models import db, Testimonio
+db.init_app(app)
+
+# Crear tablas si no existen
+with app.app_context():
+    db.create_all()
 
 # Filtro personalizado para formatear la hora
 @app.template_filter('strftime')
@@ -188,7 +205,11 @@ def servicios():
 
 @app.route("/quienes-somos")
 def quienes_somos():
-    return render_template("quienes-somos.html", emailjs_public_key=emailjs_public_key)
+    # Obtener todos los testimonios aprobados de la base de datos
+    testimonios = Testimonio.query.filter_by(aprobado=True).order_by(Testimonio.fecha_creacion.desc()).all()
+    return render_template("quienes-somos.html", 
+                          emailjs_public_key=emailjs_public_key,
+                          testimonios=testimonios)
 
 @app.route("/mi-equipo")
 def mi_equipo():

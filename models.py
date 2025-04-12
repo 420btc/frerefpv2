@@ -27,3 +27,25 @@ class Contacto(db.Model):
     mensaje = db.Column(db.Text, nullable=False)
     fecha_contacto = db.Column(db.DateTime, default=datetime.utcnow)
     respondido = db.Column(db.Boolean, default=False)
+
+class Testimonio(db.Model):
+    """Modelo para los testimonios de clientes"""
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(150), nullable=False)
+    ocupacion = db.Column(db.String(150), nullable=False)
+    texto = db.Column(db.Text, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    ip_address = db.Column(db.String(50), nullable=True) # Para control de límite de comentarios
+    token = db.Column(db.String(100), nullable=True) # Para identificar testimonios propios
+    aprobado = db.Column(db.Boolean, default=True)
+    
+    def to_dict(self):
+        """Convierte el objeto a diccionario para facilitar la serialización"""
+        return {
+            'id': self.id,
+            'nombre': self.nombre,
+            'ocupacion': self.ocupacion,
+            'texto': self.texto,
+            'fecha_creacion': self.fecha_creacion.strftime('%d %B %Y'),
+            'aprobado': self.aprobado
+        }
