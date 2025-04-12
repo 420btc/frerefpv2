@@ -561,16 +561,38 @@
             
             // Estado de la capa de viento
             let windLayerActive = false;
+            let windLayerLoading = false; // Indicador de carga
             
             windLayerButton.addEventListener('click', function() {
-                windLayerActive = !windLayerActive;
+                // Si está en proceso de carga, no hacemos nada para evitar problemas
+                if (windLayerLoading) {
+                    return;
+                }
                 
                 if (windLayerActive) {
-                    windLayerButton.classList.add('wind-active');
-                    addWindLayer();
-                } else {
+                    // Si está activa, la quitamos inmediatamente
+                    windLayerActive = false;
                     windLayerButton.classList.remove('wind-active');
                     removeWindLayer();
+                } else {
+                    // Si no está activa, mostramos indicador de carga
+                    windLayerLoading = true;
+                    windLayerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    windLayerButton.title = 'Cargando capa de viento...';
+                    
+                    // Usamos setTimeout para permitir que la UI se actualice antes de iniciar
+                    // la operación pesada, así el usuario ve el indicador de carga
+                    setTimeout(() => {
+                        // Añadir la capa
+                        windLayerActive = true;
+                        addWindLayer();
+                        
+                        // Restaurar el botón
+                        windLayerButton.innerHTML = '<i class="fas fa-wind"></i>';
+                        windLayerButton.title = 'Ocultar capa de viento';
+                        windLayerButton.classList.add('wind-active');
+                        windLayerLoading = false;
+                    }, 50);
                 }
             });
             
@@ -614,39 +636,91 @@
                     const cellSizeY = (malageaBounds[1][1] - malageaBounds[0][1]) / gridSize;
                     
                     // Calcular componentes de viento basados en dirección y velocidad
-                    const windRadians = (windDirection * Math.PI) / 180;
-                    const windX = Math.sin(windRadians) * (windSpeed / 20); // Escalar para visualización
-                    const windY = Math.cos(windRadians) * (windSpeed / 20);
+                    // Invertimos los ángulos para que apunten correctamente en la dirección DEL viento (no HACIA donde va)
+                    const windRadians = ((windDirection + 180) % 360) * Math.PI / 180;
                     
-                    // Normalizar la longitud de la línea basándose en la velocidad del viento
-                    // Líneas más largas para que sean más visibles
-                    const lineLength = Math.min(Math.max(windSpeed / 8, 0.15), 0.45);
+                    // Hacemos que las flechas sean más largas y claras en la dirección
+                    const windX = Math.sin(windRadians) * (windSpeed / 15); // Mayor escala para mejor visibilidad
+                    const windY = Math.cos(windRadians) * (windSpeed / 15);
+                    
+                    // Líneas más largas para que la dirección sea más clara
+                    const lineLength = Math.min(Math.max(windSpeed / 6, 0.2), 0.6);
                     
                     const windPoints = [];
                     
-                    // Crear puntos de inicio y final para cada línea de viento
-                    for (let i = 0; i < gridSize; i++) {
-                        for (let j = 0; j < gridSize; j++) {
-                            const lng = malageaBounds[0][0] + i * cellSizeX + (Math.random() * cellSizeX * 0.5);
-                            const lat = malageaBounds[0][1] + j * cellSizeY + (Math.random() * cellSizeY * 0.5);
+                    // Reducimos la cantidad de líneas para mejorar el rendimiento (20x20 en lugar de 30x30)
+                    const optimizedGridSize = 20;
+                    const stepX = cellSizeX * (gridSize / optimizedGridSize);
+                    const stepY = cellSizeY * (gridSize / optimizedGridSize);
+                    
+                    // Crear líneas de viento en forma de flecha para indicar dirección
+                    for (let i = 0; i < optimizedGridSize; i++) {
+                        for (let j = 0; j < optimizedGridSize; j++) {
+                            const lng = malageaBounds[0][0] + i * stepX + (Math.random() * stepX * 0.3);
+                            const lat = malageaBounds[0][1] + j * stepY + (Math.random() * stepY * 0.3);
                             
-                            // Agregar variación para que no todas las líneas tengan la misma longitud
-                            const variationFactor = 0.8 + (Math.random() * 0.4); // Entre 0.8 y 1.2
+                            // Crear línea principal en dirección del viento
+                            const endLng = lng + windX * lineLength;
+                            const endLat = lat + windY * lineLength;
                             
-                            // Punto de inicio y final (línea)
+                            // Ángulo para las "colas" de la flecha
+                            const arrowSize = lineLength * 0.3; // Tamaño de las colas de la flecha
+                            const arrowAngle1 = windRadians - Math.PI / 6; // 30 grados
+                            const arrowAngle2 = windRadians + Math.PI / 6; // 30 grados
+                            
+                            // Componentes de las colas de la flecha
+                            const arrow1X = Math.sin(arrowAngle1) * arrowSize;
+                            const arrow1Y = Math.cos(arrowAngle1) * arrowSize;
+                            const arrow2X = Math.sin(arrowAngle2) * arrowSize;
+                            const arrow2Y = Math.cos(arrowAngle2) * arrowSize;
+                            
+                            // Punto de inicio y final (línea principal)
                             windPoints.push({
                                 'type': 'Feature',
                                 'geometry': {
                                     'type': 'LineString',
                                     'coordinates': [
                                         [lng, lat],
-                                        [lng + windX * lineLength * variationFactor, 
-                                         lat + windY * lineLength * variationFactor]
+                                        [endLng, endLat]
                                     ]
                                 },
                                 'properties': {
                                     'speed': windSpeed,
-                                    'direction': windDirection
+                                    'direction': windDirection,
+                                    'type': 'main'
+                                }
+                            });
+                            
+                            // Colas de la flecha para indicar dirección
+                            windPoints.push({
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'LineString',
+                                    'coordinates': [
+                                        [endLng, endLat],
+                                        [endLng + arrow1X, endLat + arrow1Y]
+                                    ]
+                                },
+                                'properties': {
+                                    'speed': windSpeed,
+                                    'direction': windDirection,
+                                    'type': 'arrow'
+                                }
+                            });
+                            
+                            windPoints.push({
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'LineString',
+                                    'coordinates': [
+                                        [endLng, endLat],
+                                        [endLng + arrow2X, endLat + arrow2Y]
+                                    ]
+                                },
+                                'properties': {
+                                    'speed': windSpeed,
+                                    'direction': windDirection,
+                                    'type': 'arrow'
                                 }
                             });
                         }
