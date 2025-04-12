@@ -6,6 +6,10 @@
 
 {% block footer_question %}¿Cómo puedo ayudarte a capturar tu historia desde una nueva perspectiva?{% endblock %}
 
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}?v={{ range(100000, 999999) | random }}">
+{% endblock %}
+
 {% block content %}
 <section class="page-header">
     <div class="container">
@@ -63,62 +67,62 @@
     </div>
 </section>
 
-<section class="testimonials">
+<section class="testimonials" style="background-color: #1a2035; padding: 4rem 0; margin-top: 3rem; color: #fff;">
     <div class="container">
-        <h2 class="section-title">Lo que dicen mis clientes</h2>
+        <h2 class="section-title" style="color: #fff; margin-bottom: 2.5rem; font-size: 2.2rem; position: relative; text-align: center;"">Lo que dicen mis clientes</h2>
         <div class="testimonial-slider">
             <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <p>"Carlos capturó la esencia de nuestra casa de una manera que nunca habíamos imaginado. Las tomas aéreas son simplemente espectaculares."</p>
-                    <div class="client-info">
-                        <span class="client-name">Ana Martínez</span>
-                        <span class="client-role">Propietaria Villa en Marbella</span>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Carlos capturó la esencia de nuestra casa de una manera que nunca habíamos imaginado. Las tomas aéreas son simplemente espectaculares."</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Ana Martínez</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Propietaria Villa en Marbella</span>
                     </div>
                 </div>
             </div>
             <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <p>"Contraté a Freire FPV para grabar nuestro evento deportivo y el resultado superó todas nuestras expectativas. Definitivamente volveremos a trabajar juntos."</p>
-                    <div class="client-info">
-                        <span class="client-name">Juan Gómez</span>
-                        <span class="client-role">Organizador de Eventos</span>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Contraté a Freire FPV para grabar nuestro evento deportivo y el resultado superó todas nuestras expectativas. Definitivamente volveremos a trabajar juntos."</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Juan Gómez</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Organizador de Eventos</span>
                     </div>
                 </div>
             </div>
             <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <p>"El video promocional que Carlos creó para nuestro colegio ha sido un éxito total. Su profesionalidad y creatividad son excepcionales."</p>
-                    <div class="client-info">
-                        <span class="client-name">María Sánchez</span>
-                        <span class="client-role">Directora de Colegio</span>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"El video promocional que Carlos creó para nuestro colegio ha sido un éxito total. Su profesionalidad y creatividad son excepcionales."</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">María Sánchez</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Directora de Colegio</span>
                     </div>
                 </div>
             </div>
             <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <p>"Como agente inmobiliario, necesitaba destacar mis propiedades de manera única. Las grabaciones aéreas de Carlos han sido clave para cerrar ventas rápidamente. Sus videos muestran detalles que las fotografías no pueden capturar."</p>
-                    <div class="client-info">
-                        <span class="client-name">Roberto Núñez</span>
-                        <span class="client-role">Agente Inmobiliario</span>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Como agente inmobiliario, necesitaba destacar mis propiedades de manera única. Las grabaciones aéreas de Carlos han sido clave para cerrar ventas rápidamente. Sus videos muestran detalles que las fotografías no pueden capturar."</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Roberto Núñez</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Agente Inmobiliario</span>
                     </div>
                 </div>
             </div>
             <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <p>"Contratamos a Freire FPV para grabar nuestra boda y fue la mejor decisión. La perspectiva aérea capturó momentos mágicos que un fotógrafo convencional no habría podido. Muy recomendable para cualquier celebración especial."</p>
-                    <div class="client-info">
-                        <span class="client-name">Elena y Pedro Jiménez</span>
-                        <span class="client-role">Recién casados</span>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Contratamos a Freire FPV para grabar nuestra boda y fue la mejor decisión. La perspectiva aérea capturó momentos mágicos que un fotógrafo convencional no habría podido. Muy recomendable para cualquier celebración especial."</p>
+                    <div class="client-info" style="text-align: center; margin-top: 1rem;">
+                        <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Elena y Pedro Jiménez</span>
+                        <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Recién casados</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="testimonial-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+        <div class="testimonial-dots" style="display: flex; justify-content: center; margin-top: 2rem;">
+            <span class="dot active" style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--color-primary); margin: 0 6px; cursor: pointer; transform: scale(1.2);"></span>
+            <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
+            <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
+            <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
+            <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
         </div>
     </div>
 </section>
