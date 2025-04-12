@@ -601,6 +601,7 @@
             
             // Función para añadir la capa de viento con animación
             function addWindLayer() {
+                console.time('Generación de capa de viento');
                 try {
                     // Eliminar la capa y fuente existentes si las hay
                     removeWindLayer();
@@ -781,7 +782,8 @@
                     map.on('zoom', updateWindOnZoom);
                     map.on('move', updateWindOnZoom);
                     
-                    console.log('Capa de viento añadida con éxito - Color: ' + windColor);
+                    console.timeEnd('Generación de capa de viento');
+                    console.log('Capa de viento añadida con éxito - Color: ' + windColor + ', Dirección: ' + windDirection + '°');
                 } catch (error) {
                     console.error('Error al añadir capa de viento:', error);
                 }
