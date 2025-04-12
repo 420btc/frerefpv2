@@ -67,13 +67,13 @@
     </div>
 </section>
 
-<section class="testimonials" style="background-color: #1a2035; padding: 2.6rem 0; margin-top: 3rem; color: #fff;">
+<section class="testimonials" style="background-color: #1a2035; padding: 1.8rem 0; margin-top: 3rem; color: #fff;">
     <div class="container">
         <h2 class="section-title" style="color: #fff; margin-bottom: 1.8rem; font-size: 2.2rem; position: relative; text-align: center;">Lo que dicen mis clientes</h2>
         <div class="testimonial-slider">
             <div class="testimonial-slide">
-                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
-                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Carlos capturó la esencia de nuestra casa de una manera que nunca habíamos imaginado. Las tomas aéreas son simplemente espectaculares."</p>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 1.5rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1rem; line-height: 1.6; font-weight: 400; color: #fff; margin-bottom: 1rem; text-align: center; font-style: italic;">"Carlos capturó la esencia de nuestra casa de una manera que nunca habíamos imaginado. Las tomas aéreas son simplemente espectaculares."</p>
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Ana Martínez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Propietaria Villa en Marbella</span>
@@ -82,8 +82,8 @@
                 </div>
             </div>
             <div class="testimonial-slide">
-                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
-                    <p style="font-size: 1.1rem; line-height: 1.7; font-weight: 400; color: #fff; margin-bottom: 1.5rem; text-align: center; font-style: italic;">"Contraté a Freire FPV para grabar nuestro evento deportivo y el resultado superó todas nuestras expectativas. Definitivamente volveremos a trabajar juntos."</p>
+                <div class="testimonial-content" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 1.5rem; margin: 0 auto; max-width: 800px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); position: relative; border-left: 4px solid var(--color-primary);">
+                    <p style="font-size: 1rem; line-height: 1.6; font-weight: 400; color: #fff; margin-bottom: 1rem; text-align: center; font-style: italic;">"Contraté a Freire FPV para grabar nuestro evento deportivo y el resultado superó todas nuestras expectativas. Definitivamente volveremos a trabajar juntos."</p>
                     <div class="client-info" style="text-align: center; margin-top: 1rem;">
                         <span class="client-name" style="display: block; font-weight: 600; color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.25rem;">Juan Gómez</span>
                         <span class="client-role" style="display: block; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Organizador de Eventos</span>
@@ -129,8 +129,11 @@
             <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
             <span class="dot" style="width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer;"></span>
         </div>
-        <div style="text-align: center; margin-top: 2rem;">
-            <button id="add-testimonial-btn" class="btn-primary" style="background-color: #ff7d00; color: white; border: none; padding: 12px 24px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Añadir mi opinión</button>
+        <div style="text-align: center; margin-top: 2rem; margin-bottom: 1rem;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <button id="add-testimonial-btn" style="background-color: #ff7d00; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-weight: 600; font-size: 24px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center;">+</button>
+                <span style="font-size: 0.9rem; color: #f8f9fa;">Añadir mi opinión</span>
+            </div>
         </div>
     </div>
 </section>
@@ -209,15 +212,15 @@
     /* Estilos mejorados para la sección de testimonios */
     .testimonials {
         background-color: #1a2035;
-        padding: 4rem 0;
+        padding: 2rem 0;
         margin-top: 3rem;
         color: #fff;
     }
     
     .testimonials .section-title {
         color: #fff;
-        margin-bottom: 2.5rem;
-        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
         position: relative;
         text-align: center;
     }
@@ -237,7 +240,7 @@
     .testimonial-content {
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
-        padding: 2rem;
+        padding: 1.5rem;
         margin: 0 auto;
         max-width: 800px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -258,11 +261,11 @@
     }
     
     .testimonial-content p {
-        font-size: 1.1rem;
-        line-height: 1.7;
+        font-size: 1rem;
+        line-height: 1.6;
         font-weight: 400;
         color: #fff;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         text-align: center;
         font-style: italic;
     }
