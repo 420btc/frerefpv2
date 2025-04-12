@@ -10,6 +10,7 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
 <link href="{{ url_for('static', filename='css/weather.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/wind-compass.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -1054,6 +1055,8 @@
                     minute: '2-digit'
                 });
                 
+                console.log('Creando HTML de la brújula');
+                
                 // HTML para la brújula de viento y la información
                 windCompassContainer.innerHTML = `
                     <div class="wind-compass-card">
@@ -1075,8 +1078,8 @@
                                 </div>
                             </div>
                             <div class="wind-compass-graphic">
-                                <img src="/static/img/wind-compass.svg" alt="Brújula del viento" class="wind-compass-base">
-                                <img src="/static/img/wind-arrow.svg" alt="Dirección del viento" class="wind-compass-arrow" style="transform: rotate(${windDirection}deg)">
+                                <img src="${window.location.origin}/static/img/wind-compass.svg" alt="Brújula del viento" class="wind-compass-base">
+                                <img src="${window.location.origin}/static/img/wind-arrow.svg" alt="Dirección del viento" class="wind-compass-arrow" style="transform: rotate(${windDirection}deg)">
                             </div>
                         </div>
                         <div class="wind-compass-footer">
@@ -1087,8 +1090,18 @@
                     </div>
                 `;
                 
+                console.log('Añadiendo brújula al DOM');
+                
                 // Añadir al mapa
-                document.getElementById('map').appendChild(windCompassContainer);
+                const mapContainer = document.getElementById('map');
+                if (mapContainer) {
+                    mapContainer.appendChild(windCompassContainer);
+                    console.log('Brújula añadida al mapa');
+                } else {
+                    console.error('No se encontró el contenedor del mapa');
+                    // Añadir a la página en caso de que el mapa no esté disponible
+                    document.body.appendChild(windCompassContainer);
+                }
                 
                 // Manejar la actualización de datos
                 document.getElementById('refresh-wind-data').addEventListener('click', function() {
