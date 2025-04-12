@@ -155,7 +155,9 @@
                     <label for="testimonial-text" style="display: block; color: white; margin-bottom: 5px; font-weight: 500;">Tu opinión</label>
                     <textarea id="testimonial-text" name="testimonial-text" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.05); color: white; height: 100px;" placeholder="Cuéntanos tu experiencia con Freire FPV..." required></textarea>
                 </div>
-                <button type="submit" style="width: 100%; background-color: #ff7d00; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 10px;">Enviar opinión</button>
+                <div id="submit-container" style="position: relative;">
+                    <button id="submit-testimonial" type="submit" style="width: 100%; background-color: #ff7d00; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 10px;">Enviar opinión</button>
+                </div>
             </form>
         </div>
     </div>
@@ -322,13 +324,100 @@
 <script>
     // Testimonial slider functionality
     document.addEventListener('DOMContentLoaded', function() {
-        const slides = document.querySelectorAll('.testimonial-slide');
-        const dots = document.querySelectorAll('.dot');
+        // Elementos DOM principales
+        const testimonialSection = document.querySelector('.testimonials');
         const testimonialContainer = document.querySelector('.testimonial-slider');
         const dotsContainer = document.querySelector('.testimonial-dots');
+        const testimonialToggle = document.getElementById('testimonial-toggle');
+        const formContainer = document.getElementById('testimonial-form-container');
+        const addTestimonialBtn = document.getElementById('add-testimonial-btn');
+        const closeFormBtn = document.getElementById('close-form-btn');
+        const testimonialForm = document.getElementById('testimonial-form');
+        
+        // Variables para el control de testimonios
+        let slides = Array.from(document.querySelectorAll('.testimonial-slide'));
+        let dots = Array.from(document.querySelectorAll('.dot'));
         let currentSlide = 0;
-
+        let isRotationPaused = false;
+        let canAddTestimonial = true; // Controla si el usuario puede añadir testimonios
+        
+        // Comprobación de elementos existentes
+        if (!testimonialContainer || !dotsContainer) {
+            console.error('Error: No se encontraron elementos importantes para el carrusel de testimonios');
+            return;
+        }
+        
+        // Función para mostrar un mensaje al usuario
+        function showMessage(message, isError = false) {
+            const messageContainer = document.createElement('div');
+            messageContainer.id = 'message-container';
+            messageContainer.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 12px 24px;
+                background-color: ${isError ? '#d32f2f' : '#4caf50'};
+                color: white;
+                border-radius: 5px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                font-weight: 500;
+                text-align: center;
+                max-width: 80%;
+            `;
+            messageContainer.textContent = message;
+            
+            document.body.appendChild(messageContainer);
+            
+            // Auto-eliminar después de 4 segundos
+            setTimeout(() => {
+                messageContainer.style.opacity = '0';
+                messageContainer.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    if (messageContainer.parentNode) {
+                        messageContainer.parentNode.removeChild(messageContainer);
+                    }
+                }, 500);
+            }, 4000);
+        }
+        
+        // Función para verificar si el usuario puede añadir un testimonio
+        function checkIfUserCanAddTestimonial() {
+            // Comprobamos si hay un timestamp guardado
+            const lastTestimonialTime = localStorage.getItem('lastTestimonialTime');
+            
+            if (lastTestimonialTime) {
+                const lastTime = parseInt(lastTestimonialTime);
+                const currentTime = Date.now();
+                const daysPassed = (currentTime - lastTime) / (1000 * 60 * 60 * 24);
+                
+                // Si han pasado menos de 7 días
+                if (daysPassed < 7) {
+                    const daysRemaining = Math.ceil(7 - daysPassed);
+                    canAddTestimonial = false;
+                    
+                    // Actualizar el botón de añadir
+                    if (addTestimonialBtn) {
+                        addTestimonialBtn.style.backgroundColor = '#999';
+                        addTestimonialBtn.style.cursor = 'not-allowed';
+                        addTestimonialBtn.setAttribute('title', `Podrás añadir otra opinión en ${daysRemaining} días`);
+                    }
+                    
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        // Comprobar al cargar la página
+        checkIfUserCanAddTestimonial();
+        
+        // Función para mostrar un slide específico
         function showSlide(n) {
+            if (!slides.length) return;
+            
             slides.forEach(slide => slide.style.display = 'none');
             dots.forEach(dot => {
                 dot.classList.remove('active');
@@ -336,120 +425,77 @@
                 dot.style.transform = 'scale(1)';
             });
             
-            slides[n].style.display = 'block';
-            dots[n].classList.add('active');
-            dots[n].style.backgroundColor = 'var(--color-primary)';
-            dots[n].style.transform = 'scale(1.2)';
-            currentSlide = n;
+            if (slides[n]) {
+                slides[n].style.display = 'block';
+                dots[n].classList.add('active');
+                dots[n].style.backgroundColor = 'var(--color-primary)';
+                dots[n].style.transform = 'scale(1.2)';
+                currentSlide = n;
+            }
         }
-
+        
+        // Función para avanzar al siguiente slide
         function nextSlide() {
+            if (!slides.length) return;
             currentSlide = (currentSlide + 1) % slides.length;
             showSlide(currentSlide);
         }
-
-        // Initialize
-        showSlide(0);
         
-        // Auto-rotate with a paused state variable
-        let isRotationPaused = false;
-        const slideInterval = setInterval(() => {
-            if (!isRotationPaused) {
-                nextSlide();
-            }
-        }, 5000);
-        
-        // Click on dots - pause rotation temporarily when user interacts
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                isRotationPaused = true;
-                showSlide(index);
-                // Resume auto-rotation after user interaction
-                setTimeout(() => {
-                    isRotationPaused = false;
-                }, 10000);  // Pause for 10 seconds
+        // Inicializar el carrusel
+        if (slides.length) {
+            showSlide(0);
+            
+            // Auto-rotar con pausa
+            const slideInterval = setInterval(() => {
+                if (!isRotationPaused && slides.length > 1) {
+                    nextSlide();
+                }
+            }, 5000);
+            
+            // Click en los puntos
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    isRotationPaused = true;
+                    showSlide(index);
+                    setTimeout(() => {
+                        isRotationPaused = false;
+                    }, 10000);
+                });
             });
-        });
-
-        // Formulario integrado para añadir testimonios
-        const formContainer = document.getElementById('testimonial-form-container');
-        const addTestimonialBtn = document.getElementById('add-testimonial-btn');
-        const closeFormBtn = document.getElementById('close-form-btn');
-        const testimonialForm = document.getElementById('testimonial-form');
-        const testimonialToggle = document.getElementById('testimonial-toggle');
+        }
         
         // Mostrar formulario
-        addTestimonialBtn.addEventListener('click', () => {
-            formContainer.style.display = 'block';
-            testimonialToggle.style.display = 'none';
-            isRotationPaused = true; // Pausar rotación cuando se muestra el formulario
-        });
+        if (addTestimonialBtn) {
+            addTestimonialBtn.addEventListener('click', () => {
+                if (!canAddTestimonial) {
+                    const lastTestimonialTime = localStorage.getItem('lastTestimonialTime');
+                    const daysPassed = (Date.now() - parseInt(lastTestimonialTime)) / (1000 * 60 * 60 * 24);
+                    const daysRemaining = Math.ceil(7 - daysPassed);
+                    
+                    showMessage(`Debes esperar ${daysRemaining} días más para añadir otro testimonio.`, true);
+                    return;
+                }
+                
+                if (formContainer && testimonialToggle) {
+                    formContainer.style.display = 'block';
+                    testimonialToggle.style.display = 'none';
+                    isRotationPaused = true;
+                }
+            });
+        }
         
         // Cerrar formulario
-        closeFormBtn.addEventListener('click', () => {
-            formContainer.style.display = 'none';
-            testimonialToggle.style.display = 'block';
-            isRotationPaused = false; // Reanudar rotación
-        });
-        
-        // Manejar envío del formulario
-        testimonialForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Obtener valores del formulario
-            const name = document.getElementById('testimonial-name').value;
-            const role = document.getElementById('testimonial-role').value;
-            const text = document.getElementById('testimonial-text').value;
-            
-            // Crear un ID único para este testimonio
-            const testimonialId = 'testimonial-' + Date.now();
-            
-            // Crear nuevo testimonio
-            const newTestimonial = createNewTestimonial(name, role, text, testimonialId);
-            
-            // Añadir al slider
-            testimonialContainer.appendChild(newTestimonial);
-            
-            // Añadir nuevo punto
-            const newDot = document.createElement('span');
-            newDot.className = 'dot';
-            newDot.dataset.testimonialId = testimonialId;
-            newDot.style.width = '12px';
-            newDot.style.height = '12px';
-            newDot.style.borderRadius = '50%';
-            newDot.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-            newDot.style.margin = '0 6px';
-            newDot.style.cursor = 'pointer';
-            dotsContainer.appendChild(newDot);
-            
-            // Actualizar arrays de slides y dots
-            const allSlides = document.querySelectorAll('.testimonial-slide');
-            const allDots = document.querySelectorAll('.dot');
-            
-            // Añadir evento click al nuevo dot
-            newDot.addEventListener('click', () => {
-                isRotationPaused = true;
-                showSlide(allSlides.length - 1);
-                setTimeout(() => {
+        if (closeFormBtn) {
+            closeFormBtn.addEventListener('click', () => {
+                if (formContainer && testimonialToggle) {
+                    formContainer.style.display = 'none';
+                    testimonialToggle.style.display = 'block';
                     isRotationPaused = false;
-                }, 10000);
+                }
             });
-            
-            // Mostrar el nuevo testimonio
-            showSlide(allSlides.length - 1);
-            
-            // Ocultar formulario
-            formContainer.style.display = 'none';
-            testimonialToggle.style.display = 'block';
-            
-            // Resetear formulario
-            testimonialForm.reset();
-            
-            // Mostrar mensaje
-            alert('¡Gracias por compartir tu opinión!');
-        });
+        }
         
-        // Function to create new testimonial
+        // Función para crear un nuevo testimonio
         function createNewTestimonial(name, role, text, testimonialId = null) {
             const today = new Date();
             const day = today.getDate();
@@ -500,11 +546,27 @@
                                 // Eliminar el slide
                                 slide.remove();
                                 
+                                // Actualizar slides y dots
+                                slides = Array.from(document.querySelectorAll('.testimonial-slide'));
+                                dots = Array.from(document.querySelectorAll('.dot'));
+                                
                                 // Actualizar el slider
-                                const remainingSlides = document.querySelectorAll('.testimonial-slide');
-                                if (remainingSlides.length > 0) {
+                                if (slides.length > 0) {
                                     showSlide(0);
                                 }
+                                
+                                // Resetear el contador de tiempo
+                                localStorage.removeItem('lastTestimonialTime');
+                                canAddTestimonial = true;
+                                
+                                // Restaurar el estilo del botón
+                                if (addTestimonialBtn) {
+                                    addTestimonialBtn.style.backgroundColor = '#ff7d00';
+                                    addTestimonialBtn.style.cursor = 'pointer';
+                                    addTestimonialBtn.removeAttribute('title');
+                                }
+                                
+                                showMessage('Tu testimonio ha sido eliminado');
                             }
                         });
                     }
@@ -512,6 +574,115 @@
             }
             
             return slide;
+        }
+        
+        // Manejar el envío del formulario
+        if (testimonialForm) {
+            testimonialForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!canAddTestimonial) {
+                    showMessage('Solo puedes añadir un testimonio cada 7 días', true);
+                    return;
+                }
+                
+                // Obtener valores
+                const name = document.getElementById('testimonial-name').value;
+                const role = document.getElementById('testimonial-role').value;
+                const text = document.getElementById('testimonial-text').value;
+                
+                // Mostrar estado "Publicando..."
+                const submitButton = document.getElementById('submit-testimonial');
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    font-weight: 500;
+                    border-radius: 5px;
+                    z-index: 5;
+                `;
+                loadingIndicator.textContent = 'Publicando...';
+                
+                if (submitButton) {
+                    submitButton.parentNode.style.position = 'relative';
+                    submitButton.parentNode.appendChild(loadingIndicator);
+                    submitButton.disabled = true;
+                }
+                
+                // Simular tiempo de procesamiento (en una aplicación real, esto sería una llamada AJAX)
+                setTimeout(() => {
+                    // Crear un ID único
+                    const testimonialId = 'testimonial-' + Date.now();
+                    
+                    // Crear y añadir el testimonio
+                    const newTestimonial = createNewTestimonial(name, role, text, testimonialId);
+                    testimonialContainer.appendChild(newTestimonial);
+                    
+                    // Crear y añadir el punto de navegación
+                    const newDot = document.createElement('span');
+                    newDot.className = 'dot';
+                    newDot.dataset.testimonialId = testimonialId;
+                    newDot.style.cssText = 'width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); margin: 0 6px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease;';
+                    dotsContainer.appendChild(newDot);
+                    
+                    // Actualizar arrays
+                    slides = Array.from(document.querySelectorAll('.testimonial-slide'));
+                    dots = Array.from(document.querySelectorAll('.dot'));
+                    
+                    // Añadir evento al punto
+                    newDot.addEventListener('click', () => {
+                        isRotationPaused = true;
+                        showSlide(slides.length - 1);
+                        setTimeout(() => {
+                            isRotationPaused = false;
+                        }, 10000);
+                    });
+                    
+                    // Mostrar el nuevo testimonio
+                    showSlide(slides.length - 1);
+                    
+                    // Ocultar formulario
+                    formContainer.style.display = 'none';
+                    testimonialToggle.style.display = 'block';
+                    
+                    // Resetear formulario
+                    testimonialForm.reset();
+                    
+                    // Guardar timestamp en localStorage
+                    localStorage.setItem('lastTestimonialTime', Date.now().toString());
+                    
+                    // Actualizar estado
+                    canAddTestimonial = false;
+                    
+                    // Actualizar el botón de añadir
+                    if (addTestimonialBtn) {
+                        addTestimonialBtn.style.backgroundColor = '#999';
+                        addTestimonialBtn.style.cursor = 'not-allowed';
+                        addTestimonialBtn.setAttribute('title', 'Podrás añadir otra opinión en 7 días');
+                    }
+                    
+                    // Eliminar indicador de carga
+                    if (loadingIndicator.parentNode) {
+                        loadingIndicator.parentNode.removeChild(loadingIndicator);
+                    }
+                    
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                    }
+                    
+                    // Mostrar mensaje de éxito
+                    showMessage('¡Gracias por compartir tu opinión!');
+                    
+                }, 1500); // Tiempo simulado de procesamiento
+            });
         }
     });
 </script>
