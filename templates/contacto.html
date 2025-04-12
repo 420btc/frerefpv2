@@ -389,13 +389,17 @@
     }
     
     .wind-compass-card {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-radius: 8px;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
     
     .wind-compass-header {
-        background-color: #003366;
+        background: linear-gradient(135deg, #FF9000, #FF6B00);
         color: white;
         padding: 10px 15px;
         position: relative;
@@ -435,7 +439,8 @@
     
     .wind-speed-value {
         font-size: 36px;
-        color: #003366;
+        color: #FF6B00;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     
     .wind-speed-unit {

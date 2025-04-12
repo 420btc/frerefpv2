@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Flecha de viento apuntando hacia arriba (Norte) -->
-  <g fill="#FF6B00">
+  <defs>
+    <!-- Degradado naranja -->
+    <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B00;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Sombra para la flecha -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#333" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Flecha de viento apuntando hacia arriba (Norte) con degradado -->
+  <g filter="url(#shadow)">
     <!-- Cuerpo de la flecha -->
-    <rect x="45" y="20" width="10" height="60" />
+    <rect x="45" y="20" width="10" height="60" fill="url(#orangeGradient)" />
     
     <!-- Punta de la flecha -->
-    <polygon points="50,10 65,30 35,30" />
+    <polygon points="50,10 65,30 35,30" fill="url(#orangeGradient)" />
   </g>
 </svg>
