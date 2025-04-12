@@ -480,10 +480,19 @@
         // Coordenadas de Málaga (Ubicación central)
         const malagaCoordinates = [-4.4214, 36.7213];
         
+        // Estilos disponibles para el mapa
+        const mapStyles = {
+            satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
+            streets: 'mapbox://styles/mapbox/streets-v12'
+        };
+        
+        // Estado actual del mapa
+        let currentMapStyle = 'satellite';
+        
         // Crear el mapa con vista satelital
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12', // Estilo de satélite con calles
+            style: mapStyles.satellite, // Estilo de satélite con calles
             center: malagaCoordinates,
             zoom: 9,
             attributionControl: false
@@ -514,50 +523,75 @@
         
         // Esperar a que el mapa cargue
         map.on('load', function() {
-            // Cargar icono del dron en la ubicación principal (Málaga)
-            // Añadir un marcador con estilo personalizado para mi ubicación (drone)
-            const droneElement = document.createElement('div');
-            droneElement.className = 'drone-marker';
-            droneElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/drone-icon.svg')`;
-            droneElement.style.backgroundSize = 'cover';
-            droneElement.style.width = '60px';
-            droneElement.style.height = '60px';
+            // Se eliminó el marcador del dron sobre Málaga como solicitado
             
-            // Crear un popup para el dron
-            const dronePopup = new mapboxgl.Popup({
-                offset: 25,
-                closeButton: false
-            }).setHTML('<h3>Freire FPV</h3><p>Mi ubicación principal</p>');
+            // Añadir un control personalizado para cambiar el estilo del mapa
+            const mapStyleControl = document.createElement('div');
+            mapStyleControl.className = 'map-style-control';
             
-            // Añadir el marcador del dron al mapa
-            new mapboxgl.Marker(droneElement)
-                .setLngLat(malagaCoordinates)
-                .setPopup(dronePopup)
-                .addTo(map);
+            const mapStyleButton = document.createElement('button');
+            mapStyleButton.className = 'map-style-btn';
+            mapStyleButton.textContent = 'Cambiar Vista';
+            mapStyleButton.addEventListener('click', function() {
+                // Cambiar entre los estilos
+                currentMapStyle = currentMapStyle === 'satellite' ? 'streets' : 'satellite';
+                map.setStyle(mapStyles[currentMapStyle]);
+                
+                // Esperar a que el estilo se cargue para restaurar los marcadores
+                map.once('style.load', function() {
+                    // Intentar añadir la capa de viento después de cambiar el estilo
+                    addWindLayer();
+                });
+            });
+            
+            mapStyleControl.appendChild(mapStyleButton);
+            document.getElementById('map').appendChild(mapStyleControl);
+            
+            // Función para añadir la capa de viento (probando implementación)
+            function addWindLayer() {
+                try {
+                    // Intentar recuperar datos de viento actuales desde OpenWeather
+                    // Esta es una implementación inicial que se puede mejorar con datos reales de API
+                    if (map.getSource('wind-data')) {
+                        return; // Ya existe la capa, evitar duplicados
+                    }
+                    
+                    // Simulación de datos de viento para visualización inicial
+                    // En una implementación completa, estos datos vendrían de una API de clima
+                    // Las líneas serán de color naranja y sutiles (1px) como solicitado
+                    console.log('Inicializando capa de viento (implementación preliminar)');
+                    
+                    // Aquí se implementaría la conexión real a una API de viento
+                    // Por ahora, solo mostramos la estructura y preparamos el terreno
+                } catch (error) {
+                    console.error('Error al añadir capa de viento:', error);
+                }
+            }
+            
+            // Intentar añadir la capa de viento inicialmente
+            addWindLayer();
             
             // Añadir marcadores para cada área de servicio
             serviceAreas.forEach(area => {
-                if (area.name !== 'Málaga Capital') { // Evitar duplicar marcador en Málaga
-                    // Crear elemento para el marcador personalizado
-                    const markerElement = document.createElement('div');
-                    markerElement.className = 'custom-marker';
-                    markerElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/service-marker.svg')`;
-                    markerElement.style.backgroundSize = 'cover';
-                    markerElement.style.width = '30px';
-                    markerElement.style.height = '45px';
-                    
-                    // Crear popup para el marcador
-                    const popup = new mapboxgl.Popup({
-                        offset: 25,
-                        closeButton: false
-                    }).setHTML(`<h3>${area.name}</h3><p>${area.description}</p>`);
-                    
-                    // Añadir marcador al mapa
-                    new mapboxgl.Marker(markerElement)
-                        .setLngLat(area.coordinates)
-                        .setPopup(popup)
-                        .addTo(map);
-                }
+                // Crear elemento para el marcador personalizado
+                const markerElement = document.createElement('div');
+                markerElement.className = 'custom-marker';
+                markerElement.style.backgroundImage = `url('${window.location.origin}/static/img/icons/service-marker.svg')`;
+                markerElement.style.backgroundSize = 'cover';
+                markerElement.style.width = '30px';
+                markerElement.style.height = '45px';
+                
+                // Crear popup para el marcador
+                const popup = new mapboxgl.Popup({
+                    offset: 25,
+                    closeButton: false
+                }).setHTML(`<h3>${area.name}</h3><p>${area.description}</p>`);
+                
+                // Añadir marcador al mapa
+                new mapboxgl.Marker(markerElement)
+                    .setLngLat(area.coordinates)
+                    .setPopup(popup)
+                    .addTo(map);
             });
         });
         
