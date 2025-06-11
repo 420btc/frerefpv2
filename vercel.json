@@ -16,30 +16,6 @@
       "dest": "/static/$1"
     },
     {
-      "src": "/favicon/(.*)",
-      "dest": "/static/favicon/$1"
-    },
-    {
-      "src": "/video/(.*)",
-      "dest": "/static/video/$1"
-    },
-    {
-      "src": "/videos/(.*)",
-      "dest": "/static/videos/$1"
-    },
-    {
-      "src": "/img/(.*)",
-      "dest": "/static/img/$1"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/static/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/static/js/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "app.py"
     }
