@@ -11,7 +11,7 @@ import time
 logging.basicConfig(level=logging.DEBUG)
 
 # Create Flask app with explicit static configuration
-app = Flask(__name__, static_url_path='', static_folder='static')
+app = Flask(__name__, static_url_path='', static_folder='./static')
 app.secret_key = os.environ.get("SESSION_SECRET", "freire-fpv-secret-key")
 
 # Sin base de datos - aplicación estática
