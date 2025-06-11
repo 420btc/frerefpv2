@@ -51,33 +51,25 @@ class VideoOptimizer {
     }
 
     /**
-     * Registra todos los videos en la página para optimizarlos
+     * Registra todos los videos para optimización
      */
     registerVideos() {
-        const videos = document.querySelectorAll('video[data-optimize="true"]');
+        const videos = document.querySelectorAll('video');
         
         videos.forEach(video => {
-            // Solo registrar videos que no hayan sido observados antes
-            if (!this.observedVideos.has(video)) {
-                // Guardar las fuentes originales antes de optimizar
-                const sources = Array.from(video.querySelectorAll('source')).map(source => {
-                    return {
-                        src: source.src,
-                        type: source.type,
-                        dataset: { ...source.dataset }
-                    };
+            // Excluir videos del carrusel y video de fondo del lazy loading
+            const isCarouselVideo = video.classList.contains('drone-video');
+            const isHeroVideo = video.id === 'hero-background-video';
+            const hasLazyloadDisabled = video.dataset.lazyload === 'false';
+            
+            if (!isCarouselVideo && !isHeroVideo && !hasLazyloadDisabled) {
+                // Guardar información del video
+                this.observedVideos.set(video, {
+                    loaded: false,
+                    originalSources: []
                 });
                 
-                // Guardar info adicional
-                const videoData = {
-                    sources: sources,
-                    poster: video.poster,
-                    loaded: false
-                };
-                
-                this.observedVideos.set(video, videoData);
-                
-                // Configurar el video para carga diferida
+                // Solo aplicar lazy loading a videos que no son críticos
                 if (video.dataset.lazyload !== 'false') {
                     // Guardar la fuente original pero quitar del src para prevenir carga automática
                     video.querySelectorAll('source').forEach(source => {
@@ -123,86 +115,83 @@ class VideoOptimizer {
             
             // Reproducir automáticamente si está configurado para ello
             if (video.dataset.autoplay === 'true') {
-                video.play().catch(e => {
-                    console.warn(`VideoOptimizer: No se pudo reproducir automáticamente: ${e.message}`);
-                });
+                // Usar un pequeño delay para evitar conflictos
+                setTimeout(() => {
+                    video.play().catch(e => {
+                        console.warn(`VideoOptimizer: No se pudo reproducir automáticamente: ${e.message}`);
+                    });
+                }, 100);
             }
             
+            // Marcar como cargado
             videoData.loaded = true;
         }
     }
 
     /**
-     * Descarga un video cuando deja de ser visible para liberar recursos
+     * Descarga un video cuando sale de la vista (opcional)
      */
     unloadVideo(video) {
         const videoData = this.observedVideos.get(video);
         
-        // Solo descargar si está configurado para ser descargado cuando no es visible
-        if (videoData && videoData.loaded && video.dataset.unloadWhenHidden === 'true') {
-            console.log(`VideoOptimizer: Descargando video ${video.id || 'sin-id'}`);
-            
-            // Pausar el video
-            video.pause();
-            
-            // Quitar fuentes para liberar recursos si está configurado para descarga completa
-            if (video.dataset.fullUnload === 'true') {
-                video.querySelectorAll('source').forEach(source => {
-                    source.removeAttribute('src');
-                });
-                video.load(); // Esto liberará recursos
-                videoData.loaded = false;
+        if (videoData && videoData.loaded) {
+            // Solo pausar, no descargar completamente para mejor UX
+            if (!video.paused) {
+                video.pause();
             }
         }
     }
 
     /**
-     * Metodo principal para inicializar la optimización
+     * Optimiza un video específico para móviles
      */
-    init() {
-        // Registrar todos los videos al cargar la página
-        document.addEventListener('DOMContentLoaded', () => {
-            this.registerVideos();
-        });
-        
-        // También registrar videos después de carga para capturar contenido dinámico
-        window.addEventListener('load', () => {
-            this.registerVideos();
-        });
-        
-        // Re-registrar videos si se agregan nuevos dinámicamente
-        if ('MutationObserver' in window) {
-            const bodyObserver = new MutationObserver((mutations) => {
-                let shouldRegister = false;
-                
-                mutations.forEach(mutation => {
-                    if (mutation.addedNodes.length) {
-                        for (let i = 0; i < mutation.addedNodes.length; i++) {
-                            const node = mutation.addedNodes[i];
-                            if (node.nodeName === 'VIDEO' || 
-                                (node.nodeType === 1 && node.querySelector('video'))) {
-                                shouldRegister = true;
-                                break;
-                            }
-                        }
-                    }
-                });
-                
-                if (shouldRegister) {
-                    this.registerVideos();
-                }
-            });
+    optimizeForMobile(video) {
+        if (this.isMobile) {
+            // Reducir calidad en móviles
+            video.setAttribute('preload', 'metadata');
             
-            bodyObserver.observe(document.body, { 
-                childList: true, 
-                subtree: true 
-            });
+            // Buscar fuente móvil si existe
+            const mobileSource = video.querySelector('source[data-mobile-src]');
+            if (mobileSource && mobileSource.dataset.mobileSrc) {
+                mobileSource.src = mobileSource.dataset.mobileSrc;
+                video.load();
+            }
         }
-        
-        console.log(`VideoOptimizer: Inicializado (Dispositivo ${this.isMobile ? 'móvil' : 'de escritorio'})`);
+    }
+
+    /**
+     * Limpia recursos cuando el video no es necesario
+     */
+    cleanup(video) {
+        if (this.videoObserver) {
+            this.videoObserver.unobserve(video);
+        }
+        this.observedVideos.delete(video);
+    }
+
+    /**
+     * Destruye el optimizador y limpia todos los recursos
+     */
+    destroy() {
+        if (this.videoObserver) {
+            this.videoObserver.disconnect();
+        }
+        this.observedVideos.clear();
     }
 }
 
-// Crear e inicializar el optimizador de videos
-const videoOptimizer = new VideoOptimizer();
-videoOptimizer.init();
+// Inicializar el optimizador cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // Crear instancia global del optimizador
+    window.videoOptimizer = new VideoOptimizer();
+    
+    // Registrar videos después de un pequeño delay para asegurar que todos los elementos estén listos
+    setTimeout(() => {
+        window.videoOptimizer.registerVideos();
+    }, 100);
+});
+
+// Exportar para uso en otros scripts si es necesario
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = VideoOptimizer;
+}
