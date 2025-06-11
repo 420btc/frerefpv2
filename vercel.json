@@ -24,10 +24,5 @@
     "FLASK_APP": "app.py",
     "FLASK_ENV": "production",
     "SESSION_SECRET": "freire-fpv-production-secret"
-  },
-  "functions": {
-    "app.py": {
-      "maxDuration": 30
-    }
   }
 }
