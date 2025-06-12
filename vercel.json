@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "functions": {
+    "app.py": {
+      "includeFiles": "static/**"
+    }
+  },
   "builds": [
     {
       "src": "app.py",
