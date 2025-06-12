@@ -1,14 +1,12 @@
 {
   "version": 2,
-  "functions": {
-    "app.py": {
-      "includeFiles": "static/**"
-    }
-  },
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": "static/**"
+      }
     }
   ],
   "routes": [
